@@ -354,15 +354,17 @@ function utf8_mail($email, $subject, $content, $from_label=false, $from_adress=f
         $headers .= "From: $from_label <$from_adress>\n";
         $headers .= "X-Sender: <$from_adress>\n";
         $headers .= "Return-Path: <$from_adress>\n";
-        $headers .= "Bcc: <$from_adress>\n";
+        //$headers .= "Bcc: <$from_adress>\n";
     }
     $headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\n";
     $headers .= 'Content-Transfer-Encoding: 8bit\n';
 
-    if ($simulation)
+    if ($simulation) {
         return true;
-    else
+    }
+    else {
         return(mail($email, $subject, $content, $headers));
+    }
 }
 
 ?>

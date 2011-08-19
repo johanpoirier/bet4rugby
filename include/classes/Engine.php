@@ -377,7 +377,7 @@ class Engine {
         return $this->getUser($this->getCurrentUserId());
     }
 
-    function getUserByEMail($email) {
+    function getUserByEmail($email) {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
         $req .= " FROM " . $this->config['db_prefix'] . "users u";
@@ -1829,7 +1829,7 @@ class Engine {
             $user = $this->getUserByEmail($email);
             if ($user) {
                 if ($newPassword = $this->setNewPassword($user['userID'])) {
-                    $res = utf8_mail($user['email'], $this->config['title'] . " - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
+                    $res = utf8_mail($email, $this->config['title'] . " - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                 } else {
                     $res = false;
                 }
