@@ -3,41 +3,37 @@
         <h1>Mon Compte</h1>
     </div>
 </div>
-
+<?
+if (isset($_SESSION["userID"])) {
+    $user = $engine->getUser($_SESSION["userID"]);
+}
+?>
 <form id="formProfile" method="POST" action="/?op=update_profile">
     <div class="maincontent">
         <p>
-            <span class="rule_title">I. Mes coordonnées</span>
-            <br />
-            <br />
-        <u>Login</u> : {LOGIN}
+        <br />
+        <u>Login</u> : <? echo $user['login']; ?>
         <br />
         <br />
-        <u>Nom</u> : <input type="text" name="name" value="{NAME}" size="30" />
+        <u>Nom</u> : <input type="text" name="name" value="<? echo $user['name']; ?>" size="30" />
         <br />
         <br />
-        <u>Equipe</u> : {TEAM}
+        <u>Equipe</u> : <? echo $user['team']; ?>
         <br />
         <br />
-        <u>E-Mail</u> : <input type="text" name="email" value="{EMAIL}" size="40" />
+        <u>E-Mail</u> : <input type="text" name="email" value="<? echo $user['email']; ?>" size="40" />
         <br />
         <br />
-        <u>Nouveau mot de passe</u> : <input type="password" name="pwd1" /> (à confirmer pour changer : <input type="password" name="pwd2" />)
+        <u>Nouveau mot de passe</u> : 
+        <br />
+        <br />
+        <input type="password" name="pwd1" /> (à confirmer pour changer : <input type="password" name="pwd2" />)
         </p>
         <br />
-        <br />
-        <p>
-            <span class="rule_title">II. Mes préférences</span>
-            <br />
-            <br />
-            <input type="checkbox" name="mail_1" value="1" {MAIL_1}/>Recevoir un mail de rappel avant le début de la journée
-                   <br />
-            <br />
-            <input type="checkbox" name="mail_2" value="1" {MAIL_2}/>Recevoir les résultats à la suite du dernier match de chaque journée
-        </p>
         <p align="center">
-            <font color="#ff0000">{MESSAGE}</font>
-            <br /><br />
+            <font color="#ff0000"><? echo $message; ?></font>
+            <br />
+            <br />
             <input type="image" src="/include/theme/<? echo $config['template']; ?>/images/submit.gif" name="submit" alt="Valider" />
         </p>
     </div>

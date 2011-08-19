@@ -40,7 +40,7 @@ class Engine {
         $req = "SELECT *";
         $req .= " FROM " . $this->config['db_prefix'] . "users ";
         $req .= " WHERE login = '" . $login . "'";
-        $req .= " AND password = '" . $pass . "'";
+        $req .= " AND password = '" . md5($pass) . "'";
         $req .= " AND status >= 0";
 
         $user = $this->db->select_line($req, $nb_user);
@@ -359,7 +359,7 @@ class Engine {
 
     function getUser($id) {
         // Main Query
-        $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
+        $req = "SELECT u.userID, u.name, u.login, u.email, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
         $req .= " FROM " . $this->config['db_prefix'] . "users u";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
         $req .= " WHERE u.userId = " . $id;
@@ -1169,7 +1169,7 @@ class Engine {
         $new_pass = newPassword(8);
 
         $req = 'UPDATE ' . $this->config['db_prefix'] . 'users';
-        $req .= ' SET password = \'' . $new_pass . '\'';
+        $req .= ' SET password = \'' . md5($new_pass) . '\'';
         $req .= ' WHERE "userID" = ' . $userID . '';
 
         if ($this->db->exec_query($req)) {
@@ -1777,6 +1777,21 @@ class Engine {
         }
     }
 
-}
+    function updateProfile($userID, $name, $email, $pwd) {
+        $req = "UPDATE " . $this->config['db_prefix'] . "users SET";
+        if(strlen($name) > 3) {
+            $req .= " name = '" . addslashes($name) . "'";
+        }
+        if(strlen($email) > 5) {
+            $req .= ", email = '" . addslashes($email) . "'";
+        }
+        if(strlen($pwd) > 2) {
+            $req .= ", password = '" . md5($pwd) . "'";
+        }
+        $req .= " WHERE userID=" . $userID;
+        $ret = $this->db->exec_query($req);
 
+        return $ret;
+    }
+}
 ?>

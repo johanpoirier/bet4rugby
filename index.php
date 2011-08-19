@@ -75,7 +75,26 @@ else {
             break;
 
         case "my_profile":
+            if (isset($_GET['message']) && $_GET['message']) {
+                $message = $engine->lang['messages'][$_GET['message']];
+            }
             $pageToInclude = "pages/my_profile.php";
+            break;
+
+        case "update_profile":
+            $message = "";
+            $pwd = "";
+            if((strlen($_POST['pwd1']) > 0)) {
+                if($_POST['pwd1'] == $_POST['pwd2'])
+                    $pwd = $_POST['pwd1'];
+                else {
+                    redirect("/?op=my_profile&message=" . PASSWORD_MISMATCH);
+                }
+            }
+            if(!$engine->updateProfile($_SESSION['userID'], $_POST['name'], $_POST['email'], $_POST['pwd1'])) {
+                redirect("/?op=my_profile&message=" . UNKNOWN_ERROR);
+            }
+            redirect("/?op=my_profile&message=" . CHANGE_ACCOUNT_OK);
             break;
 
         case "view_ranking":
@@ -201,10 +220,12 @@ else {
             break;
 
         default:
-            if (AUTHENTIFICATION)
+            if (AUTHENTIFICATION_NEEDED) {
                 $pageToInclude = "pages/login.php";
-            else
+            }
+            else {
                 $pageToInclude = "pages/ranking.php";
+            }
             break;
     }
 }
