@@ -25,7 +25,7 @@ global $message;
 if (FORGOT_IDS) {
     if (isset($_POST['email'])) {
         $res = $engine->sendIDs($_POST['email']);
-        //redirect("/?message=" . $res);
+        redirect("/?message=" . $res);
     } else {
         $pageToInclude = "pages/forgot_ids.php";
     }
