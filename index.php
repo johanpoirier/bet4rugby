@@ -28,9 +28,7 @@ if (FORGOT_IDS) {
     } else {
         $pageToInclude = "pages/forgot_ids.php";
     }
-}
-
-else if (REGISTER) {
+} else if (REGISTER) {
     if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['login'])) {
         if ($_POST['password1'] != $_POST['password2']) {
             redirect("/?op=register&message=" . PASSWORD_MISMATCH);
@@ -47,16 +45,12 @@ else if (REGISTER) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
     $pageToInclude = "pages/register.php";
-}
-
-else if (AUTHENTIFICATION_NEEDED) {
+} else if (AUTHENTIFICATION_NEEDED) {
     if (isset($_GET['message']) && $_GET['message']) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
     $pageToInclude = "pages/login.php";
-}
-
-else {
+} else {
     if (isset($_REQUEST['op'])) {
         $op = $_REQUEST['op'];
     }
@@ -74,24 +68,31 @@ else {
             redirect("/");
             break;
 
-        case "my_profile":
+        case "account":
             if (isset($_GET['message']) && $_GET['message']) {
                 $message = $engine->lang['messages'][$_GET['message']];
             }
-            $pageToInclude = "pages/my_profile.php";
+            $pageToInclude = "pages/account.php";
+            break;
+
+        case "change_account":
+            if (isset($_GET['message']) && $_GET['message']) {
+                $message = $engine->lang['messages'][$_GET['message']];
+            }
+            $pageToInclude = "pages/change_account.php";
             break;
 
         case "update_profile":
             $message = "";
             $pwd = "";
-            if((strlen($_POST['pwd1']) > 0)) {
-                if($_POST['pwd1'] == $_POST['pwd2'])
+            if ((strlen($_POST['pwd1']) > 0)) {
+                if ($_POST['pwd1'] == $_POST['pwd2'])
                     $pwd = $_POST['pwd1'];
                 else {
                     redirect("/?op=my_profile&message=" . PASSWORD_MISMATCH);
                 }
             }
-            if(!$engine->updateProfile($_SESSION['userID'], $_POST['name'], $_POST['email'], $_POST['pwd1'])) {
+            if (!$engine->updateProfile($_SESSION['userID'], $_POST['name'], $_POST['email'], $_POST['pwd1'])) {
                 redirect("/?op=my_profile&message=" . UNKNOWN_ERROR);
             }
             redirect("/?op=my_profile&message=" . CHANGE_ACCOUNT_OK);
@@ -190,8 +191,9 @@ else {
                     $matchID = strtok("_");
                     $bonus = $_POST["sltBonus_" . $team . "_" . $matchID];
                     $pny = '';
-                    if (isset($_POST["iptPny_" . $matchID]))
+                    if (isset($_POST["iptPny_" . $matchID])) {
                         $pny = $_POST["iptPny_" . $matchID];
+                    }
                     $engine->saveResult($matchID, $team, $score, $bonus, $pny);
                 }
             }
@@ -212,18 +214,121 @@ else {
             $pass = $_POST['pass'];
             $userTeamId = $_POST['sltUserTeam'];
             $isAdmin = 0;
-            if (isset($_POST['admin']))
+            if (isset($_POST['admin'])) {
                 $isAdmin = $_POST['admin'];
+            }
             $engine->addUser($name, $login, $pass, $userTeamId, $isAdmin);
 
             $pageToInclude = "pages/admin/users.php";
             break;
 
+        case "join_group":
+            if (isset($_POST['group'])) {
+                $userID = $_SESSION['userID'];
+                $password = (isset($_POST['password'])) ? $_POST['password'] : false;
+                //$code = (isset($_POST['code'])) ? $_POST['code'] : false;
+                $status = $engine->joinUserTeam($userID, $_POST['group'], $password);
+                redirect("/?op=account&message=" . $status);
+            } else {
+                //$c = false;
+                if (isset($_GET['message']) && $_GET['message']) {
+                    $message = $engine->lang['messages'][$_GET['message']];
+                }
+                //if (isset($_GET['c'])) {
+                //    $c = $_GET['c'];
+                //}
+                $pageToInclude = "pages/join_group.php";
+            }
+            break;
+
+        case "leave_group":
+            echo "leave_group " . $_GET['user_team_id'] . "<br/>";
+            if (!isset($_GET['user_team_id'])) {
+                redirect("/?op=account");
+            }
+            $engine->leaveuserTeam($engine->getCurrentUserId(), $_GET['user_team_id']);
+            redirect("/?op=account");
+            break;
+
+        case "create_group":
+            if (isset($_POST['group_name']) && isset($_POST['password1']) && isset($_POST['password2'])) {
+                if ($_POST['password1'] != $_POST['password2']) {
+                    redirect("/?op=create_group&message=" . PASSWORD_MISMATCH);
+                }
+                if ($engine->addGroup('', $_POST['group_name'], $_POST['password1'])) {
+                    $group = $engine->getUserTeamByName($_POST['group_name']);
+                    $engine->joinUserTeam($engine->getCurrentUserId(), $group['userTeamID']);
+                    redirect("/?op=create_group&message=" . CREATE_GROUP_OK . "&g=" . $group['groupID']);
+                } else {
+                    redirect("/?op=create_group&message=" . GROUP_ALREADY_EXISTS);
+                }
+            }
+            if (isset($_GET['message']) && $_GET['message']) {
+                $message = $engine->lang['messages'][$_GET['message']];
+            }
+            $pageToInclude = "pages/create_group.php";
+            break;
+
+        case "invite_friends":
+            if (isset($_POST['type'])) {
+                if ($_POST['type'] == 'OUT') {
+                    $invitations = array();
+                    $emails = array();
+                    $nb_invitations = $engine->config['nb_invitations'];
+                    for ($i = 1; $i <= $nb_invitations; $i++) {
+                        if ((isset($_POST['email' . $i])) && ($_POST['email' . $i] != "")) {
+                            $invitation = array();
+                            $invitation['email'] = $_POST['email' . $i];
+                            $invitation['groupID'] = $_POST['groupID' . $i];
+                            $invitations[] = $invitation;
+                            $emails[] = $_POST['email' . $i];
+                        }
+                    }
+                    $codes = $engine->createUniqInvitations($invitations, $_POST['type']);
+                    $status = $engine->sendInvitations($emails, $codes, $_POST['type']);
+                    redirect("/?op=invite_friends&message=" . $status . "");
+                } elseif ($_POST['type'] == 'IN') {
+                    $invitations = array();
+                    $emails = array();
+                    $nb_invitations = 5;
+                    for ($i = 0; $i <= $nb_invitations; $i++) {
+                        if ((isset($_POST['userID_' . $i])) && ($_POST['userID_' . $i] != "")) {
+                            if ($_POST['userID_' . $i] == 0) {
+                                continue;
+                            }
+                            $invitation = array();
+                            $user = $engine->getUser($_POST['userID_' . $i]);
+                            if (!$user) {
+                                continue;
+                            }
+                            $invitation['userID'] = $_POST['userID_' . $i];
+                            $invitation['email'] = $user['email'];
+                            $invitation['userTeamID'] = $_POST['userTeamID'];
+                            $invitations[] = $invitation;
+                            $emails[] = $user['email'];
+                        }
+                    }
+                    $codes = $engine->createUniqInvitations($invitations, $_POST['type']);
+                    $status = $engine->sendInvitations($emails, $codes, $_POST['type']);
+                    redirect("/?op=invite_friends&message=" . $status . "");
+                } else {
+                    redirect("/?op=invite_friends");
+                }
+            }
+
+            $user = $engine->getCurrentUser();
+            if (isset($_GET['message']) && $_GET['message']) {
+                $message = $engine->lang['messages'][$_GET['message']];
+            } elseif (($user['userTeamID'] == "") || ($user['userTeamID'] == 0)) {
+                $message = $engine->lang['messages'][INVITE_WITHOUT_GROUP];
+            }
+            $pageToInclude = "pages/invite_friends.php";
+            break;
+
         default:
             if (AUTHENTIFICATION_NEEDED) {
                 $pageToInclude = "pages/login.php";
-            }
-            else {
+            } else {
                 $pageToInclude = "pages/ranking.php";
             }
             break;
@@ -240,8 +345,8 @@ else {
     </head>
     <body>
         <div id="main">
-            <? include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
-            <? if (!$engine->admin) { ?>
+<? include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
+<? if (!$engine->admin) { ?>
                 <div id="nav_area">
                     <img src="include/theme/<? echo $engine->config['template']; ?>/images/user_bar.png" usemap="#testbar5" border="0" alt="Menu" />
                     <map name="testbar5" id="testbar5">
@@ -251,9 +356,9 @@ else {
                         <area shape="rect" coords="500,4,742,30" href="/?op=view_results" alt="Résultats" />
                     </map>
                 </div>
-                <?
-            } else {
-                ?>
+    <?
+} else {
+    ?>
                 <div id="nav_area">
                     <img src="include/theme/<? echo $engine->config['template']; ?>/images/admin_bar.png" usemap="#testbar5" border="0" alt="Menu" />
                     <map name="testbar5" id="testbar5">
@@ -267,18 +372,18 @@ else {
                         <area shape="rect" coords="642,4,744,30" href="/?op=edit_teams" alt="" />
                     </map>
                 </div>
-            <? } ?>
+<? } ?>
             <div id="mainarea">
-                <? if (strlen($pageToInclude) > 0)
-                    include_once($pageToInclude); ?>
+            <? if (strlen($pageToInclude) > 0)
+                include_once($pageToInclude); ?>
             </div>
-            <?
-            if (isset($_SESSION["userID"])) {
-                include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
-            } else {
-                include_once("include/theme/" . $engine->config['template'] . "/footer_public.php");
-            }
-            ?>
+                <?
+                if (isset($_SESSION["userID"])) {
+                    include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
+                } else {
+                    include_once("include/theme/" . $engine->config['template'] . "/footer_public.php");
+                }
+                ?>
         </div>
     </body>
 </html>

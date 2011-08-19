@@ -369,6 +369,14 @@ class Engine {
         return $user;
     }
 
+    function getCurrentUserId() {
+        return (isset($_SESSION['userID'])) ? $_SESSION['userID'] : false;
+    }
+
+    function getCurrentUser() {
+        return $this->getUser($this->getCurrentUserId());
+    }
+
     function getUserByEMail($email) {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
@@ -383,15 +391,41 @@ class Engine {
 
     function getUserTeams() {
         // Main Query
-        $req = "SELECT *";
-        $req .= " FROM " . $this->config['db_prefix'] . "user_teams AS ut";
-        $req .= " ORDER BY ut.name ASC";
+        $req = "SELECT t.userTeamID as userTeamID, t.name AS name, t.password as password, t.avgPoints as avgPoints, t.totalPoints as totalPoints, t.maxPoints as maxPoints, u.name as ownerName, u.userID as ownerID";
+        $req .= " FROM " . $this->config['db_prefix'] . "user_teams t";
+        $req .= " LEFT JOIN " . $this->config['db_prefix'] . "users u ON(t.ownerID = u.userID)";
+        $req .= " ORDER BY name ASC";
 
         $userTeams = $this->db->select_array($req, $nb_teams);
-        if ($this->debug)
+        if ($this->debug) {
             array_show($userTeams);
+        }
 
         return $userTeams;
+    }
+
+    function getUserTeam($id) {
+        // Main Query
+        $req = "SELECT t.userTeamID as userTeamID, t.name AS name, t.password as password, t.avgPoints as avgPoints, t.totalPoints as totalPoints, t.maxPoints as maxPoints, u.name as ownerName, u.userID as ownerID";
+        $req .= " FROM " . $this->config['db_prefix'] . "user_teams t";
+        $req .= " LEFT JOIN " . $this->config['db_prefix'] . "users u ON(t.ownerID = u.userID)";
+        $req .= " WHERE t.userTeamID = " . $id;
+
+        $userTeam = $this->db->select_line($req, $nb_teams);
+
+        return $userTeam;
+    }
+
+    function getUserTeamByName($name) {
+        // Main Query
+        $req = "SELECT t.userTeamID as userTeamID, t.name AS name, t.password as password, t.avgPoints as avgPoints, t.totalPoints as totalPoints, t.maxPoints as maxPoints, u.name as ownerName, u.userID as ownerID";
+        $req .= " FROM " . $this->config['db_prefix'] . "user_teams t";
+        $req .= " LEFT JOIN " . $this->config['db_prefix'] . "users u ON(t.ownerID = u.userID)";
+        $req .= " WHERE name = '" . $name . "'";
+
+        $userTeam = $this->db->select_line($req, $nb_teams);
+
+        return $userTeam;
     }
 
     function getNextPronosByUser($userID) {
@@ -1113,6 +1147,31 @@ class Engine {
         return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . addslashes($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
     }
 
+    function addGroup($group_id, $user_team_name, $password="") {
+        $user_team_name = trim($user_team_name);
+        if ($user_team_name == null || $user_team_name == "") {
+            return false;
+        }
+        $ownerID = $this->getCurrentUserId();
+        prepare_alphanumeric_data(array(&$user_team_name, &$password));
+        prepare_numeric_data(array(&$group_id));
+
+        if ($group_id = $this->isUserTeamExists($group_id)) {
+            $req = "UPDATE " . $this->config['db_prefix'] . "user_teams";
+            $req .= " SET name = '" . $user_team_name . "', password = '" . $password . "'";
+            $req .= " WHERE userTeamID = " . $group_id;
+            return $this->exec_query($req);
+        } else {
+            if ($this->getUserTeamByName($user_team_name)) {
+                return false;
+            }
+            $req = "INSERT INTO " . $this->config['db_prefix'] . "user_teams (name, password, ownerID)";
+            $req .= " VALUES ('" . $user_team_name . "', '" . $password . "', " . $ownerID . ")";
+            return $this->db->insert($req);
+        }
+        return $group_id;
+    }
+
     function saveProno($userID, $matchID, $team, $score, $pny=-1, $isAdmin=0) {
         if ($score == "")
             $score = 'NULL';
@@ -1233,6 +1292,19 @@ class Engine {
         $req = "SELECT userID";
         $req .= " FROM " . $this->config['db_prefix'] . "users";
         $req .= " WHERE LOWER(login) = '" . strtolower($login) . "'";
+
+        return $this->db->select_one($req, null);
+    }
+
+    function isUserTeamExists($user_team_id) {
+        if (!$user_team_id || ($user_team_id == "")) {
+            return false;
+        }
+
+        // Main Query
+        $req = 'SELECT userTeamID';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'user_teams ';
+        $req .= ' WHERE userTeamID = ' . $user_team_id;
 
         return $this->db->select_one($req, null);
     }
@@ -1777,15 +1849,50 @@ class Engine {
         }
     }
 
+    function joinUserTeam($userID, $userTeamID, $password=false) {
+        if ($password) {
+            $userTeam = $this->getUserTeam($userTeamID);
+            if ($userTeam) {
+                if ($userTeam['password'] != $password) {
+                    return INCORRECT_PASSWORD;
+                }
+            } else {
+                return GROUP_UNKNOWN;
+            }
+        }
+
+        $req = "UPDATE " . $this->config['db_prefix'] . "users SET";
+        $req .= " userTeamID = " . $userTeamID;
+        $req .= " WHERE userID = " . $userID;
+
+        $ret = $this->db->exec_query($req);
+
+        if ($ret == 1) {
+            return JOIN_GROUP_OK;
+        } else {
+            return JOIN_GROUP_FORBIDDEN;
+        }
+    }
+
+    function leaveUserTeam($userID, $userTeamID) {
+        $req = "UPDATE " . $this->config['db_prefix'] . "users SET";
+        $req .= " userTeamID = 0";
+        $req .= " WHERE userID = " . $userID . " AND userTeamID = " . $userTeamID;
+
+        $ret = $this->db->exec_query($req);
+
+        return $ret;
+    }
+
     function updateProfile($userID, $name, $email, $pwd) {
         $req = "UPDATE " . $this->config['db_prefix'] . "users SET";
-        if(strlen($name) > 3) {
+        if (strlen($name) > 3) {
             $req .= " name = '" . addslashes($name) . "'";
         }
-        if(strlen($email) > 5) {
+        if (strlen($email) > 5) {
             $req .= ", email = '" . addslashes($email) . "'";
         }
-        if(strlen($pwd) > 2) {
+        if (strlen($pwd) > 2) {
             $req .= ", password = '" . md5($pwd) . "'";
         }
         $req .= " WHERE userID=" . $userID;
@@ -1793,5 +1900,118 @@ class Engine {
 
         return $ret;
     }
+
+    function use_invitation($code) {
+        $invitation = $this->is_invited_by_code($code);
+        if ($invitation) {
+            $this->delete_invitation($code);
+            return $invitation['groupID'];
+        } else
+            return false;
+    }
+
+    function createUniqInvitation($email, $userTeamID, $type) {
+        $code = md5(uniqid(rand(), true));
+        $user = $this->getCurrentUser();
+        if ($userTeamID != $user['userTeamID']) {
+            return false;
+        }
+
+        // Main Query
+        $req = 'INSERT INTO ' . $this->config['db_prefix'] . 'invitations (code, senderID, userTeamID, email, expiration, status)';
+        $req .= ' VALUES (\'' . addslashes($code) . '\', \'' . $user['userID'] . '\',\'' . $userTeamID . '\', \'' . addslashes($email) . '\',';
+        $req .= 'DATE_ADD(NOW(), INTERVAL ' . $this->config['invitation_expiration'] . ' DAY)';
+
+        if ($type == 'IN') {
+            $req .= ',2)';
+        } else {
+            $req .= ',1)';
+        }
+        $ret = $this->db->insert($req);
+
+        return $code;
+    }
+
+    function createUniqInvitations($invitations, $type) {
+        $codes = array();
+        foreach ($invitations as $invitation) {
+            if ($invitation['userTeamID'] == 0)
+                continue;
+            if ($code = $this->createUniqInvitation($invitation['email'], $invitation['userTeamID'], $type)) {
+                $codes[$invitation['email']]['code'] = $code;
+                $codes[$invitation['email']]['userTeamID'] = $invitation['userTeamID'];
+            }
+        }
+        return $codes;
+    }
+
+    function isInvited($userTeamID, $userID=false) {
+        if ($userID) {
+            $user = $this->parent->users->get($userID);
+        } else {
+            $user = $this->parent->users->get_current();
+        }
+        $email = $user['email'];
+
+        // Main Query
+        $req = 'SELECT *';
+        $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'invitations';
+        $req .= ' WHERE email = \'' . addslashes($email) . '\'';
+        $req .= ' AND userTeamID = ' . $userTeamID . '';
+        $req .= ' AND expiration >= NOW()';
+        $req .= ' AND status > 0';
+        $invitation = $this->parent->db->select_line($req, $null);
+        if ($this->parent->debug) {
+            array_show($group);
+        }
+        return $invitation;
+    }
+
+    function sendInvitations($emails, $invitations, $type) {
+        $current_user = $this->getCurrentUser();
+        $ret = false;
+        if ($type == 'OUT') {
+            foreach ($emails as $email) {
+                if (isset($invitations[$email])) {
+                    $code = $invitations[$email]['code'];
+                }
+                $subject = $current_user['name'] . " vous invite à venir pronostiquer avec lui sur les matchs de la coupe du monde de rugby !";
+                $content = "Bonjour,\n\n";
+                $content .= $current_user['name'] . " a pensé que vous seriez intéressé pour venir pronostiquer avec lui sur les matchs de la coupe du monde de rugby.\n";
+                $content .= "Pour cela, inscrivez-vous sur CdM2011 en cliquant sur le lien suivant :\n\n";
+                if (isset($code)) {
+                    $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?c=" . $code . "\n\n";
+                }
+                else {
+                    $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?op=register\n\n";
+                }
+                $content .= "Cordialement,\n";
+                $content .= "L'équipe de " . $this->config['support_team'] . "\n";
+                $ret = utf8_mail($email, $subject, $content, $this->config['title'], $this->config['email'], $this->config['email_simulation']);
+            }
+        } elseif ($type == 'IN') {
+            foreach ($emails as $email) {
+                $code = $invitations[$email]['code'];
+                $userTeamID = $invitations[$email]['userTeamID'];
+                $group = $this->getUserTeam($userTeamID);
+                $subject = "[" . $this->config['blog_title'] . "] " . $current_user['name'] . " vous invite à venir rejoindre le groupe " . $group['name'];
+                $content = "Bonjour,\n\n";
+                $content .= $current_user['name'] . " vous invite à venir à rejoindre le groupe " . $group['name'] . "\n";
+                $content .= "Pour accepter cette invitation, cliquez sur le lien suivant :\n\n";
+                $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?c=" . $code . "\n\n";
+                $content .= "Cordialement,\n";
+                $content .= "L'équipe de " . $this->config['support_team'] . "\n";
+                $ret = utf8_mail($email, $subject, $content, $this->config['title'], $this->config['email'], $this->config['email_simulation']);
+            }
+        }
+        if ($ret) {
+            return SEND_INVITATIONS_OK;
+        }
+        else {
+            SEND_INVITATIONS_ERROR;
+        }
+    }
+
 }
+
 ?>
