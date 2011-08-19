@@ -421,7 +421,7 @@ class Engine {
         $req = "SELECT t.userTeamID as userTeamID, t.name AS name, t.password as password, t.avgPoints as avgPoints, t.totalPoints as totalPoints, t.maxPoints as maxPoints, u.name as ownerName, u.userID as ownerID";
         $req .= " FROM " . $this->config['db_prefix'] . "user_teams t";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "users u ON(t.ownerID = u.userID)";
-        $req .= " WHERE name = '" . $name . "'";
+        $req .= " WHERE t.name = '" . $name . "'";
 
         $userTeam = $this->db->select_line($req, $nb_teams);
 
@@ -1144,7 +1144,7 @@ class Engine {
         if ($name == null || $name == "" || $login == null || $login == "") {
             return FIELDS_EMPTY;
         }
-        return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . addslashes($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
+        return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . md5($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
     }
 
     function addGroup($group_id, $user_team_name, $password="") {
@@ -1849,7 +1849,7 @@ class Engine {
         }
     }
 
-    function joinUserTeam($userID, $userTeamID, $password=false) {
+    function joinUserTeam($userID, $userTeamID, $code, $password=false) {
         if ($password) {
             $userTeam = $this->getUserTeam($userTeamID);
             if ($userTeam) {
@@ -1901,13 +1901,14 @@ class Engine {
         return $ret;
     }
 
-    function use_invitation($code) {
-        $invitation = $this->is_invited_by_code($code);
+    function useInvitation($code) {
+        $invitation = $this->isInvitedByCode($code);
         if ($invitation) {
-            $this->delete_invitation($code);
-            return $invitation['groupID'];
-        } else
+            $this->deleteInvitation($code);
+            return $invitation['userTeamID'];
+        } else {
             return false;
+        }
     }
 
     function createUniqInvitation($email, $userTeamID, $type) {
@@ -1923,9 +1924,9 @@ class Engine {
         $req .= 'DATE_ADD(NOW(), INTERVAL ' . $this->config['invitation_expiration'] . ' DAY)';
 
         if ($type == 'IN') {
-            $req .= ',2)';
+            $req .= ', 2)';
         } else {
-            $req .= ',1)';
+            $req .= ', 1)';
         }
         $ret = $this->db->insert($req);
 
@@ -1935,8 +1936,9 @@ class Engine {
     function createUniqInvitations($invitations, $type) {
         $codes = array();
         foreach ($invitations as $invitation) {
-            if ($invitation['userTeamID'] == 0)
+            if ($invitation['userTeamID'] == 0) {
                 continue;
+            }
             if ($code = $this->createUniqInvitation($invitation['email'], $invitation['userTeamID'], $type)) {
                 $codes[$invitation['email']]['code'] = $code;
                 $codes[$invitation['email']]['userTeamID'] = $invitation['userTeamID'];
@@ -1947,15 +1949,15 @@ class Engine {
 
     function isInvited($userTeamID, $userID=false) {
         if ($userID) {
-            $user = $this->parent->users->get($userID);
+            $user = $this->getUser($userID);
         } else {
-            $user = $this->parent->users->get_current();
+            $user = $this->getCurrentUser();
         }
         $email = $user['email'];
 
         // Main Query
         $req = 'SELECT *';
-        $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'invitations';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations';
         $req .= ' WHERE email = \'' . addslashes($email) . '\'';
         $req .= ' AND userTeamID = ' . $userTeamID . '';
         $req .= ' AND expiration >= NOW()';
@@ -1963,6 +1965,34 @@ class Engine {
         $invitation = $this->parent->db->select_line($req, $null);
         if ($this->parent->debug) {
             array_show($group);
+        }
+        return $invitation;
+    }
+
+    function isInvitedByCode($code) {
+        // Main Query
+        $req = 'SELECT *';
+        $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'invitations';
+        $req .= " WHERE code = '" . addslashes($code) . "'";
+        $req .= ' AND expiration >= NOW()';
+        $req .= ' AND status > 0';
+        $invitation = $this->parent->db->select_line($req, $null);
+        if ($this->parent->debug) {
+            array_show($invitation);
+        }
+        return $invitation;
+    }
+
+    function getInvitation($code) {
+        prepare_alphanumeric_data(array(&$code));
+        // Main Query
+        $req = 'SELECT i.*,(expiration < NOW()) as expired, t.name as user_team_name';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations i';
+        $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'user_teams t ON (i.userTeamID = t.userTeamID)';
+        $req .= " WHERE code = '" . $code . "'";
+        $invitation = $this->parent->db->select_line($req, $null);
+        if ($this->parent->debug) {
+            array_show($invitation);
         }
         return $invitation;
     }
@@ -1981,8 +2011,7 @@ class Engine {
                 $content .= "Pour cela, inscrivez-vous sur CdM2011 en cliquant sur le lien suivant :\n\n";
                 if (isset($code)) {
                     $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?c=" . $code . "\n\n";
-                }
-                else {
+                } else {
                     $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?op=register\n\n";
                 }
                 $content .= "Cordialement,\n";
@@ -1994,7 +2023,7 @@ class Engine {
                 $code = $invitations[$email]['code'];
                 $userTeamID = $invitations[$email]['userTeamID'];
                 $group = $this->getUserTeam($userTeamID);
-                $subject = "[" . $this->config['blog_title'] . "] " . $current_user['name'] . " vous invite à venir rejoindre le groupe " . $group['name'];
+                $subject = "[" . $this->config['title'] . "] " . $current_user['name'] . " vous invite à venir rejoindre le groupe " . $group['name'];
                 $content = "Bonjour,\n\n";
                 $content .= $current_user['name'] . " vous invite à venir à rejoindre le groupe " . $group['name'] . "\n";
                 $content .= "Pour accepter cette invitation, cliquez sur le lien suivant :\n\n";
@@ -2006,8 +2035,7 @@ class Engine {
         }
         if ($ret) {
             return SEND_INVITATIONS_OK;
-        }
-        else {
+        } else {
             SEND_INVITATIONS_ERROR;
         }
     }

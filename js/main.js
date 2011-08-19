@@ -147,3 +147,10 @@ function loadTags(userTeamID, startTag) {
 
     return false;
 }
+
+function displayAutoJoin(userTeamName, code) {
+    $("#code").val(code);
+    if(confirm("Souhaitez-vous rejoindre le groupe '" + userTeamName + "' ?")) {
+        $("form#join_group_form").submit();
+    }
+}

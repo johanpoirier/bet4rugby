@@ -4,13 +4,22 @@
     </div>
 </div>
 <?
+$code = false;
+$invitation = false;
+if (isset($_GET['c'])) {
+    $code = $_GET['c'];
+    $invitation = $engine->isInvitedByCode($code);
+    if($invitation) {
+        $autoUserTeamID = $invitation['userTeamID'];
+    }
+}
 $userTeams = $engine->getUserTeams();
 ?>
 <div class="maincontent">
     <div class="ppp">
         <center><span style="color:red;"><b><? echo $message; ?></b></span></center>
         <form method="post" id="join_group_form"  name="join_group_form" action="/?op=join_group">
-            <input type="hidden" name="code" id="code" />
+            <input type="hidden" name="code" id="code" <? if($c) { echo 'value="'. $code . '"'; } ?>/>
             <br/>
             <div class="formfield"><b>Sélectionner le groupe que vous souhaitez rejoindre</b></div>
             <select name="group" id="group">
@@ -26,3 +35,16 @@ $userTeams = $engine->getUserTeams();
         </form>
     </div>
 </div>
+<?
+$currentUser = $engine->getCurrentUser();
+if($invitation && ($invitation['email'] == $currentUser['email'])) {
+    $userTeam = $engine->getUserTeam($invitation['userTeamID']);
+?>
+<script type="text/javascript">
+    if(confirm("Souhaitez-vous rejoindre le groupe '<? echo $userTeam['name']; ?>' ?")) {
+        $("form#join_group_form").submit();
+    }
+</script>
+<?    
+}
+?>

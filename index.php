@@ -16,6 +16,7 @@ define('REGISTER', (isset($_GET['op']) && ($_GET['op']) == "register"));
 define('FORGOT_IDS', (isset($_GET['op']) && ($_GET['op']) == "forgot_ids"));
 define('AUTHENTIFICATION_NEEDED', (!isset($_SESSION['userID']) && !LOGIN && !REGISTER && !FORGOT_IDS));
 define('PHASE_ID_ACTIVE', $engine->getPhaseIDActive());
+define('CODE',( isset( $_GET['c'] ) && !isset( $_GET['op'] )));
 
 $op = "";
 $pageToInclude = "";
@@ -28,7 +29,24 @@ if (FORGOT_IDS) {
     } else {
         $pageToInclude = "pages/forgot_ids.php";
     }
-} else if (REGISTER) {
+}
+elseif(CODE) {
+	if(isset($_SESSION['userID'])) {
+		redirect("/?op=join_group&c=".$_GET['c']);
+	} else {
+		$invitation = $engine->getInvitation($_GET['c']);
+		if($invitation['status'] == 1) {
+                    redirect("/?op=register&c=".$_GET['c']);
+                }
+		elseif($invitation['status'] == 2) {
+                    redirect("/?s=".$_GET['c']);
+                }
+		else {
+                    redirect("/?op=register");
+                }
+	}
+}
+elseif (REGISTER) {
     if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['login'])) {
         if ($_POST['password1'] != $_POST['password2']) {
             redirect("/?op=register&message=" . PASSWORD_MISMATCH);
@@ -45,7 +63,7 @@ if (FORGOT_IDS) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
     $pageToInclude = "pages/register.php";
-} else if (AUTHENTIFICATION_NEEDED) {
+} elseif (AUTHENTIFICATION_NEEDED) {
     if (isset($_GET['message']) && $_GET['message']) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
@@ -226,23 +244,18 @@ if (FORGOT_IDS) {
             if (isset($_POST['group'])) {
                 $userID = $_SESSION['userID'];
                 $password = (isset($_POST['password'])) ? $_POST['password'] : false;
-                //$code = (isset($_POST['code'])) ? $_POST['code'] : false;
-                $status = $engine->joinUserTeam($userID, $_POST['group'], $password);
+                $code = (isset($_POST['code'])) ? $_POST['code'] : false;
+                $status = $engine->joinUserTeam($userID, $_POST['group'], $code, $password);
                 redirect("/?op=account&message=" . $status);
             } else {
-                //$c = false;
                 if (isset($_GET['message']) && $_GET['message']) {
                     $message = $engine->lang['messages'][$_GET['message']];
                 }
-                //if (isset($_GET['c'])) {
-                //    $c = $_GET['c'];
-                //}
                 $pageToInclude = "pages/join_group.php";
             }
             break;
 
         case "leave_group":
-            echo "leave_group " . $_GET['user_team_id'] . "<br/>";
             if (!isset($_GET['user_team_id'])) {
                 redirect("/?op=account");
             }
@@ -274,14 +287,14 @@ if (FORGOT_IDS) {
                 if ($_POST['type'] == 'OUT') {
                     $invitations = array();
                     $emails = array();
-                    $nb_invitations = $engine->config['nb_invitations'];
-                    for ($i = 1; $i <= $nb_invitations; $i++) {
-                        if ((isset($_POST['email' . $i])) && ($_POST['email' . $i] != "")) {
+                    $nb_invitations = 5;
+                    for ($i = 0; $i < $nb_invitations; $i++) {
+                        if ((isset($_POST['email_' . $i])) && ($_POST['email_' . $i] != "")) {
                             $invitation = array();
-                            $invitation['email'] = $_POST['email' . $i];
-                            $invitation['groupID'] = $_POST['groupID' . $i];
+                            $invitation['email'] = $_POST['email_' . $i];
+                            $invitation['userTeamID'] = $_POST['userTeamID'];
                             $invitations[] = $invitation;
-                            $emails[] = $_POST['email' . $i];
+                            $emails[] = $_POST['email_' . $i];
                         }
                     }
                     $codes = $engine->createUniqInvitations($invitations, $_POST['type']);
@@ -291,7 +304,7 @@ if (FORGOT_IDS) {
                     $invitations = array();
                     $emails = array();
                     $nb_invitations = 5;
-                    for ($i = 0; $i <= $nb_invitations; $i++) {
+                    for ($i = 0; $i < $nb_invitations; $i++) {
                         if ((isset($_POST['userID_' . $i])) && ($_POST['userID_' . $i] != "")) {
                             if ($_POST['userID_' . $i] == 0) {
                                 continue;
