@@ -1,6 +1,6 @@
 <?
-  $host = "mysql5-13";
+  $host = "localhost";
   $dbname = "nirgal";
-  $username = "nirgal";
-  $password = "9d9byeld";
+  $username = "root";
+  $password = "root";
 ?>

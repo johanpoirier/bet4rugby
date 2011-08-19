@@ -1,5 +1,7 @@
 <?
 session_start();
+
+header("Content-Type: text/html; charset=utf-8");
 define('WEB_PATH', "/");
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . "/");
 define('URL_PATH', "/");
@@ -9,40 +11,71 @@ require('include/classes/Engine.php');
 $debug = false;
 $engine = new Engine(false, $debug);
 
+define('LOGIN', (isset($_GET['op']) && ($_GET['op']) == "login"));
 define('REGISTER', (isset($_GET['op']) && ($_GET['op']) == "register"));
-define('UNREGISTER', (isset($_GET['op']) && ($_GET['op']) == "unregister"));
-define('AUTHENTIFICATION', (!isset($_SESSION["userID"]) && !REGISTER));
-define('PHASE_ID_ACTIVE', $engine->getPhaseIDActive());
 define('FORGOT_IDS', (isset($_GET['op']) && ($_GET['op']) == "forgot_ids"));
+define('AUTHENTIFICATION_NEEDED', (!isset($_SESSION['userID']) && !LOGIN && !REGISTER && !FORGOT_IDS));
+define('PHASE_ID_ACTIVE', $engine->getPhaseIDActive());
 
 $op = "";
 $pageToInclude = "";
-if(FORGOT_IDS) {
-    if(isset($_POST['email'])) {
+global $message;
+
+if (FORGOT_IDS) {
+    if (isset($_POST['email'])) {
         $res = $engine->sendIDs($_POST['email']);
         redirect("/?message=" . $res);
     } else {
         $pageToInclude = "pages/forgot_ids.php";
     }
 }
-else if (AUTHENTIFICATION) {
+
+else if (REGISTER) {
+    if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['login'])) {
+        if ($_POST['password1'] != $_POST['password2']) {
+            redirect("/?op=register&message=" . PASSWORD_MISMATCH);
+        }
+        $status = $engine->addUser($_POST['login'], $_POST['password1'], $_POST['name'], $_POST['firstname'], $_POST['email'], -1, 0);
+
+        if ($status < 0) {
+            redirect("/?op=register&c=" . $_POST['code'] . "&message=" . $status);
+        } else {
+            redirect("/?message=" . REGISTER_OK);
+        }
+    }
+    if (isset($_GET['message']) && $_GET['message']) {
+        $message = $engine->lang['messages'][$_GET['message']];
+    }
+    $pageToInclude = "pages/register.php";
+}
+
+else if (AUTHENTIFICATION_NEEDED) {
+    if (isset($_GET['message']) && $_GET['message']) {
+        $message = $engine->lang['messages'][$_GET['message']];
+    }
     $pageToInclude = "pages/login.php";
 }
+
 else {
-    if (isset($_REQUEST['op']))
+    if (isset($_REQUEST['op'])) {
         $op = $_REQUEST['op'];
+    }
     switch ($op) {
-        case "register":
-            if ($engine->register($_POST['login'], $_POST['pass'])) {
+        case "login":
+            if ($engine->login($_POST['login'], $_POST['pass'])) {
                 $pageToInclude = "pages/ranking.php";
-            }
-            else
+            } else {
                 $pageToInclude = "pages/login.php";
+            }
             break;
 
-        case "unregister":
+        case "logout":
             session_destroy();
             redirect("/");
+            break;
+
+        case "my_profile":
+            $pageToInclude = "pages/my_profile.php";
             break;
 
         case "view_ranking":

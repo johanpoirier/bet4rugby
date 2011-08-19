@@ -1,7 +1,8 @@
 <?
+
 include(BASE_PATH . 'include/misc/config.inc.php');
-include(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
 include(BASE_PATH . 'include/misc/define.inc.php');
+include(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
 include(BASE_PATH . 'include/misc/functions.inc.php');
 include(BASE_PATH . 'include/misc/db.php');
 
@@ -10,6 +11,7 @@ class Engine {
     var $db;
     var $debug;
     var $config;
+    var $lang;
     var $template;
     var $start_time;
 
@@ -18,7 +20,7 @@ class Engine {
     /*     * *************** */
 
     function Engine($admin=false, $debug=false) {
-        global $config;
+        global $config, $lang;
 
         $time = time();
         $this->start_time = get_moment();
@@ -26,13 +28,14 @@ class Engine {
         $this->db->set_debug($debug);
         $this->debug = $debug;
         $this->config = $config;
+        $this->lang = $lang;
         $this->step = 0;
         $this->theme_location = '/include/theme/' . $config['template'] . "/";
 
         $this->admin = (isset($_SESSION['status']) && $_SESSION['status'] == 1) ? true : false;
     }
 
-    function register($login, $pass) {
+    function login($login, $pass) {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->config['db_prefix'] . "users ";
@@ -371,7 +374,7 @@ class Engine {
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.status, u.userTeamID, t.name AS team";
         $req .= " FROM " . $this->config['db_prefix'] . "users u";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
-        $req .= " WHERE u.email = '" . $email ."'";
+        $req .= " WHERE u.email = '" . $email . "'";
 
         $user = $this->db->select_line($req, $nb_teams);
 
@@ -653,6 +656,8 @@ class Engine {
             }
             $diff = "(" . $resProno['diff'] . ")";
 
+            $prono['POINTS'] = 0;
+            $prono['DIFF'] = 0;
             if (($prono['scoreMatchA'] != NULL) && ($prono['scoreMatchB'] != NULL)) {
                 $prono['POINTS'] = $points;
                 $prono['COLOR'] = $color;
@@ -1088,11 +1093,24 @@ class Engine {
             return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "matchs (date, teamA, teamB, phaseID) VALUES ('" . addslashes($date) . "','" . addslashes($teamA) . "','" . addslashes($teamB) . "', " . addslashes($phase) . ")");
     }
 
-    function addUser($name, $login, $pass, $userTeamId, $isAdmin) {
-        if (false)
-            return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . addslashes($pass) . "', " . $userTeamId . ", " . $isAdmin . ")");
-        else
-            return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . addslashes($pass) . "', " . $userTeamId . ", " . $isAdmin . ")");
+    function addUser($login, $pass, $name, $firstname, $email, $userTeamId, $isAdmin) {
+        $login = trim($login);
+        $email = trim($email);
+        $name = trim($name);
+        $firstname = trim($firstname);
+        if (strlen($firstname) > 0) {
+            $name = $firstname . " " . $name;
+        }
+        if (!stristr($email, '@')) {
+            return INCORRECT_EMAIL;
+        }
+        if ($this->isUserExists($login)) {
+            return LOGIN_ALREADY_EXISTS;
+        }
+        if ($name == null || $name == "" || $login == null || $login == "") {
+            return FIELDS_EMPTY;
+        }
+        return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . addslashes($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
     }
 
     function saveProno($userID, $matchID, $team, $score, $pny=-1, $isAdmin=0) {
@@ -1145,7 +1163,7 @@ class Engine {
 
     function setNewPassword($userID) {
         $user = $this->getUser($userID);
-        if(!$user) {
+        if (!$user) {
             return false;
         }
         $new_pass = newPassword(8);
@@ -1154,23 +1172,22 @@ class Engine {
         $req .= ' SET password = \'' . $new_pass . '\'';
         $req .= ' WHERE "userID" = ' . $userID . '';
 
-        if($this->db->exec_query($req)) {
+        if ($this->db->exec_query($req)) {
             return $new_pass;
-        }
-        else {
+        } else {
             return false;
         }
     }
-    
+
     function saveTag($text, $userTeamID=false) {
         $userID = $_SESSION['userID'];
         if (!$userTeamID)
             $userTeamID = -1;
-        
-        prepare_numeric_data(array(&$userTeamID,&$userID));
+
+        prepare_numeric_data(array(&$userTeamID, &$userID));
         prepare_alphanumeric_data(array(&$text));
-	$text = htmlspecialchars(trim($text));
-                
+        $text = htmlspecialchars(trim($text));
+
         $tagID = $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "tags (userID, userTeamID, date, tag) VALUES (" . $userID . ", " . $userTeamID . ", NOW(), '" . $text . "')");
 
         return;
@@ -1207,6 +1224,15 @@ class Engine {
         $req .= " WHERE teamA = " . $teamA;
         $req .= " AND teamB = " . $teamB;
         $req .= " AND phaseID = " . $phaseID;
+
+        return $this->db->select_one($req, null);
+    }
+
+    function isUserExists($login) {
+        // Main Query
+        $req = "SELECT userID";
+        $req .= " FROM " . $this->config['db_prefix'] . "users";
+        $req .= " WHERE LOWER(login) = '" . strtolower($login) . "'";
 
         return $this->db->select_one($req, null);
     }
@@ -1258,17 +1284,17 @@ class Engine {
     function loadTags($userTeamID=-1, $start=false) {
         $start = $start ? $start : 0;
         $tags = $this->getTags($start, 20, $userTeamID);
-        
+
         $tag_content = "";
         foreach ($tags as $tag) {
-            $tag_content .= "<div id=\"tag_".$tag['tagID']."\">";
-            $tag_content .= "<img onclick=\"delTag(".$tag['tagID'].")\" src=\"/include/theme/".$this->config['template']."/images/del.png\" alt=\"Supprimer\" />";
-            $tag_content .= "<u>".$tag['date']."<br /><b>".stripslashes($tag['name'])."</b></u><br />";
-            $tag_content .= stripslashes($tag['tag'])."<br /><br /></div>";
+            $tag_content .= "<div id=\"tag_" . $tag['tagID'] . "\">";
+            $tag_content .= "<img onclick=\"delTag(" . $tag['tagID'] . ")\" src=\"/include/theme/" . $this->config['template'] . "/images/del.png\" alt=\"Supprimer\" />";
+            $tag_content .= "<u>" . $tag['date'] . "<br /><b>" . stripslashes($tag['name']) . "</b></u><br />";
+            $tag_content .= stripslashes($tag['tag']) . "<br /><br /></div>";
         }
         echo $tag_content;
     }
-   
+
     function loadRanking() {
         $users = $this->getUsers();
         usort($users, "compare_users");
@@ -1690,12 +1716,15 @@ class Engine {
         }
 
         $diff -= abs($scoreMatchA - $scorePronoA) + abs($scoreMatchB - $scorePronoB);
-        if (($nbPoints - $phase['nbPointsRes']) >= (($phase['nbPointsScoreNiv2'] * 2) + $phase['nbPointsEcartNiv1']))
+        $score = 0;
+        if (($nbPoints - $phase['nbPointsRes']) >= (($phase['nbPointsScoreNiv2'] * 2) + $phase['nbPointsEcartNiv1'])) {
             $score = 1;
+        }
         $retour = array("points" => $nbPoints, "res" => $resJuste, "score" => $score, "diff" => $diff);
 
-        if ($this->debug)
+        if ($this->debug) {
             array_show($retour);
+        }
 
         return $retour;
     }
@@ -1724,29 +1753,30 @@ class Engine {
     }
 
     function sendIDs($email) {
-        if($email) {
+        if ($email) {
             $user = $this->getUserByEmail($email);
-            if($user) {
-                if($newPassword = $this->setNewPassword($user['userID'])) {
-                    $res = utf8_mail($user['email'], $this->config['title']." - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
+            if ($user) {
+                if ($newPassword = $this->setNewPassword($user['userID'])) {
+                    $res = utf8_mail($user['email'], $this->config['title'] . " - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                 } else {
                     $res = false;
                 }
 
-                if(!$res) {
-                    utf8_mail($this->config['email'], $this->config['title']." - Problème envoi à '" . $email . "'", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
+                if (!$res) {
+                    utf8_mail($this->config['email'], $this->config['title'] . " - Problème envoi à '" . $email . "'", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                     return FORGOT_IDS_KO;
                 } else {
                     return FORGOT_IDS_OK;
                 }
             } else {
-                utf8_mail($this->config['email'], $this->config['title']." - Email '" . $email . "' inconnu", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
+                utf8_mail($this->config['email'], $this->config['title'] . " - Email '" . $email . "' inconnu", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                 return EMAIL_UNKNOWN;
             }
         } else {
             return INCORRECT_EMAIL;
         }
     }
+
 }
 
 ?>
