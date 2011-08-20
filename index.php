@@ -51,7 +51,15 @@ elseif (REGISTER) {
         if ($_POST['password1'] != $_POST['password2']) {
             redirect("/?op=register&message=" . PASSWORD_MISMATCH);
         }
-        $status = $engine->addUser($_POST['login'], $_POST['password1'], $_POST['name'], $_POST['firstname'], $_POST['email'], -1, 0);
+        $userTeamID = 0;
+        $code = $_POST['code'];
+        if($code != "") {
+            $teamId = $engine->useInvitation($code);
+            if($teamId) {
+                $userTeamID = $teamId;
+            }
+        }
+        $status = $engine->addUser($_POST['login'], $_POST['password1'], $_POST['name'], $_POST['firstname'], $_POST['email'], $userTeamID, 0);
 
         if ($status < 0) {
             redirect("/?op=register&c=" . $_POST['code'] . "&message=" . $status);
@@ -75,7 +83,12 @@ elseif (REGISTER) {
     switch ($op) {
         case "login":
             if ($engine->login($_POST['login'], $_POST['pass'])) {
-                $pageToInclude = "pages/ranking.php";
+                if(isset($_POST['code'])) {
+                    redirect("/?c=" . $_POST['code']);
+                }
+                else {
+                    $pageToInclude = "pages/ranking.php";
+                }
             } else {
                 $pageToInclude = "pages/login.php";
             }

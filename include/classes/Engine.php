@@ -1471,14 +1471,16 @@ class Engine {
         $last_user = $users[0];
 
         foreach ($users as $user) {
-            if ($user['nbpronos'] == 0)
+            if ($user['nbpronos'] == 0) {
                 continue;
-            if (compare_users($user, $last_user) != 0)
+            }
+            if (compare_users($user, $last_user) != 0) {
                 $i = $j + 1;
+            }
 
             $usersView[$k++] = array(
                 'RANK' => $i,
-                'LAST_RANK' => "<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/>",
+                'LAST_RANK' => "",//<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/>",
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
                 'ID' => $user['userID'],
                 'NAME' => $user['name'],
@@ -1861,6 +1863,10 @@ class Engine {
             }
         }
 
+        if($code) {
+            $this->useInvitation($code);
+        }
+
         $req = "UPDATE " . $this->config['db_prefix'] . "users SET";
         $req .= " userTeamID = " . $userTeamID;
         $req .= " WHERE userID = " . $userID;
@@ -1972,15 +1978,28 @@ class Engine {
     function isInvitedByCode($code) {
         // Main Query
         $req = 'SELECT *';
-        $req .= ' FROM ' . $this->parent->config['db_prefix'] . 'invitations';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations';
         $req .= " WHERE code = '" . addslashes($code) . "'";
         $req .= ' AND expiration >= NOW()';
         $req .= ' AND status > 0';
-        $invitation = $this->parent->db->select_line($req, $null);
-        if ($this->parent->debug) {
+        $invitation = $this->db->select_line($req, $null);
+        if ($this->debug) {
             array_show($invitation);
         }
         return $invitation;
+    }
+
+    function deleteInvitation($code) {
+        prepare_alphanumeric_data(array(&$code));
+        $invitation = $this->getInvitation($code);
+        if ($invitation['status'] < 0) {
+            return true;
+        }
+        $req = 'UPDATE ' . $this->config['db_prefix'] . 'invitations';
+        $req .= ' SET "status" = -' . $invitation['status'] . '';
+        $req .= ' WHERE "code" = \'' . $code . '\';';
+        $this->db->exec_query($req);
+        return true;
     }
 
     function getInvitation($code) {
@@ -1990,8 +2009,8 @@ class Engine {
         $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations i';
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'user_teams t ON (i.userTeamID = t.userTeamID)';
         $req .= " WHERE code = '" . $code . "'";
-        $invitation = $this->parent->db->select_line($req, $null);
-        if ($this->parent->debug) {
+        $invitation = $this->db->select_line($req, $null);
+        if ($this->debug) {
             array_show($invitation);
         }
         return $invitation;

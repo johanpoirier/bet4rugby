@@ -5,6 +5,7 @@
 
         <form method="post" action="/?op=register">
             <input type="hidden" name="redirect" value="" />
+            <input type="hidden" name="code" value="<? if(isset($_GET['c'])) { echo $_GET['c']; } ?>" />
             <br />
             <div class="formfield"><b>Votre nom de famille</b></div>
             <input type="text" name="name" id="name" value="" class="textinput" maxlength="60" /><br /><br />

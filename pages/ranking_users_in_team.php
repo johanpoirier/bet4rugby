@@ -39,8 +39,8 @@
 			<table width="100%">
 				<tr>
 					<td width="55%"><h1>Classement : <? echo $currentUser['team']; ?></h1></td>
-					<td align="center" width="15%"><a href="/?op=view_ranking">Général</a></td>
-					<td align="center" width="20%"><a href="/?op=view_ranking_teams">Par équipes</a></td>
+					<td align="center" width="15%"><a href="/?op=view_ranking">GÃ©nÃ©ral</a></td>
+					<td align="center" width="20%"><a href="/?op=view_ranking_teams">Par Ã©quipes</a></td>
 					<td align="center" width="10%"><a href="/?op=view_ranking_users_in_team"><strong>Interne</strong></a></td>
 				</tr>
 			</table>
@@ -55,7 +55,7 @@
 			<td width="60" style="font-size:80%;text-align:center;"><i>Points</i></td>
 			<td width="60" style="font-size:80%;text-align:center;"><i>R&eacute;sultats Exacts</i></td>
 			<td width="60" style="font-size:80%;text-align:center;"><i>Scores Exacts</i></td>
-			<td width="60" style="font-size:80%;text-align:center;"><i>Différence</i></td>
+			<td width="60" style="font-size:80%;text-align:center;"><i>DiffÃ©rence</i></td>
 		</tr>
 	</table>
 
@@ -86,7 +86,7 @@
 			<div id="tag_0" styAle="text-align:center;"><br />
 				<form onsubmit="return saveTag();">
 					<input type="text" id="tag" value="" size="20" /><br />
-					<span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+					<span style="font-size:8px;">(EntrÃ©e pour envoyer)</span><br /><br />
 				</form>
 			</div>
 			<div id="tags">

@@ -6,6 +6,7 @@
         <form method="post" action="/?op=login">
             <input type="hidden" name="login" value="1" />
             <input type="hidden" name="redirect" value="" />
+            <input type="hidden" name="code" value="<? if(isset($_GET['s'])) { echo $_GET['s']; } ?>" />
             <br />
             <div class="formfield"><b>Nom d'utilisateur</b></div>
             <input type="text" name="login" value="" class="textinput" maxlength="100" /><br /><br />

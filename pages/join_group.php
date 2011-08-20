@@ -19,7 +19,7 @@ $userTeams = $engine->getUserTeams();
     <div class="ppp">
         <center><span style="color:red;"><b><? echo $message; ?></b></span></center>
         <form method="post" id="join_group_form"  name="join_group_form" action="/?op=join_group">
-            <input type="hidden" name="code" id="code" <? if($c) { echo 'value="'. $code . '"'; } ?>/>
+            <input type="hidden" name="code" id="code" <? if($code) { echo 'value="'. $code . '"'; } ?>/>
             <br/>
             <div class="formfield"><b>Sélectionner le groupe que vous souhaitez rejoindre</b></div>
             <select name="group" id="group">
