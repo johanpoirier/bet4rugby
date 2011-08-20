@@ -305,6 +305,22 @@ class Engine {
         return $phases;
     }
 
+    function getAllUsers() {
+        // Main Query
+        $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.userTeamID, t.name AS team";
+        $req .= " FROM " . $this->config['db_prefix'] . "users u";
+        $req .= " LEFT JOIN " . $this->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
+        $req .= " WHERE u.status >= 0";
+        $req .= " ORDER BY u.name ASC";
+
+        $users = $this->db->select_array($req, $nb_teams);
+        if ($this->debug) {
+            array_show($users);
+        }
+
+        return $users;
+    }
+    
     function getUsers() {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
@@ -316,8 +332,9 @@ class Engine {
         $req .= " ORDER BY u.name ASC";
 
         $users = $this->db->select_array($req, $nb_teams);
-        if ($this->debug)
+        if ($this->debug) {
             array_show($users);
+        }
 
         return $users;
     }

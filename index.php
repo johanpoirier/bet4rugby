@@ -83,7 +83,7 @@ elseif (REGISTER) {
     switch ($op) {
         case "login":
             if ($engine->login($_POST['login'], $_POST['pass'])) {
-                if(isset($_POST['code'])) {
+                if(isset($_POST['code']) && ($_POST['code'] != "")) {
                     redirect("/?c=" . $_POST['code']);
                 }
                 else {

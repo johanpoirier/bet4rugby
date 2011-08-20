@@ -4,7 +4,7 @@
 <?
 $current_user = $engine->getCurrentUser();
 $userTeam = ($user) ? $engine->getUserTeam($current_user['userTeamID']) : false;
-$users = $engine->getUsers();
+$users = $engine->getAllUsers();
 ?>
 <div class="maincontent">
     <div class="ppp">
