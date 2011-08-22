@@ -2010,6 +2010,20 @@ class Engine {
         return $codes;
     }
 
+    function getInvitationsBySender($senderID) {
+        prepare_numeric_data(array(&$senderID));
+        // Main Query
+        $req = 'SELECT i.*,(expiration < NOW()) as expired, t.name as user_team_name';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations i';
+        $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'user_teams t ON (i.userTeamID = t.userTeamID)';
+        $req .= ' WHERE senderID = ' . $senderID;
+        $invitations = $this->db->select_array($req, $null);
+        if ($this->debug) {
+            array_show($invitations);
+        }
+        return $invitations;
+    }
+
     function isInvited($userTeamID, $userID=false) {
         if ($userID) {
             $user = $this->getUser($userID);

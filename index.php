@@ -284,7 +284,7 @@ if (FORGOT_IDS) {
                 }
                 if ($engine->addGroup('', $_POST['group_name'], $_POST['password1'])) {
                     $group = $engine->getUserTeamByName($_POST['group_name']);
-                    $engine->joinUserTeam($engine->getCurrentUserId(), $group['userTeamID']);
+                    $engine->joinUserTeam($engine->getCurrentUserId(), $group['userTeamID'], false);
                     redirect("/?op=invite_friends&message=" . CREATE_GROUP_OK . "&g=" . $group['groupID']);
                 } else {
                     redirect("/?op=create_group&message=" . GROUP_ALREADY_EXISTS);
