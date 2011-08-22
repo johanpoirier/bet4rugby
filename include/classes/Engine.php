@@ -320,7 +320,7 @@ class Engine {
 
         return $users;
     }
-    
+
     function getUsers() {
         // Main Query
         $req = "SELECT u.userID, u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, u.userTeamID, t.name AS team, count(p.userID) AS nbpronos";
@@ -340,10 +340,10 @@ class Engine {
     }
 
     function getUsersByUserTeam($userTeamID, $all_users=false) {
-        // Main Query
         $req = "SELECT DISTINCT(u.userID), u.name, u.login, u.points, u.nbresults, u.nbscores, u.diff, u.last_rank, t.name AS team";
-        if (!$all_users)
+        if (!$all_users) {
             $req .= ", COUNT(p.userID) AS nbpronos";
+        }
         $req .= " FROM " . $this->config['db_prefix'] . "users u";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pronos AS p ON(p.userID = u.userID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "user_teams AS t ON(t.userTeamID = u.userTeamID)";
@@ -354,9 +354,10 @@ class Engine {
         }
         $req .= " ORDER BY u.name ASC";
 
-        $users = $this->db->select_array($req, $nb_teams);
-        if ($this->debug)
+        $users = $this->db->select_array($req, $nbUsers);
+        if ($this->debug) {
             array_show($users);
+        }
 
         return $users;
     }
@@ -1164,6 +1165,32 @@ class Engine {
         return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . md5($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
     }
 
+    function addOrUpdateUser($login, $pass, $name, $email, $groupID, $status) {
+        $login = trim($login);
+        $name = trim($name);
+        $email = trim($email);
+        if (!stristr($email, '@')) {
+            return INCORRECT_EMAIL;
+        }
+        if ($name == null || $name == "" || $login == null || $login == "") {
+            return FIELDS_EMPTY;
+        }
+        if ($this->isUserExists($login)) {
+            $passwordReq = "";
+            if (strlen($pass) > 1) {
+                $passwordReq = " password='" . md5($pass) . "', ";
+            }
+            $req = "UPDATE " . $this->config['db_prefix'] . "users";
+            $req .= " SET name='" . addslashes($name) . "', " . $passwordReq . "email='" . addslashes($email) . "',";
+            $req .= " userTeamID=" . (($groupID != '') ? $groupID : "NULL") . ", status=" . addslashes($status) . " WHERE login='" . addslashes($login) . "'";
+            return $this->db->exec_query($req);
+        } else {
+            $req = "INSERT INTO " . $this->config['db_prefix'] . "users (login, password, name, email, userTeamID, status)";
+            $req .= " VALUES ('" . addslashes($login) . "', '" . md5($pass) . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ")";
+            return $this->db->insert($req);
+        }
+    }
+
     function addGroup($group_id, $user_team_name, $password="") {
         $user_team_name = trim($user_team_name);
         if ($user_team_name == null || $user_team_name == "") {
@@ -1443,9 +1470,11 @@ class Engine {
         foreach ($userTeams as $userTeam) {
             $users = $this->getUsersByUserTeam($userTeam['userTeamID']);
             $userTeam['nbUsersActifs'] = sizeof($users);
-            if ($userTeam['nbUsersActifs'] < 2)
+            if ($userTeam['nbUsersActifs'] < 2) {
                 continue;
+            }
             $userTeam['nbUsersTotal'] = $this->getNbUsersByUserTeam($userTeam['userTeamID']);
+            $userTeam['lastRank'] = 1;
             $userTeamsView[] = $userTeam;
         }
 
@@ -1453,8 +1482,9 @@ class Engine {
         $last_team = $userTeams[0];
         usort($userTeamsView, "compare_user_teams");
         for ($i = 0; $i < sizeof($userTeamsView); $i++) {
-            if (compare_user_teams($userTeamsView[$i], $last_team) != 0)
+            if (compare_user_teams($userTeamsView[$i], $last_team) != 0) {
                 $rank = $i + 1;
+            }
             $userTeamsView[$i]['rank'] = $rank;
 
             $evol = $userTeamsView[$i]['lastRank'] - $rank;
@@ -1497,7 +1527,7 @@ class Engine {
 
             $usersView[$k++] = array(
                 'RANK' => $i,
-                'LAST_RANK' => "",//<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/>",
+                'LAST_RANK' => "", //<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/>",
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
                 'ID' => $user['userID'],
                 'NAME' => $user['name'],
@@ -1880,7 +1910,7 @@ class Engine {
             }
         }
 
-        if($code) {
+        if ($code) {
             $this->useInvitation($code);
         }
 
@@ -1922,6 +1952,16 @@ class Engine {
         $ret = $this->db->exec_query($req);
 
         return $ret;
+    }
+
+    function deleteUser($login) {
+        // Main Query
+        $req = "DELETE";
+        $req .= " FROM " . $this->config['db_prefix'] . "users";
+        $req .= " WHERE login='" . addslashes($login) . "'";
+
+        $this->db->exec_query($req);
+        return;
     }
 
     function useInvitation($code) {

@@ -29,7 +29,7 @@ $userTeam = ($user) ? $engine->getUserTeam($user['userTeamID']) : false;
                 </li>
             <? }
                 
-               if($userTeam && ($user['userID'] == $userTeam['ownerID'])) {
+               if($userTeam) {
             ?>
                 <li>
                     <h2><a href="/?op=invite_friends">Inviter des amis</a></h2>

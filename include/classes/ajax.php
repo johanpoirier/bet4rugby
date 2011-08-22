@@ -4,7 +4,7 @@ define('WEB_PATH', "/");
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . "/");
 define('URL_PATH', "/");
 
-require('../../../include/classes/Engine.php');
+require('Engine.php');
 $engine = new Engine(false, false);
 
 $op = $_REQUEST['op'];
@@ -55,6 +55,14 @@ switch ($op) {
 
     case "getTags":
         echo $engine->loadTags($_POST['userTeamID'], $_POST['start']);
+        break;
+
+    case "getUser":
+        $userID = $_REQUEST['id'];
+        $user = $engine->getUser($userID);
+        if (isset($user)) {
+            echo $user['name'] . "|" . $user['login'] . "|" . $user['email'] . "|" . $user['status'] . "|" . $user['userTeamID'];
+        }
         break;
 
     default:

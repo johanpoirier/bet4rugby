@@ -108,7 +108,7 @@ function saveTag(userTeamID) {
 
     $.ajax({
         type: "POST",
-        url: "/pages/admin/requests/manager.php",
+        url: "/include/classes/ajax.php",
         data: "op=saveTag&userTeamID=" + userTeamID + "&tag=" + tag,
         success: function(data) {
             $("#tags").html(data);
@@ -124,7 +124,7 @@ function delTag(tagID, userTeamID) {
         if(!userTeamID) userTeamID = -1;
         $.ajax({
             type: "POST",
-            url: "/pages/admin/requests/manager.php",
+            url: "/include/classes/ajax.php",
             data: "op=delTag&tagID=" + tagID + "&userTeamID=" + userTeamID,
             success: function(data) {
                 $("#tags").html(data);
@@ -138,7 +138,7 @@ function loadTags(userTeamID, startTag) {
     if(!userTeamID) userTeamID = -1;
     $.ajax({
         type: "POST",
-        url: "/pages/admin/requests/manager.php",
+        url: "/include/classes/ajax.php",
         data: "op=getTags&start=" + startTag + "&userTeamID=" + userTeamID,
         success: function(data) {
             $('#tags').html(data);
@@ -153,4 +153,34 @@ function displayAutoJoin(userTeamName, code) {
     if(confirm("Souhaitez-vous rejoindre le groupe '" + userTeamName + "' ?")) {
         $("form#join_group_form").submit();
     }
+}
+
+function getUser(idUser) {
+    $.ajax({
+        type: "GET",
+        url: "/include/classes/ajax.php",
+        data: "op=getUser&id=" + idUser,
+        success: fillUser
+    });
+}
+
+var fillUser = function(response) {
+    userDatas = response.split("|");
+    $('#name').val(userDatas[0]);
+    $('#login').val(userDatas[1]);
+    $('#mail').val(userDatas[2]);
+    $('#admin').attr('checked', (userDatas[3] == 1));
+    selectListValue('sltUserTeam', userDatas[4]);
+}
+
+function selectListValue(id_liste, value) {
+    $("#"+id_liste+" option[value='"+value+"']").attr('selected', 'selected');
+}
+
+function selectRadioValue(name, value) {
+    $("input[name=" + name + "]").each(function() {
+        if($(this).val() == value) {
+            $(this).attr("checked", "checked");
+        }
+    });
 }

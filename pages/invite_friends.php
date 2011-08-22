@@ -9,12 +9,12 @@ $users = $engine->getAllUsers();
 <div class="maincontent">
     <div class="ppp">
         <center><span style="color:red;"><b><? echo $message; ?></b></span></center>
-        <h2>Inviter des inscrits à rejoindre vos groupes</h2>
+        <h2>Inviter des inscrits à rejoindre votre groupe</h2>
         <form method="post" name="IN" action="/?op=invite_friends">
             <br>
             <input type="hidden" name="type" id="type" value="IN" />
             <input type="hidden" name="userTeamID" id="userTeamID" value="<? echo $current_user['userTeamID']; ?>" />
-            <div class="formfield"><b>Choisisser un ou plusieurs inscrits à rejoindre vos groupes</b></div><br />
+            <div class="formfield"><b>Choisisser un ou plusieurs inscrits à rejoindre votre groupe '<? echo $userTeam['name']; ?>'</b></div><br />
             <? for($i=0; $i<5; $i++) { ?>
             Inviter
             <select name="userID_<? echo $i; ?>" id="userID_<? echo $i; ?>">
