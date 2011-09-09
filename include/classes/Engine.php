@@ -842,25 +842,31 @@ class Engine {
         $odds['NUL'] = 0;
 
         foreach ($pronos as $prono) {
-            if ($prono['scoreA'] > $prono['scoreB'])
+            if ($prono['scoreA'] > $prono['scoreB']) {
                 $odds['A_WINS']++;
-            if ($prono['scoreB'] > $prono['scoreA'])
+        }
+            if ($prono['scoreB'] > $prono['scoreA']) {
                 $odds['B_WINS']++;
-            if ($prono['scoreA'] == $prono['scoreB'])
+        }
+            if ($prono['scoreA'] == $prono['scoreB']) {
                 $odds['NUL']++;
+        }
             $odds['A_AVG'] += $prono['scoreA'];
             $odds['B_AVG'] += $prono['scoreB'];
         }
-        if ($nb_bets > 0)
-            $odds['A_AVG'] = round($odds['A_AVG'] / $nb_bets, 2);
-        if ($nb_bets > 0)
-            $odds['B_AVG'] = round($odds['B_AVG'] / $nb_bets, 2);
-        $odds['A_WINS'] = round(($nb_bets + 1) / ($odds['A_WINS'] + 1), 2);
-        $odds['B_WINS'] = round(($nb_bets + 1) / ($odds['B_WINS'] + 1), 2);
-        $odds['NUL'] = round(($nb_bets + 1) / ($odds['NUL'] + 1), 2);
+        if ($nb_bets > 0) {
+            $odds['A_AVG'] = round($odds['A_AVG'] / $nb_bets, 1);
+        }
+        if ($nb_bets > 0) {
+            $odds['B_AVG'] = round($odds['B_AVG'] / $nb_bets, 1);
+        }
+        $odds['A_WINS'] = round(($nb_bets + 1) / ($odds['A_WINS'] + 1), 1);
+        $odds['B_WINS'] = round(($nb_bets + 1) / ($odds['B_WINS'] + 1), 1);
+        $odds['NUL'] = round(($nb_bets + 1) / ($odds['NUL'] + 1), 1);
 
-        if ($this->debug)
+        if ($this->debug) {
             array_show($odds);
+        }
 
         return $odds;
     }
