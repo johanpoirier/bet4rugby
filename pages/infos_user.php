@@ -11,6 +11,7 @@ if (isset($_SESSION["userID"])) {
             echo $match['teamAname'] . " - " . $match['teamBname'] . " (dans " . $delay_str . ")<br />";
         }
         ?>
+		<div style="margin: 7px 0 0 30px;"><? include_once("pages/paypal.php"); ?></div>
     </div>
     <?
     $pronos = $engine->getNextPronosByUser($_SESSION['userID']);

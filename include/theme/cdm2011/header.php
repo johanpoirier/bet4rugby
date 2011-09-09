@@ -1,7 +1,7 @@
-			<div id="head1">
-				<div id="logo">
-					<a href="index.php"><img src="include/theme/cdm2011/images/logo.png" alt="CdM" border="0" /></a>
-				</div>
-<? include_once("pages/infos_user.php"); ?>
-      </div>
-			<br />
+<div id="head1">
+    <div id="logo">
+        <a href="index.php"><img src="include/theme/cdm2011/images/logo.png" alt="CdM" border="0" /></a>
+    </div>
+    <? include_once("pages/infos_user.php"); ?>
+</div>
+<br />
