@@ -666,10 +666,12 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools AS p ON(t1.poolID = p.poolID)";
         $req .= " WHERE m.phaseID=" . $phaseID;
-        if ($poolID)
+        if ($poolID) {
             $req .= " AND t1.poolID = " . $poolID . " AND t2.poolID = " . $poolID;
-        if ($mode == 1)
+        }
+        if ($mode == 1) {
             $req .= " AND m.date < NOW()";
+        }
         $req .= " ORDER BY m.date, teamPool";
 
         // Phase
@@ -1428,23 +1430,30 @@ class Engine {
         $last_user = $users[0];
 
         foreach ($users as $user) {
-            if ($user['nbpronos'] == 0)
+            if ($user['nbpronos'] == 0) {
                 continue;
-            if (compare_users($user, $last_user) != 0)
+            }
+            if (compare_users($user, $last_user) != 0) {
                 $i = $j + 1;
+            }
 
             $evol = $user['last_rank'] - $i;
 
-            if ($evol == 0)
+            if ($evol == 0) {
                 $img = "egal.png";
-            elseif ($evol > 5)
+            }
+            elseif ($evol > 5) {
                 $img = "arrow_up2.png";
-            elseif ($evol > 0)
+            }
+            elseif ($evol > 0) {
                 $img = "arrow_up1.png";
-            elseif ($evol < -5)
+            }
+            elseif ($evol < -5) {
                 $img = "arrow_down2.png";
-            elseif ($evol < 0)
+            }
+            elseif ($evol < 0) {
                 $img = "arrow_down1.png";
+            }
 
             if ($evol > 0)
                 $evol = "+" . $evol;
@@ -1455,7 +1464,7 @@ class Engine {
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
                 'ID' => $user['userID'],
                 'NAME' => $user['name'],
-                'VIEW_BETS' => "<a href=\"/?op=edit_pf&user=" . $user['userID'] . "\">",
+                'VIEW_BETS' => "<a href=\"/?op=view_pronos&user=" . $user['userID'] . "\">",
                 'POINTS' => $user['points'],
                 'NBRESULTS' => $user['nbresults'],
                 'NBSCORES' => $user['nbscores'],

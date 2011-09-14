@@ -163,6 +163,10 @@ if (FORGOT_IDS) {
             $pageToInclude = "pages/edit_pronos.php";
             break;
 
+        case "view_pronos":
+            $pageToInclude = "pages/view_pronos.php";
+            break;
+
         case "edit_pf":
             $phase = $engine->getPhase(PHASE_ID_ACTIVE);
             if ($phase['phasePrecedente'] == NULL) {
