@@ -1,6 +1,8 @@
 <?
-define('HIDE_STATUS', 2);
 define('SHOW_STATUS', 0);
+define('GOOD_RESULT', 1);
+define('HIDE_STATUS', 2);
+define('EXACT_SCORE', 3);
 
 /* CODE ERROR */
 define('FORGOT_IDS_OK',-1);

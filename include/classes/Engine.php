@@ -846,13 +846,13 @@ class Engine {
         foreach ($pronos as $prono) {
             if ($prono['scoreA'] > $prono['scoreB']) {
                 $odds['A_WINS']++;
-        }
+            }
             if ($prono['scoreB'] > $prono['scoreA']) {
                 $odds['B_WINS']++;
-        }
+            }
             if ($prono['scoreA'] == $prono['scoreB']) {
                 $odds['NUL']++;
-        }
+            }
             $odds['A_AVG'] += $prono['scoreA'];
             $odds['B_AVG'] += $prono['scoreB'];
         }
@@ -918,6 +918,80 @@ class Engine {
             array_show($pronos);
 
         return $pronos;
+    }
+
+    function getBestPronosByMatch($matchID, $scoreA, $scoreB, $points) {
+        prepare_numeric_data(array(&$matchID, &$points));
+        
+        // gaps
+        $gapA1 = 0;
+        $gapA2 = 0;
+        if($scoreA <= $this->config['limite1']) {
+            $gapA1 = $this->config['ecart1a'];
+            $gapA2 = $this->config['ecart1b'];
+        } elseif($scoreA <= $this->config['limite2']) {
+            $gapA1 = $this->config['ecart2a'];
+            $gapA2 = $this->config['ecart2b'];
+        } elseif($scoreA <= $this->config['limite3']) {
+            $gapA1 = $this->config['ecart3a'];
+            $gapA2 = $this->config['ecart3b'];
+        }
+        
+        $gapB1 = 0;
+        $gapB2 = 0;
+        if($scoreB <= $this->config['limite1']) {
+            $gapB1 = $this->config['ecart1a'];
+            $gapB2 = $this->config['ecart1b'];
+        } elseif($scoreB <= $this->config['limite2']) {
+            $gapB1 = $this->config['ecart2a'];
+            $gapB2 = $this->config['ecart2b'];
+        } elseif($scoreB <= $this->config['limite3']) {
+            $gapB1 = $this->config['ecart3a'];
+            $gapB2 = $this->config['ecart3b'];
+        }
+        
+        $gapScore1 = 0;
+        $gapScore2 = 0;
+        $ecart = abs($scoreA - $scoreB);
+        if($ecart <= $this->config['limite1']) {
+            $gapScore1 = $this->config['ecart1a'];
+            $gapScore2 = $this->config['ecart1b'];
+        } elseif($ecart <= $this->config['limite2']) {
+            $gapScore1 = $this->config['ecart2a'];
+            $gapScore2 = $this->config['ecart2b'];
+        } elseif($ecart <= $this->config['limite3']) {
+            $gapScore1 = $this->config['ecart3a'];
+            $gapScore2 = $this->config['ecart3b'];
+        }
+        
+        // Main Query
+        $req = 'SELECT DISTINCT u.userID, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, m.teamA as teamBetA, m.teamB as teamBetB, b.scoreA as scoreBetA, b.scoreB as scoreBetB, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, "tA".poolID as "teamPool",';
+        $req .= 'DATE_FORMAT(date, \'le %d/%m à %Hh%i\') as date_str';
+        $req .= ', u.name as username';
+        $req .= ' FROM ' . $this->config['db_prefix'] . 'matchs m ';
+        if ($points == EXACT_SCORE) {
+            $req .= ' RIGHT JOIN ' . $this->config['db_prefix'] . 'pronos b ON (m.matchID = b.matchID AND (b.scoreA IS NOT NULL OR b.scoreB IS NOT NULL) AND (((m.scoreA > m.scoreB) AND (b.scoreA > b.scoreB)) OR ((m.scoreA < m.scoreB) AND (b.scoreA < b.scoreB)))';
+            $req .= ' AND (ABS(m.scoreA - b.scoreA) < ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore2 . '))';
+            $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'users u ON (u.userID = b.userID)';
+        } elseif ($points == GOOD_RESULT) {
+            $req .= ' RIGHT JOIN ' . $this->config['db_prefix'] . 'pronos b ON (m.matchID = b.matchID AND (b.scoreA IS NOT NULL OR b.scoreB IS NOT NULL) AND (((m.scoreA > m.scoreB) AND (b.scoreA > b.scoreB)) OR ((m.scoreA < m.scoreB) AND (b.scoreA < b.scoreB))) )';
+            $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'users u ON (u.userID = b.userID)';
+        }
+        $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tA ON (m.teamA = tA.teamID)';
+        $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tB ON (m.teamB = tB.teamID)';
+        $req .= ' WHERE m.matchID = ' . $matchID . '';
+        $req .= ' AND (((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore2 . '))';
+        $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
+        $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . ')))';
+        $req .= ' ORDER BY username';
+
+        $bets = $this->db->select_array($req, $nb_bets);
+
+        if ($this->debug) {
+            array_show($bets);
+        }
+
+        return $bets;
     }
 
     function getUsersRank() {
@@ -1441,17 +1515,13 @@ class Engine {
 
             if ($evol == 0) {
                 $img = "egal.png";
-            }
-            elseif ($evol > 5) {
+            } elseif ($evol > 5) {
                 $img = "arrow_up2.png";
-            }
-            elseif ($evol > 0) {
+            } elseif ($evol > 0) {
                 $img = "arrow_up1.png";
-            }
-            elseif ($evol < -5) {
+            } elseif ($evol < -5) {
                 $img = "arrow_down2.png";
-            }
-            elseif ($evol < 0) {
+            } elseif ($evol < 0) {
                 $img = "arrow_down1.png";
             }
 
@@ -1712,17 +1782,17 @@ class Engine {
         $resMatch = 'x';
         $resProno = 'y';
 
-        $limite1 = 20;
-        $ecart1a = 1;
-        $ecart1b = 4;
-        $limite2 = 40;
-        $ecart2a = 3;
-        $ecart2b = 8;
-        $limite3 = 60;
-        $ecart3a = 5;
-        $ecart3b = 12;
-        $ecart4a = 7;
-        $ecart4b = 20;
+        $limite1 = $this->config['limite1'];
+        $ecart1a = $this->config['ecart1a'];
+        $ecart1b = $this->config['ecart1b'];
+        $limite2 = $this->config['limite2'];
+        $ecart2a = $this->config['ecart2a'];
+        $ecart2b = $this->config['ecart2b'];
+        $limite3 = $this->config['limite3'];
+        $ecart3a = $this->config['ecart3a'];
+        $ecart3b = $this->config['ecart3b'];
+        $ecart4a = $this->config['ecart4a'];
+        $ecart4b = $this->config['ecart4b'];
 
         // Real winner
         if (($scoreMatchA != NULL) && ($scoreMatchB != NULL)) {
@@ -1777,13 +1847,13 @@ class Engine {
                 elseif (abs($scoreMatchA - $scorePronoA) <= $ecart1b)
                     $nbPoints += $phase['nbPointsScoreNiv2'];
             }
-            elseif ($scoreMatchA < $limite2) {
+            elseif ($scoreMatchA <= $limite2) {
                 if (abs($scoreMatchA - $scorePronoA) < $ecart2a)
                     $nbPoints += $phase['nbPointsScoreNiv1'];
                 elseif (abs($scoreMatchA - $scorePronoA) <= $ecart2b)
                     $nbPoints += $phase['nbPointsScoreNiv2'];
             }
-            elseif ($scoreMatchA < $limite3) {
+            elseif ($scoreMatchA <= $limite3) {
                 if (abs($scoreMatchA - $scorePronoA) < $ecart3a)
                     $nbPoints += $phase['nbPointsScoreNiv1'];
                 elseif (abs($scoreMatchA - $scorePronoA) <= $ecart3b)
@@ -1803,13 +1873,13 @@ class Engine {
                 elseif (abs($scoreMatchB - $scorePronoB) <= $ecart1b)
                     $nbPoints += $phase['nbPointsScoreNiv2'];
             }
-            elseif ($scoreMatchB < $limite2) {
+            elseif ($scoreMatchB <= $limite2) {
                 if (abs($scoreMatchB - $scorePronoB) < $ecart2a)
                     $nbPoints += $phase['nbPointsScoreNiv1'];
                 elseif (abs($scoreMatchB - $scorePronoB) <= $ecart2b)
                     $nbPoints += $phase['nbPointsScoreNiv2'];
             }
-            elseif ($scoreMatchB < $limite3) {
+            elseif ($scoreMatchB <= $limite3) {
                 if (abs($scoreMatchB - $scorePronoB) < $ecart3a)
                     $nbPoints += $phase['nbPointsScoreNiv1'];
                 elseif (abs($scoreMatchB - $scorePronoB) <= $ecart3b)
