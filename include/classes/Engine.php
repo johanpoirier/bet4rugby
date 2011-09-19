@@ -935,6 +935,9 @@ class Engine {
         } elseif($scoreA <= $this->config['limite3']) {
             $gapA1 = $this->config['ecart3a'];
             $gapA2 = $this->config['ecart3b'];
+        } else {
+            $gapA1 = $this->config['ecart4a'];
+            $gapA2 = $this->config['ecart4b'];
         }
         
         $gapB1 = 0;
@@ -948,6 +951,9 @@ class Engine {
         } elseif($scoreB <= $this->config['limite3']) {
             $gapB1 = $this->config['ecart3a'];
             $gapB2 = $this->config['ecart3b'];
+        } else {
+            $gapB1 = $this->config['ecart4a'];
+            $gapB2 = $this->config['ecart4b'];
         }
         
         $gapScore1 = 0;
@@ -962,6 +968,9 @@ class Engine {
         } elseif($ecart <= $this->config['limite3']) {
             $gapScore1 = $this->config['ecart3a'];
             $gapScore2 = $this->config['ecart3b'];
+        } else {
+            $gapScore1 = $this->config['ecart4a'];
+            $gapScore2 = $this->config['ecart4b'];
         }
         
         // Main Query
@@ -970,20 +979,19 @@ class Engine {
         $req .= ', u.name as username';
         $req .= ' FROM ' . $this->config['db_prefix'] . 'matchs m ';
         if ($points == EXACT_SCORE) {
-            $req .= ' RIGHT JOIN ' . $this->config['db_prefix'] . 'pronos b ON (m.matchID = b.matchID AND (b.scoreA IS NOT NULL OR b.scoreB IS NOT NULL) AND (((m.scoreA > m.scoreB) AND (b.scoreA > b.scoreB)) OR ((m.scoreA < m.scoreB) AND (b.scoreA < b.scoreB)))';
-            $req .= ' AND (ABS(m.scoreA - b.scoreA) < ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore2 . '))';
-            $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'users u ON (u.userID = b.userID)';
-        } elseif ($points == GOOD_RESULT) {
-            $req .= ' RIGHT JOIN ' . $this->config['db_prefix'] . 'pronos b ON (m.matchID = b.matchID AND (b.scoreA IS NOT NULL OR b.scoreB IS NOT NULL) AND (((m.scoreA > m.scoreB) AND (b.scoreA > b.scoreB)) OR ((m.scoreA < m.scoreB) AND (b.scoreA < b.scoreB))) )';
+            $req .= ' RIGHT JOIN ' . $this->config['db_prefix'] . 'pronos b ON (m.matchID = b.matchID AND (b.scoreA IS NOT NULL OR b.scoreB IS NOT NULL) AND (((m.scoreA > m.scoreB) AND (b.scoreA > b.scoreB)) OR ((m.scoreA < m.scoreB) AND (b.scoreA < b.scoreB))))';
             $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'users u ON (u.userID = b.userID)';
         }
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tA ON (m.teamA = tA.teamID)';
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tB ON (m.teamB = tB.teamID)';
         $req .= ' WHERE m.matchID = ' . $matchID . '';
         if ($points == EXACT_SCORE) {
-            $req .= ' AND (((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore2 . '))';
-            $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
-            $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore2 . ')))';
+            $req .= ' AND (((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) <= ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) <= ' . $gapScore2 . '))';
+            $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) <= ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
+            $req .= ' OR ((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB1 . '))';
+            $req .= ' OR ((ABS(m.scoreB - b.scoreB) < ' . $gapB1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
+            $req .= ' OR ((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
+            $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) < ' . $gapB1 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) <= ' . $gapScore2 . ')))';
         }
         $req .= ' ORDER BY username';
 
