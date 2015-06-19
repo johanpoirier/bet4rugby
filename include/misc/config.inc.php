@@ -3,21 +3,21 @@ unset($config);
 $config = array();
 
 /* MAIN INFORMATIONS */
-$config['title'] = "Coupe du Monde de Rugby 2011";
+$config['title'] = "Coupe du Monde de Rugby 2015";
 $config['author'] = "JoPs";
-$config['email'] = "johan.poirier@gmail.com";
+$config['email'] = "johan.poirier+cdm2015@gmail.com";
 $config['lang'] = "fr";
-$config['url'] = "http://cdm2011.nirgal.org";
+$config['url'] = "http://cdm2015.jops-dev.com";
 $config['template'] = "cdm2011";
-$config['db_prefix'] = "cdm2011__";
+$config['db_prefix'] = "cdm2015__";
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
-$config['support_team'] = "CdM2011";
+$config['support_team'] = "CdM2015";
 
 $config['invitation_expiration'] = 30; /* in days */
 
 //                     hh,m,s,M,J,AAAA
-$config['steps'][0] = "20,30,0,9,9,2011";
+$config['steps'][0] = "21,00,0,9,18,2015";
 
 // rugby bet score data
 $config['limite1'] = 20;

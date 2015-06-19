@@ -1230,7 +1230,7 @@ class Engine {
     /*     * *************** */
 
     function addMatch($phase, $pool, $day, $month, $hour, $minutes, $teamA, $teamB) {
-        $date = "2011-" . $month . "-" . $day . " " . $hour . ":" . $minutes . ":00";
+        $date = "2015-" . $month . "-" . $day . " " . $hour . ":" . $minutes . ":00";
         if ($matchID = $this->isMatchExists($teamA, $teamB, $phase))
             return $this->db->exec_query("UPDATE " . $this->config['db_prefix'] . "matchs SET date = '" . addslashes($date) . "' WHERE matchID = " . $matchID . "");
         else
@@ -1965,7 +1965,6 @@ class Engine {
             $phaseIDactive = $phaseIDjoue;
         }
         return $phaseIDactive;
-        ;
     }
 
     function sendIDs($email) {
@@ -2193,7 +2192,7 @@ class Engine {
                 $subject = $current_user['name'] . " vous invite à venir pronostiquer avec lui sur les matchs de la coupe du monde de rugby !";
                 $content = "Bonjour,\n\n";
                 $content .= $current_user['name'] . " a pensé que vous seriez intéressé pour venir pronostiquer avec lui sur les matchs de la coupe du monde de rugby.\n";
-                $content .= "Pour cela, inscrivez-vous sur CdM2011 en cliquant sur le lien suivant :\n\n";
+                $content .= "Pour cela, inscrivez-vous sur " . $this->config['support_team'] . " en cliquant sur le lien suivant :\n\n";
                 if (isset($code)) {
                     $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?c=" . $code . "\n\n";
                 } else {
