@@ -3,7 +3,7 @@
         <h1>Mon Compte</h1>
     </div>
 </div>
-<?
+<?php
 if (isset($_SESSION["userID"])) {
     $user = $engine->getUser($_SESSION["userID"]);
 }
@@ -12,16 +12,16 @@ if (isset($_SESSION["userID"])) {
     <div class="maincontent">
         <p>
         <br />
-        <u>Login</u> : <? echo $user['login']; ?>
+        <u>Login</u> : <?php echo $user['login']; ?>
         <br />
         <br />
-        <u>Nom</u> : <input type="text" name="name" value="<? echo $user['name']; ?>" size="30" />
+        <u>Nom</u> : <input type="text" name="name" value="<?php echo $user['name']; ?>" size="40" placeholder="Nom" required />
         <br />
         <br />
-        <u>Equipe</u> : <? echo $user['team']; ?>
+        <u>Equipe</u> : <?php echo $user['team']; ?>
         <br />
         <br />
-        <u>E-Mail</u> : <input type="text" name="email" value="<? echo $user['email']; ?>" size="40" />
+        <u>Courriel</u> : <input type="email" name="email" value="<?php echo $user['email']; ?>" placeholder="Adresse de courriel" size="40" required />
         <br />
         <br />
         <u>Nouveau mot de passe</u> : 
@@ -31,10 +31,10 @@ if (isset($_SESSION["userID"])) {
         </p>
         <br />
         <p align="center">
-            <font color="#ff0000"><? echo $message; ?></font>
+            <font color="#ff0000"><?php echo $message; ?></font>
             <br />
             <br />
-            <input type="image" src="/include/theme/<? echo $config['template']; ?>/images/submit.gif" name="submit" alt="Valider" />
+            <input type="image" src="/include/theme/<?php echo $config['template']; ?>/images/submit.gif" name="submit" alt="Valider" />
         </p>
     </div>
 </form>

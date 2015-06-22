@@ -1,4 +1,4 @@
-<?
+<?php
 
 function redirect($url) {
     if (substr($url, 0, 1) == "/")
@@ -366,5 +366,3 @@ function utf8_mail($email, $subject, $content, $from_label=false, $from_adress=f
         return(mail($email, $subject, $content, $headers));
     }
 }
-
-?>

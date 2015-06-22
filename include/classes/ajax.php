@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 define('WEB_PATH', "/");
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . "/");
@@ -14,12 +14,12 @@ switch ($op) {
         $side = $_REQUEST['side'];
         $teams = $engine->getTeamsByPool($poolID);
         ?>
-        <select name="team<? echo $side; ?>" id="team<? echo $side; ?>">
-            <? foreach ($teams as $team) { ?>
-                <option value="<? echo $team['teamID']; ?>"><? echo $team['name']; ?></option>
-            <? } ?>
+        <select name="team<?php echo $side; ?>" id="team<?php echo $side; ?>">
+            <?php foreach ($teams as $team) { ?>
+                <option value="<?php echo $team['teamID']; ?>"><?php echo $team['name']; ?></option>
+            <?php } ?>
         </select>
-        <?
+        <?php
         break;
 
     case "getTeamsByPhase":
@@ -27,12 +27,12 @@ switch ($op) {
         $side = $_REQUEST['side'];
         $teams = $engine->getQualifiedTeamsByPhase($phase);
         ?>
-        <select name="team<? echo $side; ?>" id="team<? echo $side; ?>">
-            <? foreach ($teams as $team) { ?>
-                <option value="<? echo $team['teamID']; ?>"><? echo $team['name']; ?></option>
-            <? } ?>
+        <select name="team<?php echo $side; ?>" id="team<?php echo $side; ?>">
+            <?php foreach ($teams as $team) { ?>
+                <option value="<?php echo $team['teamID']; ?>"><?php echo $team['name']; ?></option>
+            <?php } ?>
         </select>
-        <?
+        <?php
         break;
 
     case "saveTag":
@@ -68,4 +68,3 @@ switch ($op) {
     default:
         break;
 }
-?>

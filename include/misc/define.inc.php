@@ -1,4 +1,4 @@
-<?
+<?php
 define('SHOW_STATUS', 0);
 define('GOOD_RESULT', 1);
 define('HIDE_STATUS', 2);
@@ -28,4 +28,3 @@ define('EMAIL_ALREADY_EXISTS',-22);
 define('USERNAME_ALREADY_EXISTS',-24);
 define('GROUP_UNKNOWN',-25);
 define('UNKNOWN_ERROR',-99);
-?>

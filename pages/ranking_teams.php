@@ -1,4 +1,4 @@
-<?
+<?php
 $teams = $engine->loadUserTeamRanking();
 ?><div class="maincontent">
     <div id="headline">
@@ -26,22 +26,22 @@ $teams = $engine->loadUserTeamRanking();
     </table>
 
     <!-- BEGIN users -->
-    <?
+    <?php
     foreach ($teams as $team) {
         ?>
         <div class="list_element">
             <table>
                 <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong><? echo $team['rank']; ?></strong> <? echo $team['lastRank']; ?></td>
-                    <td width="200" style="font-size:70%"><strong><? echo $team['name']; ?></a></strong></td>
-                    <td width="100" style="font-size:70%;text-align:center;"><? echo $team['nbUsersActifs'] . "/" . $team['nbUsersTotal']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><strong><? echo $team['avgPoints']; ?></strong></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><? echo $team['maxPoints']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><? echo $team['totalPoints']; ?></td>
+                    <td width="45" style="font-size:80%;text-align:center;"><strong><?php echo $team['rank']; ?></strong> <?php echo $team['lastRank']; ?></td>
+                    <td width="200" style="font-size:70%"><strong><?php echo $team['name']; ?></a></strong></td>
+                    <td width="100" style="font-size:70%;text-align:center;"><?php echo $team['nbUsersActifs'] . "/" . $team['nbUsersTotal']; ?></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><strong><?php echo $team['avgPoints']; ?></strong></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $team['maxPoints']; ?></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $team['totalPoints']; ?></td>
                 </tr>
             </table>
         </div>
-    <? } ?>
+    <?php } ?>
     <!-- END users -->
 </div>
 

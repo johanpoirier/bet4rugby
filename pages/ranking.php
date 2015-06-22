@@ -1,4 +1,4 @@
-<?
+<?php
 $users = $engine->loadRanking();
 $nbJoueursTotal = $engine->getNbPlayers();
 $nbJoueursActifs = $engine->getNbActivePlayers();
@@ -7,7 +7,7 @@ $nbJoueursActifs = $engine->getNbActivePlayers();
     <div id="headline">
         <table width="100%">
             <tr>
-                <td width="55%"><h1>Classement</h1>(<? echo $nbJoueursActifs; ?> parieurs actifs sur <? echo $nbJoueursTotal; ?>)</td>
+                <td width="55%"><h1>Classement</h1>(<?php echo $nbJoueursActifs; ?> parieurs actifs sur <?php echo $nbJoueursTotal; ?>)</td>
                 <td align="center" width="15%"><a href="/?op=view_ranking"><strong>Général</strong></a></td>
                 <td align="center" width="20%"><a href="/?op=view_ranking_teams">Par équipes</a></td>
                 <td align="center" width="10%"><a href="/?op=view_ranking_users_in_team">Interne</a></td>
@@ -30,23 +30,23 @@ $nbJoueursActifs = $engine->getNbActivePlayers();
     </table>
 
     <!-- BEGIN users -->
-    <?
+    <?php
     foreach ($users as $user) {
         ?>
         <div class="list_element">
             <table>
                 <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong><? echo $user['RANK']; ?></strong> <? echo $user['LAST_RANK']; ?></td>
-                    <td width="165" style="font-size:70%"><strong><? echo $user['VIEW_BETS']; ?><? echo $user['NAME']; ?><? echo "</a>"; ?></strong> <? echo $user['NB_BETS']; ?></td>
-                    <td width="80" style="font-size:70%;text-align:center;"><? echo $user['TEAM']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><strong><? echo $user['POINTS']; ?></strong></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><? echo $user['NBRESULTS']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><? echo $user['NBSCORES']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><? echo $user['DIFF']; ?></td>
+                    <td width="45" style="font-size:80%;text-align:center;"><strong><?php echo $user['RANK']; ?></strong> <?php echo $user['LAST_RANK']; ?></td>
+                    <td width="165" style="font-size:70%"><strong><?php echo $user['VIEW_BETS']; ?><?php echo $user['NAME']; ?><?php echo "</a>"; ?></strong> <?php echo $user['NB_BETS']; ?></td>
+                    <td width="80" style="font-size:70%;text-align:center;"><?php echo $user['TEAM']; ?></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><strong><?php echo $user['POINTS']; ?></strong></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $user['NBRESULTS']; ?></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $user['NBSCORES']; ?></td>
+                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $user['DIFF']; ?></td>
                 </tr>
             </table>
         </div>
-<? } ?>
+<?php } ?>
     <!-- END users -->
 </div>
 

@@ -1,4 +1,4 @@
-<?
+<?php
 unset($config);
 $config = array();
 
@@ -31,4 +31,3 @@ $config['ecart3a'] = 5;
 $config['ecart3b'] = 12;
 $config['ecart4a'] = 7;
 $config['ecart4b'] = 20;
-?>

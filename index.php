@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 
 header("Content-Type: text/html; charset=utf-8");
@@ -368,18 +368,18 @@ if (FORGOT_IDS) {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
     <head>
-        <title><? echo $engine->config['title']; ?></title>
+        <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <link type="text/css" rel="stylesheet" href="include/theme/<? echo $engine->config['template']; ?>/pc.css" />
-        <script type="text/javascript" src="/js/jquery.js"> </script>
+        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/pc.css" />
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/main.js"> </script>
     </head>
     <body>
         <div id="main">
-<? include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
-<? if (!$engine->admin) { ?>
+<?php include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
+<?php if (!$engine->admin) { ?>
                 <div id="nav_area">
-                    <img src="include/theme/<? echo $engine->config['template']; ?>/images/user_bar.png" usemap="#testbar5" border="0" alt="Menu" />
+                    <img src="include/theme/<?php echo $engine->config['template']; ?>/images/user_bar.png" usemap="#testbar5" border="0" alt="Menu" />
                     <map name="testbar5" id="testbar5">
                         <area shape="rect" coords="12,4,184,30" href="/?op=view_ranking" alt="Classement" />
                         <area shape="rect" coords="184,4,376,30" href="/?op=edit_pronos" alt="Mes pronostics" />
@@ -387,11 +387,11 @@ if (FORGOT_IDS) {
                         <area shape="rect" coords="500,4,742,30" href="/?op=view_results" alt="Résultats" />
                     </map>
                 </div>
-    <?
+    <?php
 } else {
     ?>
                 <div id="nav_area">
-                    <img src="include/theme/<? echo $engine->config['template']; ?>/images/admin_bar.png" usemap="#testbar5" border="0" alt="Menu" />
+                    <img src="include/theme/<?php echo $engine->config['template']; ?>/images/admin_bar.png" usemap="#testbar5" border="0" alt="Menu" />
                     <map name="testbar5" id="testbar5">
                         <area shape="rect" coords="12,4,115,30" href="/?op=view_ranking" alt="Classement" />
                         <area shape="rect" coords="117,4,220,17" href="/?op=edit_pronos" alt="Mes pronostics" />
@@ -403,12 +403,12 @@ if (FORGOT_IDS) {
                         <area shape="rect" coords="642,4,744,30" href="/?op=edit_teams" alt="" />
                     </map>
                 </div>
-<? } ?>
+<?php } ?>
             <div id="mainarea">
-<? if (strlen($pageToInclude) > 0)
+<?php if (strlen($pageToInclude) > 0)
     include_once($pageToInclude); ?>
             </div>
-            <?
+            <?php
             if (isset($_SESSION["userID"])) {
                 include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
             } else {

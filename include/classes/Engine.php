@@ -1,4 +1,4 @@
-<?
+<?php
 
 include(BASE_PATH . 'include/misc/config.inc.php');
 include(BASE_PATH . 'include/misc/define.inc.php');
@@ -2225,5 +2225,3 @@ class Engine {
     }
 
 }
-
-?>

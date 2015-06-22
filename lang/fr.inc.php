@@ -1,4 +1,4 @@
-<?
+<?php
 
 unset($lang);
 $lang = array();
@@ -51,4 +51,3 @@ $lang['messages'][SEND_INVITATIONS_OK] = "Vos invitations ont bien été envoyé
 $lang['messages'][SEND_INVITATIONS_ERROR] = "Une erreur est survenue lors de l'envoi des invitations.";
 $lang['messages'][USERNAME_ALREADY_EXISTS] = "Ce nom d'utilisateur existe déjà.";
 $lang['messages'][UNKNOWN_ERROR] = "Erreur inconnue, contactez l'administrateur.";
-?>

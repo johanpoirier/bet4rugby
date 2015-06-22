@@ -1,4 +1,4 @@
-<?
+<?php
 $userId = $_SESSION['userID'];
 if (isset($_REQUEST['user'])) {
     $userId = $_REQUEST['user'];
@@ -15,7 +15,7 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
     <div id="headline">
         <table width="100%">
             <tr>
-                <td width="55%"><h1>Classement : <? echo $currentUser['team']; ?></h1></td>
+                <td width="55%"><h1>Classement : <?php echo $currentUser['team']; ?></h1></td>
                 <td align="center" width="15%"><a href="/?op=view_ranking">Général</a></td>
                 <td align="center" width="20%"><a href="/?op=view_ranking_teams">Par équipes</a></td>
                 <td align="center" width="10%"><a href="/?op=view_ranking_users_in_team"><strong>Interne</strong></a></td>
@@ -37,24 +37,24 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
     </table>
 
     <!-- BEGIN users -->
-    <?
+    <?php
     foreach ($users as $user) {
         ?>
         <div class="list_element">
             <table>
                 <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong><? echo $user['RANK']; ?></strong> <? echo $user['LAST_RANK']; ?></td>
-                    <td width="200" style="font-size:70%"><strong><? if ($mode == 2)
-        echo $user['VIEW_BETS']; ?><? echo $user['NAME']; ?><? if ($mode == 2)
-        echo "</a>"; ?></strong> <? echo $user['NB_BETS']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><strong><? echo $user['POINTS']; ?></strong></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><? echo $user['NBRESULTS']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><? echo $user['NBSCORES']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><? echo $user['DIFF']; ?></td>
+                    <td width="45" style="font-size:80%;text-align:center;"><strong><?php echo $user['RANK']; ?></strong> <?php echo $user['LAST_RANK']; ?></td>
+                    <td width="200" style="font-size:70%"><strong><?php if ($mode == 2)
+        echo $user['VIEW_BETS']; ?><?php echo $user['NAME']; ?><?php if ($mode == 2)
+        echo "</a>"; ?></strong> <?php echo $user['NB_BETS']; ?></td>
+                    <td width="60" style="font-size:70%;text-align:center;"><strong><?php echo $user['POINTS']; ?></strong></td>
+                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['NBRESULTS']; ?></td>
+                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['NBSCORES']; ?></td>
+                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['DIFF']; ?></td>
                 </tr>
             </table>
         </div>
-    <? } ?>
+    <?php } ?>
     <!-- END users -->
 </div>
 
@@ -62,7 +62,7 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
     <div class="tag_cloud">
         <div class="rightcolumn_headline"><h1 style="color:black;">TeamBoard</h1></div>
         <div id="tag_0" styAle="text-align:center;"><br />
-            <form onsubmit="return saveTag(<? echo $currentUser['userTeamID']; ?>);">
+            <form onsubmit="return saveTag(<?php echo $currentUser['userTeamID']; ?>);">
                 <input type="text" id="tag" value="" size="20" /><br />
                 <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
             </form>
@@ -75,6 +75,6 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
 </div>
 <script type="text/javascript">
     <!--
-    loadTags(<? echo $currentUser['userTeamID']; ?>);
+    loadTags(<?php echo $currentUser['userTeamID']; ?>);
     //-->
 </script>

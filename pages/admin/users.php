@@ -1,4 +1,4 @@
-<?
+<?php
 $teams = $engine->getUserTeams();
 $teams[] = array('userTeamID' => 0, 'name' => 'Sans équipe');
 ?>
@@ -18,19 +18,19 @@ $teams[] = array('userTeamID' => 0, 'name' => 'Sans équipe');
                 <input type="hidden" id="realname" value="" /> 
                 <table>
                     <tr><td width="45%">Login :</td><td width="45%">Pass :</td></tr>
-                    <tr><td><input type="text" size="25" name="login" id="login" /></td><td><input type="text" size="25" name="pass" id="pass" /></td></tr>
-                    <tr><td>Nom :</td><td>Mail :</td></tr>
+                    <tr><td><input type="text" size="25" name="login" id="login" required /></td><td><input type="text" size="25" name="pass" id="pass" /></td></tr>
+                    <tr><td>Nom :</td><td>Courriel :</td></tr>
                     <tr>
-                        <td><input type="text" size="25" name="name" id="name" /></td>
-                        <td><input type="text" size="25" name="mail" id="mail" /></td>
+                        <td><input type="text" size="25" name="name" id="name" required /></td>
+                        <td><input type="email" size="25" name="mail" id="mail" required /></td>
                     </tr>
                     <tr><td>Equipe :</td><td>&nbsp;</td></tr>
                     <tr>
                         <td>
                             <select name="sltUserTeam" id="sltUserTeam">
-                                <? foreach ($teams as $team) { ?>
-                                    <option value="<? echo $team['userTeamID']; ?>"><? echo $team['name']; ?></option>
-                                <? } ?>
+                                <?php foreach ($teams as $team) { ?>
+                                    <option value="<?php echo $team['userTeamID']; ?>"><?php echo $team['name']; ?></option>
+                                <?php } ?>
                             </select>
                         </td>
                         <td>Admin <input type="checkbox" name="admin" id="admin" value="1"/></td>
@@ -45,21 +45,21 @@ $teams[] = array('userTeamID' => 0, 'name' => 'Sans équipe');
             </form>
         </div>
 
-        <? foreach ($teams as $team) { ?>
-            <div id="<? echo $team['userTeamID']; ?>">
-                <?
+        <?php foreach ($teams as $team) { ?>
+            <div id="<?php echo $team['userTeamID']; ?>">
+                <?php
                 $users = $engine->getUsersByUserTeam($team['userTeamID'], 'all');
                 ?>
                 <div class="tag_cloud" id="list_users">
-                    <h3><? echo $team['name']; ?></h3>
-                    <? foreach ($users as $user) { ?>
-                        <div id="user_<? echo $user['userID']; ?>" onclick="getUser(<? echo $user['userID']; ?>)">
-                            <? echo $user['name']; ?>
+                    <h3><?php echo $team['name']; ?></h3>
+                    <?php foreach ($users as $user) { ?>
+                        <div id="user_<?php echo $user['userID']; ?>" onclick="getUser(<?php echo $user['userID']; ?>)">
+                            <?php echo $user['name']; ?>
                         </div>
-                    <? } ?>
+                    <?php } ?>
                 </div>
             </div>
-        <? } ?>
+        <?php } ?>
 
         <div class="tag_cloud">
             <form name="add_csv_users" action="/?op=import_csv_file" method="post" enctype="multipart/form-data">

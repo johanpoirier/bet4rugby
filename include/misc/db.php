@@ -1,4 +1,4 @@
-<?
+<?php
 
 include(BASE_PATH . 'include/misc/protect/params.inc');
 
@@ -202,5 +202,3 @@ class DB {
     }
 
 }
-
-?>

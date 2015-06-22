@@ -1,4 +1,4 @@
-<?
+<?php
   $phases = $engine->getPhases();
 
 ?><div id="headline"><h1>Règlement</h1></div>
@@ -28,13 +28,13 @@
       				  <th>Nb de matchs</th>
       				  <th>Résultat juste</th>
       			  </tr>
-<? foreach($phases as $phase) { ?>
+<?php foreach($phases as $phase) { ?>
       		 	  <tr>
-      				  <td><? echo $phase['name']; ?></td>
-      				  <td><? echo $phase['nb_matchs']; ?></td>
-      				  <td><? echo $phase['nbPointsRes']; ?></td>
+      				  <td><?php echo $phase['name']; ?></td>
+      				  <td><?php echo $phase['nb_matchs']; ?></td>
+      				  <td><?php echo $phase['nbPointsRes']; ?></td>
       			  </tr>
-<? } ?>
+<?php } ?>
       		  </table>
           </li>
         </ul>
@@ -89,12 +89,12 @@
       				  <th>Phase</th>
       				  <th>Nb de points</th>
       			  </tr>
-<? foreach($phases as $phase) { ?>
+<?php foreach($phases as $phase) { ?>
       		 	  <tr>
-      				  <td><? echo $phase['name']; ?></td>
-      				  <td><? echo $phase['nbPointsScoreNiv1']; ?></td>
+      				  <td><?php echo $phase['name']; ?></td>
+      				  <td><?php echo $phase['nbPointsScoreNiv1']; ?></td>
       			  </tr>
-<? } ?>
+<?php } ?>
       			</table>
           </li>
           <li>Tableau des points bonus "proche" :
@@ -104,12 +104,12 @@
       				  <th>Phase</th>
       				  <th>Nb de points</th>
       			  </tr>
-<? foreach($phases as $phase) { ?>
+<?php foreach($phases as $phase) { ?>
       		 	  <tr>
-      				  <td><? echo $phase['name']; ?></td>
-      				  <td><? echo $phase['nbPointsScoreNiv2']; ?></td>
+      				  <td><?php echo $phase['name']; ?></td>
+      				  <td><?php echo $phase['nbPointsScoreNiv2']; ?></td>
       			  </tr>
-<? } ?>
+<?php } ?>
       			</table>
           </li>
         </ul>
@@ -127,16 +127,16 @@
   				  <th>Nb de matchs</th>
   				  <th>Total de pts</th>
   			  </tr>
-<? foreach($phases as $phase) { ?>
+<?php foreach($phases as $phase) { ?>
   		 	  <tr>
-  				  <td><? echo $phase['name']; ?></td>
-  				  <td><? echo $phase['nbPointsRes']; ?></td>
-  				  <td><? echo $phase['nbPointsScoreNiv1']; ?> x 3</td>
-  				  <td><? echo ($phase['nbPointsRes'] + $phase['nbPointsScoreNiv1']*3); ?></td>
-  				  <td><? echo $phase['nb_matchs']; ?></td>
-  				  <td><? echo ($phase['nb_matchs'] * ($phase['nbPointsRes'] + $phase['nbPointsScoreNiv1']*3)); ?></td>
+  				  <td><?php echo $phase['name']; ?></td>
+  				  <td><?php echo $phase['nbPointsRes']; ?></td>
+  				  <td><?php echo $phase['nbPointsScoreNiv1']; ?> x 3</td>
+  				  <td><?php echo ($phase['nbPointsRes'] + $phase['nbPointsScoreNiv1']*3); ?></td>
+  				  <td><?php echo $phase['nb_matchs']; ?></td>
+  				  <td><?php echo ($phase['nb_matchs'] * ($phase['nbPointsRes'] + $phase['nbPointsScoreNiv1']*3)); ?></td>
   			  </tr>
-<? } ?>
+<?php } ?>
       	</table>
         <br />
       </p>

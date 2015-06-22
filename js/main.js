@@ -89,16 +89,14 @@ function showBonus(idMatch) {
  *
  */
 function checkScore(id) {
-    ok = 0;
-    value = $F(id);
-  
-    var regExpressionObj = /^[0-9]{1,3}$/;
-    regRes = regExpressionObj.test(value);
-    ok = (regRes && (value != 1) && (value != 2) && (value != 4)) ? 1 : 0;
-
-    if(ok == 0) {
-        alert("Veuillez entrer un score valide !");
-        $(id).value = "";
+    var input = document.querySelector('#' + id);
+    if (input) {
+        var value = parseInt(input.value);
+        if ((value === 1) || (value === 2) || (value === 4)) {
+            alert("Veuillez entrer un score valide !");
+        }
+    } else {
+        console.debug("input #" + id + " not found");
     }
 }
 

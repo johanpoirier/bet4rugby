@@ -1,4 +1,4 @@
-<?
+<?php
 $pools = $engine->getPoolsByPhase();
 $phases = $engine->getPhases();
 $teams = $engine->getTeamsByPool(1);
@@ -65,31 +65,31 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
 <div class="maincontent">
     <div id="headline"><h1>Matchs</h1></div>
     <div class="tag_cloud">
-        <? foreach ($pools as $pool) { ?>
-            <span style="font-size: 150%">Groupe <? echo $pool['name']; ?></span>
-            <?
+        <?php foreach ($pools as $pool) { ?>
+            <span style="font-size: 150%">Groupe <?php echo $pool['name']; ?></span>
+            <?php
             $matchs = $engine->getMatchsByPool($pool['poolID']);
             foreach ($matchs as $match) {
                 ?>
-                <br /><? echo $match['dateStr']; ?> : <? echo $match['teamAname']; ?> - <? echo $match['teamBname']; ?>
-            <? } ?>
+                <br /><?php echo $match['dateStr']; ?> : <?php echo $match['teamAname']; ?> - <?php echo $match['teamBname']; ?>
+            <?php } ?>
             <br />
             <br />
-        <? } ?>
-        <?
+        <?php } ?>
+        <?php
         foreach ($phases as $phase) {
             if ($phase['phaseID'] > 1) {
                 ?>
-                <span style="font-size: 150%"><? echo $phase['name']; ?></span>
-                <?
+                <span style="font-size: 150%"><?php echo $phase['name']; ?></span>
+                <?php
                 $matchs = $engine->getMatchsByPhase($phase['phaseID']);
                 foreach ($matchs as $match) {
                     ?>
-                    <br /><? echo $match['dateStr']; ?> : <? echo $match['teamAname']; ?> - <? echo $match['teamBname']; ?>
-                <? } ?>
+                    <br /><?php echo $match['dateStr']; ?> : <?php echo $match['teamAname']; ?> - <?php echo $match['teamBname']; ?>
+                <?php } ?>
                 <br />
                 <br />
-                <?
+                <?php
             }
         }
         ?>
@@ -105,16 +105,16 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
                 <tr>
                     <td colspan="2">
                         <select name="day" id="day">
-                            <? for ($jour = 1; $jour <= 31; $jour++) { ?>
-                                <option value="<? echo $jour; ?>"><? echo $jour; ?></option>
-                            <? } ?>
+                            <?php for ($jour = 1; $jour <= 31; $jour++) { ?>
+                                <option value="<?php echo $jour; ?>"><?php echo $jour; ?></option>
+                            <?php } ?>
                         </select>
                         <select name="month" id="month">
-                            <? foreach ($mois as $moi) { ?>
-                                <option value="<? echo $moi[0]; ?>"><? echo $moi[1]; ?></option>
-                            <? } ?>
-                        </select> <? echo $dateCourante['year']; ?> <input type="text" size="2" name="hour" value="<? echo $dateCourante['hour']; ?>" id="hour" />h
-                        <input type="text" size="2" name="minutes" id="minutes" value="<? echo $dateCourante['minute']; ?>" />
+                            <?php foreach ($mois as $moi) { ?>
+                                <option value="<?php echo $moi[0]; ?>"><?php echo $moi[1]; ?></option>
+                            <?php } ?>
+                        </select> <?php echo $dateCourante['year']; ?> <input type="number" min="0" max="23" size="2" name="hour" value="<?php echo $dateCourante['hour']; ?>" id="hour" />h
+                        <input type="number" min="0" max="59" size="2" name="minutes" id="minutes" value="<?php echo $dateCourante['minute']; ?>" />
                     </td>
                 </tr>
                 <tr>
@@ -123,16 +123,16 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
                 <tr>
                     <td id="tdPools" style="visibility:visible;">
                         <select name="pool" id="pool" onchange="loadTeams('A'); loadTeams('B');">
-                            <? foreach ($pools as $pool) { ?>
-                                <option value="<? echo $pool['poolID']; ?>"><? echo $pool['name']; ?></option>
-                            <? } ?>
+                            <?php foreach ($pools as $pool) { ?>
+                                <option value="<?php echo $pool['poolID']; ?>"><?php echo $pool['name']; ?></option>
+                            <?php } ?>
                         </select>
                     </td>
                     <td>
                         <select name="phase" id="phase" onchange="changePhase(this.options[selectedIndex].value)">
-                            <? foreach ($phases as $phase) { ?>
-                                <option value="<? echo $phase['phaseID']; ?>"><? echo $phase['name']; ?></option>
-                            <? } ?>
+                            <?php foreach ($phases as $phase) { ?>
+                                <option value="<?php echo $phase['phaseID']; ?>"><?php echo $phase['name']; ?></option>
+                            <?php } ?>
                         </select>
                     </td>
                 </tr>
@@ -143,16 +143,16 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
                 <tr>
                     <td id="teamsDivA">
                         <select name="teamA" id="teamA">
-                            <? foreach ($teams as $team) { ?>
-                                <option value="<? echo $team['teamID']; ?>"><? echo $team['name']; ?></option>
-                            <? } ?>
+                            <?php foreach ($teams as $team) { ?>
+                                <option value="<?php echo $team['teamID']; ?>"><?php echo $team['name']; ?></option>
+                            <?php } ?>
                         </select>
                     </td>
                     <td id="teamsDivB">
                         <select name="teamB" id="teamB">
-                            <? foreach ($teams as $team) { ?>
-                                <option value="<? echo $team['teamID']; ?>"><? echo $team['name']; ?></option>
-                            <? } ?>
+                            <?php foreach ($teams as $team) { ?>
+                                <option value="<?php echo $team['teamID']; ?>"><?php echo $team['name']; ?></option>
+                            <?php } ?>
                         </select>
                     </td>
                 </tr>
