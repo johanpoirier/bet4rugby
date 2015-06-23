@@ -6,8 +6,12 @@ if (isset($_REQUEST['user'])) {
 $user = $engine->getUser($userId);
 $phase = $engine->getPhase(PHASE_ID_ACTIVE);
 ?>
-<div class="maincontent">  
-    <div class="headline"><h1>Pronostics de <?php echo $user['name']; ?></h1></div>
+<div class="maincontent">
+    <div class="headline">
+        <div class="headline-title">
+            <h1>Pronostics de <?php echo $user['name']; ?></h1>
+        </div>
+    </div>
 
     <!-- BEGIN pools -->    
     <div class="tag_cloud">
@@ -91,13 +95,11 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                 <!-- END bets -->
 <?php } ?>
         </table>
-        <br /><br /><br />
     </div>
 </form>
 </div>
 
-<br /><br /><br />
-<div id="rightcolumn">  
+<aside>
 <?php
 $pools = $engine->getPoolsByPhase();
 foreach ($pools as $pool) {
@@ -126,6 +128,5 @@ foreach ($pools as $pool) {
                 </table>
             </div>
         </div>
-        <br /><br />
 <?php } ?>
-</div>
+</aside>

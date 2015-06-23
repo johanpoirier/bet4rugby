@@ -272,7 +272,7 @@ footer {
     border-bottom: 2px solid #00A952;
     border-right: 2px solid #00A952;
     border-left: 2px solid #00A952;
-    margin: 0;
+    margin: 0 0 1rem 0;
     padding: 0.5rem;
     text-align: left;
 }
@@ -351,6 +351,12 @@ ul.rules > li {
     color: grey;
 }
 
+.game-result-date {
+    font-style: italic;
+    padding-top: 1rem;
+    white-space: nowrap;
+}
+
 
 /************* media queries ******************/
 @media (max-width: 700px) {
@@ -386,17 +392,20 @@ ul.rules > li {
     aside {
         border-left: none;
         border-right: none;
+        display: flex;
+        flex-flow: row wrap;
         margin: 1rem 0;
     }
 
-    aside .tag_cloud {
-        border-left: none;
-        border-right: none;
+    .tag_cloud {
+        border: none;
+        flex-grow: 1;
+        margin: 0.5rem;
     }
 }
 
 @media (max-width: 400px) {
-    table th:last-child, table td:last-child {
+    table.ranking th:last-child, table.ranking td:last-child {
         display: none;
     }
 

@@ -16,7 +16,7 @@ $nbJoueursActifs = $engine->getNbActivePlayers();
         </div>
     </div>
 
-    <table>
+    <table class="ranking">
         <tr>
             <th width="10%" style="font-size:80%;text-align:center;"><i>Rang</i></th>
             <th width="30%" style="font-size:80%"><i>Parieur</i></th>

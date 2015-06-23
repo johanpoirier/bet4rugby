@@ -1,13 +1,15 @@
-<div class="maincontent">
-    <div class="headline">
-        <h1>Mon compte</h1>
-    </div>
-</div>
 <?php
 $user = $engine->getCurrentUser();
 $userTeam = ($user) ? $engine->getUserTeam($user['userTeamID']) : false;
-?>
-<div class="maincontent">
+?><div class="maincontent">
+    <div class="maincontent">
+        <div class="headline">
+            <div class="headline-title">
+                <h1>Mon compte</h1>
+            </div>
+        </div>
+    </div>
+
     <div class="ppp">
         <center><span style="color: red;"><b><?php echo $message; ?></b></span></center>
         <ul>

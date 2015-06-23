@@ -371,9 +371,7 @@ if (FORGOT_IDS) {
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
-        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/pc.css" />
-        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
-        <script type="text/javascript" src="/js/main.js"> </script>
+        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/main.css" />
     </head>
     <body>
         <div id="main">
@@ -409,5 +407,7 @@ if (isset($_SESSION["userID"])) {
 }
 ?>
         </div>
+        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
+        <script type="text/javascript" src="/js/main.js"> </script>
     </body>
 </html>

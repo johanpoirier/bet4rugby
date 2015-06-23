@@ -13,17 +13,17 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
 
 ?><div class="maincontent">
     <div class="headline">
-        <table width="100%">
-            <tr>
-                <td width="55%"><h1>Classement : <?php echo $currentUser['team']; ?></h1></td>
-                <td align="center" width="15%"><a href="/?op=view_ranking">Général</a></td>
-                <td align="center" width="20%"><a href="/?op=view_ranking_teams">Par équipes</a></td>
-                <td align="center" width="10%"><a href="/?op=view_ranking_users_in_team"><strong>Interne</strong></a></td>
-            </tr>
-        </table>
+        <div class="headline-title">
+            <h1>Classement : <?php echo $currentUser['team']; ?></h1>
+        </div>
+        <div class="headline-menu">
+            <a href="/?op=view_ranking">Général</a>
+            <a href="/?op=view_ranking_teams">Par équipes</a>
+            <a href="/?op=view_ranking_users_in_team"><strong>Interne</strong></a>
+        </div>
     </div>
 
-    <table>
+    <table class="ranking>
         <tr>
             <th width="10%" style="font-size:80%;text-align:center;"><i>Rang</i></th>
             <th width="40%" style="font-size:80%"><i>Parieur</i></th>
