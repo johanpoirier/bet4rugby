@@ -142,8 +142,8 @@ if (FORGOT_IDS) {
             $pageToInclude = "pages/ranking.php";
             break;
 
-        case "edit_matchs":
-            $pageToInclude = "pages/admin/edit_matchs.php";
+        case "edit_games":
+            $pageToInclude = "pages/admin/edit_games.php";
             break;
 
         case "edit_results":
@@ -155,8 +155,8 @@ if (FORGOT_IDS) {
             break;
 
         case "add_match":
-            $engine->addMatch($_POST['phase'], $_POST['pool'], $_POST['day'], $_POST['month'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB']);
-            $pageToInclude = "pages/admin/edit_matchs.php";
+            $engine->addMatch($_POST['phase'], $_POST['pool'], $_POST['day'], $_POST['month'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB'], $_POST['idMatch']);
+            $pageToInclude = "pages/admin/edit_games.php";
             break;
 
         case "edit_pronos":
@@ -390,7 +390,7 @@ if (FORGOT_IDS) {
                 <ul class="nav-group admin">
                     <li class="nav-group-item"><a href="/?op=edit_users">Users</a></li>
                     <li class="nav-group-item"><a href="/?op=edit_results">Results</a></li>
-                    <li class="nav-group-item"><a href="/?op=edit_matchs">Games</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_games">Games</a></li>
                     <li class="nav-group-item"><a href="/?op=edit_teams">Teams</a></li>
                 </ul>
 <?php

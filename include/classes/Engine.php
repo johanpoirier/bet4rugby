@@ -149,7 +149,7 @@ class Engine {
         $i = 0;
         foreach ($dates as $dateBdd) {
             $date = explode_datetime($dateBdd['date']);
-            $months[$i] = array($date['month'], $lang['months'][$date['month'] - 1]);
+            $months[$i] = array(intval($date['month']), $lang['months'][$date['month'] - 1]);
             $i++;
         }
 
@@ -158,8 +158,9 @@ class Engine {
 
     function getMatch($matchID) {
         // Main Query
-        $req = "SELECT *";
+        $req = "SELECT m.*, t.poolID";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
+        $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams t ON (m.teamA = t.teamID)";
         $req .= " WHERE matchID = $matchID";
 
         $match = $this->db->select_line($req, $nb_teams);
@@ -1229,12 +1230,18 @@ class Engine {
     /*     SETTERS	  */
     /*     * *************** */
 
-    function addMatch($phase, $pool, $day, $month, $hour, $minutes, $teamA, $teamB) {
+    function addMatch($phase, $pool, $day, $month, $hour, $minutes, $teamA, $teamB, $matchID) {
         $date = "2015-" . $month . "-" . $day . " " . $hour . ":" . $minutes . ":00";
-        if ($matchID = $this->isMatchExists($teamA, $teamB, $phase))
+        if (isset($matchID)) {
+            $matchID = $this->isMatchExists($teamA, $teamB, $phase);
+        }
+
+        if ($matchID) {
             return $this->db->exec_query("UPDATE " . $this->config['db_prefix'] . "matchs SET date = '" . addslashes($date) . "' WHERE matchID = " . $matchID . "");
-        else
+        }
+        else {
             return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "matchs (date, teamA, teamB, phaseID) VALUES ('" . addslashes($date) . "','" . addslashes($teamA) . "','" . addslashes($teamB) . "', " . addslashes($phase) . ")");
+        }
     }
 
     function addUser($login, $pass, $name, $firstname, $email, $userTeamId, $isAdmin) {

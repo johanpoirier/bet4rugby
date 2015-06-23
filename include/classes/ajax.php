@@ -65,6 +65,14 @@ switch ($op) {
         }
         break;
 
+    case "getGame":
+        $matchID = $_REQUEST['id'];
+        $game = $engine->getMatch($matchID);
+        if(isset($game)) {
+            echo intval(substr($game['date'], 8, 2))."|".intval(substr($game['date'], 5, 2))."|".substr($game['date'], 0, 4)."|".substr($game['date'], 11, 2)."|".substr($game['date'], 14, 2)."|".$game['poolID']."|".$game['phaseID']."|".$game['teamA']."|".$game['teamB']."|".$game['matchID'];
+        }
+        break;
+
     default:
         break;
 }
