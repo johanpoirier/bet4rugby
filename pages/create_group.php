@@ -1,5 +1,5 @@
 <div class="maincontent">
-    <div id="headline"><h1>Création de groupe</h1></div>
+    <div class="headline"><h1>Création de groupe</h1></div>
 </div>
 
 <div class="maincontent">

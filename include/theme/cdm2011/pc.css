@@ -225,7 +225,7 @@ footer {
     padding-left: 30px;
 }
 
-#headline, .headline {
+.headline {
     background: -moz-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* FF3.6+ */
     background: -webkit-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* Opera 11.10+ */
@@ -297,10 +297,6 @@ footer {
 .list_element > td {
     border-bottom: 1px dashed black;
     height: 2.5rem;
-}
-
-.pny {
-    /*display: none;*/
 }
 
 .info {
@@ -404,7 +400,7 @@ ul.rules > li {
         display: none;
     }
 
-    .headline, #headline {
+    .headline {
         padding: 0.5rem 0.2rem;
     }
 

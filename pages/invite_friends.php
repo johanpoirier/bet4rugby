@@ -1,5 +1,5 @@
 <div class="maincontent">
-    <div id="headline"><h1>Envoyer des invitations</h1></div>
+    <div class="headline"><h1>Envoyer des invitations</h1></div>
 </div>
 <?php
 $current_user = $engine->getCurrentUser();

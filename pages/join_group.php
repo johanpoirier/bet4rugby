@@ -1,5 +1,5 @@
 <div class="maincontent">
-    <div id="headline">
+    <div class="headline">
         <h1>Rejoindre un groupe</h1>
     </div>
 </div>

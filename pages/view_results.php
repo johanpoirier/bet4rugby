@@ -30,7 +30,7 @@ if ($phase['phasePrecedente'] != NULL) {
 //-->
 </script>
 <div class="maincontent">
-    <div id="headline">
+    <div class="headline">
         <h1 style="float:left;">Resultats et Cotes</h1>
         <select style="float:right;" name="sltPhase" onchange="changePhase(this.value)"><?php foreach ($engine->getPhasesPlayed() as $phase) {
     echo "<option value=\"" . $phase['phaseID'] . "\"" . (($phaseID == $phase['phaseID']) ? "selected=\"selected\"" : "") . ">" . $phase['name'] . "</option>";

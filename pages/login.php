@@ -1,5 +1,5 @@
 <div class="maincontent">
-    <div id="headline"><h1>Connexion</h1></div>
+    <div class="headline"><h1>Connexion</h1></div>
     <div class="ppp">
         <h2>Connexion</h2>
         <font color="#ff0000"><?php echo $message; ?></font>

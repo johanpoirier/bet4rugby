@@ -1,5 +1,5 @@
 <div class="maincontent">
-<div id="headline">
+<div class="headline">
   <h1>Login et/ou mot de passe oublié</h1>
 </div>
 </div>

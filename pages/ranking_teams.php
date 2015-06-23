@@ -1,7 +1,7 @@
 <?php
 $teams = $engine->loadUserTeamRanking();
 ?><div class="maincontent">
-    <div id="headline">
+    <div class="headline">
         <table width="100%">
             <tr>
                 <td width="55%"><h1>Classement par équipe</h1></td>

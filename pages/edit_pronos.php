@@ -9,7 +9,7 @@
 	$phase = $engine->getPhase(PHASE_ID_ACTIVE);
 ?>
 <div class="maincontent">  
-  <div id="headline"><h1>Pronostics de <?php echo $user['name']; ?></h1></div>
+  <div class="headline"><h1>Pronostics de <?php echo $user['name']; ?></h1></div>
 
   <form action="?op=save_pronos" method="post" name="formPronos">
   <input type="hidden" name="userId" value="<?php echo $user['userID']; ?>" />

@@ -7,7 +7,7 @@ $user = $engine->getUser($userId);
 $phase = $engine->getPhase(PHASE_ID_ACTIVE);
 ?>
 <div class="maincontent">  
-    <div id="headline"><h1>Pronostics de <?php echo $user['name']; ?></h1></div>
+    <div class="headline"><h1>Pronostics de <?php echo $user['name']; ?></h1></div>
 
     <!-- BEGIN pools -->    
     <div class="tag_cloud">

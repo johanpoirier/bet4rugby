@@ -1,5 +1,5 @@
 <div class="maincontent">
-    <div id="headline"><h1>S'inscrire</h1></div>
+    <div class="headline"><h1>S'inscrire</h1></div>
     <div class="ppp">
         <center><span style="color:red;"><b><?php echo $message; ?></b></span></center>
 

@@ -4,7 +4,7 @@ $nbJoueursTotal = $engine->getNbPlayers();
 $nbJoueursActifs = $engine->getNbActivePlayers();
 
 ?><div class="maincontent">
-    <div id="headline">
+    <div class="headline">
         <div class="headline-title">
             <h1>Classement</h1>
             <span>(<?php echo $nbJoueursActifs; ?> parieurs actifs sur <?php echo $nbJoueursTotal; ?>)</span>

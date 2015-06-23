@@ -5,7 +5,7 @@ $teams[] = array('userTeamID' => 0, 'name' => 'Sans équipe');
 <div id="mainarea">
 
     <div class="maincontent">
-        <div id="headline">
+        <div class="headline">
             <h1>Parieurs</h1>
         </div>
     </div>

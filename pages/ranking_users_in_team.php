@@ -12,7 +12,7 @@ if ($_SESSION['status'] == 1) {
 $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
 
 ?><div class="maincontent">
-    <div id="headline">
+    <div class="headline">
         <table width="100%">
             <tr>
                 <td width="55%"><h1>Classement : <?php echo $currentUser['team']; ?></h1></td>

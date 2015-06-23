@@ -1,7 +1,7 @@
 <?php
   $phases = $engine->getPhases();
 
-?><div id="headline"><h1>Règlement</h1></div>
+?><div class="headline"><h1>Règlement</h1></div>
 	<div class="maincontent">
     <p>
       <span class="rule_title">I. Réalisation des votes</span>

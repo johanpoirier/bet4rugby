@@ -63,7 +63,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
     //-->
 </script>
 <div class="maincontent">
-    <div id="headline"><h1>Matchs</h1></div>
+    <div class="headline"><h1>Matchs</h1></div>
     <div class="tag_cloud">
         <?php foreach ($pools as $pool) { ?>
             <span style="font-size: 150%">Groupe <?php echo $pool['name']; ?></span>
