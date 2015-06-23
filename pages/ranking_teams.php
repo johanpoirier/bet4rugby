@@ -12,7 +12,7 @@ $teams = $engine->loadUserTeamRanking();
         </div>
     </div>
 
-    <table class="ranking>
+    <table class="ranking">
         <tr>
             <th width="10%" style="font-size:80%;text-align:center;"><i>Rang</i></th>
             <th width="40%" style="font-size:80%"><i>Equipe</i></th>

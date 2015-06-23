@@ -1,4 +1,8 @@
 /** GENERAL **/
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
 html, body {
     height: 100%;
 }
@@ -74,6 +78,13 @@ a:visited {
 }
 
 /************* FORM ***************/
+form {
+    align-items: left;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
 textarea {
     color: #363842;
     background: #F7FAFF;
@@ -374,13 +385,6 @@ ul.rules > li {
     width: auto;
 }
 
-.login-content > form {
-    align-items: center;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-}
-
 .login-form-button {
     margin-top: 2rem;
 }
@@ -411,6 +415,7 @@ ul.rules > li {
 
     nav {
         font-size: 0.7rem;
+        margin-top: inherit;
     }
     
     .nav-group:first-child, .nav-group:last-child {
