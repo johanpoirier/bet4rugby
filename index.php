@@ -370,6 +370,7 @@ if (FORGOT_IDS) {
     <head>
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
         <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/pc.css" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/main.js"> </script>

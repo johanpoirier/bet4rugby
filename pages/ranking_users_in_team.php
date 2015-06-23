@@ -10,8 +10,8 @@ if ($_SESSION['status'] == 1) {
 }
 
 $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
-?>
-<div class="maincontent">
+
+?><div class="maincontent">
     <div id="headline">
         <table width="100%">
             <tr>
@@ -22,43 +22,37 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
             </tr>
         </table>
     </div>
-</div>
 
-<div class="maincontent">		
     <table>
         <tr>
-            <td width="45" style="font-size:80%;text-align:center;"><i>Rang</i></td>
-            <td width="200" style="font-size:80%"><i>Parieur</i></span>
-            <td width="60" style="font-size:80%;text-align:center;"><i>Points</i></td>
-            <td width="60" style="font-size:80%;text-align:center;"><i>R&eacute;sultats Exacts</i></td>
-            <td width="60" style="font-size:80%;text-align:center;"><i>Scores Exacts</i></td>
-            <td width="60" style="font-size:80%;text-align:center;"><i>Différence</i></td>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Rang</i></th>
+            <th width="40%" style="font-size:80%"><i>Parieur</i></th>
+            <th width="20%" style="font-size:80%;text-align:center;"><i>Points</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>R&eacute;sultats Exacts</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Scores Exacts</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Différence</i></th>
         </tr>
-    </table>
 
     <!-- BEGIN users -->
-    <?php
+<?php
     foreach ($users as $user) {
-        ?>
-        <div class="list_element">
-            <table>
-                <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong><?php echo $user['RANK']; ?></strong> <?php echo $user['LAST_RANK']; ?></td>
-                    <td width="200" style="font-size:70%"><strong><?php if ($mode == 2)
-        echo $user['VIEW_BETS']; ?><?php echo $user['NAME']; ?><?php if ($mode == 2)
-        echo "</a>"; ?></strong> <?php echo $user['NB_BETS']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><strong><?php echo $user['POINTS']; ?></strong></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['NBRESULTS']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['NBSCORES']; ?></td>
-                    <td width="60" style="font-size:70%;text-align:center;"><?php echo $user['DIFF']; ?></td>
-                </tr>
-            </table>
-        </div>
-    <?php } ?>
+?>
+        <tr class="list_element">
+            <td style="font-size:80%;text-align:center;"><strong><?php echo $user['RANK']; ?></strong> <?php echo $user['LAST_RANK']; ?></td>
+            <td style="font-size:70%"><strong><?php if ($mode == 2)
+echo $user['VIEW_BETS']; ?><?php echo $user['NAME']; ?><?php if ($mode == 2)
+echo "</a>"; ?></strong> <?php echo $user['NB_BETS']; ?></td>
+            <td style="font-size:70%;text-align:center;"><strong><?php echo $user['POINTS']; ?></strong></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $user['NBRESULTS']; ?></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $user['NBSCORES']; ?></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $user['DIFF']; ?></td>
+        </tr>
+    </table>
+<?php } ?>
     <!-- END users -->
 </div>
 
-<div id="rightcolumn">
+<aside>
     <div class="tag_cloud">
         <div class="rightcolumn_headline"><h1 style="color:black;">TeamBoard</h1></div>
         <div id="tag_0" styAle="text-align:center;"><br />
@@ -72,9 +66,7 @@ $users = $engine->loadRankingInTeams($currentUser['userTeamID']);
             <!--{NAVIG}-->
         </div>
     </div>
-</div>
+</aside>
 <script type="text/javascript">
-    <!--
     loadTags(<?php echo $currentUser['userTeamID']; ?>);
-    //-->
 </script>

@@ -11,41 +11,35 @@ $teams = $engine->loadUserTeamRanking();
             </tr>
         </table>
     </div>
-</div>
 
-<div class="maincontent">
     <table>
         <tr>
-            <td width="45" style="font-size:80%;text-align:center;"><i>Rang</i></td>
-            <td width="200" style="font-size:80%"><i>Equipe</i></span>
-            <td width="100" style="font-size:80%;text-align:center;"><i>Joueurs</i></td>
-            <td width="50" style="font-size:80%;text-align:center;"><i>Moyenne</i></td>
-            <td width="50" style="font-size:80%;text-align:center;"><i>Max</i></td>
-            <td width="50" style="font-size:80%;text-align:center;"><i>Total</i></td>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Rang</i></th>
+            <th width="40%" style="font-size:80%"><i>Equipe</i></th>
+            <th width="20%" style="font-size:80%;text-align:center;"><i>Joueurs</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Moyenne</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Max</i></th>
+            <th width="10%" style="font-size:80%;text-align:center;"><i>Total</i></th>
         </tr>
-    </table>
 
     <!-- BEGIN users -->
-    <?php
+<?php
     foreach ($teams as $team) {
-        ?>
-        <div class="list_element">
-            <table>
-                <tr>
-                    <td width="45" style="font-size:80%;text-align:center;"><strong><?php echo $team['rank']; ?></strong> <?php echo $team['lastRank']; ?></td>
-                    <td width="200" style="font-size:70%"><strong><?php echo $team['name']; ?></a></strong></td>
-                    <td width="100" style="font-size:70%;text-align:center;"><?php echo $team['nbUsersActifs'] . "/" . $team['nbUsersTotal']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><strong><?php echo $team['avgPoints']; ?></strong></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $team['maxPoints']; ?></td>
-                    <td width="50" style="font-size:70%;text-align:center;"><?php echo $team['totalPoints']; ?></td>
-                </tr>
-            </table>
-        </div>
-    <?php } ?>
+?>
+        <tr class="list_element">
+            <td style="font-size:80%;text-align:center;"><strong><?php echo $team['rank']; ?></strong> <?php echo $team['lastRank']; ?></td>
+            <td style="font-size:70%"><strong><?php echo $team['name']; ?></a></strong></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $team['nbUsersActifs'] . "/" . $team['nbUsersTotal']; ?></td>
+            <td style="font-size:70%;text-align:center;"><strong><?php echo $team['avgPoints']; ?></strong></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $team['maxPoints']; ?></td>
+            <td style="font-size:70%;text-align:center;"><?php echo $team['totalPoints']; ?></td>
+        </tr>
+    </table>
+<?php } ?>
     <!-- END users -->
 </div>
 
-<div id="rightcolumn">
+<aside>
     <div class="tag_cloud">
         <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
         <div id="tag_0" styAle="text-align:center;"><br />
@@ -59,9 +53,7 @@ $teams = $engine->loadUserTeamRanking();
             <!--{NAVIG}-->
         </div>
     </div>
-</div>
+</aside>
 <script type="text/javascript">
-    <!--
     loadTags();
-    //-->
 </script>
