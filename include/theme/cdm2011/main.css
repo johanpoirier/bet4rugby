@@ -357,8 +357,47 @@ ul.rules > li {
     white-space: nowrap;
 }
 
+.maincontent.login {
+    padding: 0 20%;
+}
+
+.login-content {
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.login-content > h2 {
+    align-items: center;
+    flex-grow: 1;
+    width: auto;
+}
+
+.login-content > form {
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.login-form-button {
+    margin-top: 2rem;
+}
 
 /************* media queries ******************/
+@media (min-width: 1200px) {
+    body {
+        background: url(images/cover.jpg) #3a511d no-repeat center fixed;
+        -ms-behavior: url(backgroundsize.min.htc);
+        background-size: cover;
+    }
+
+    #main {
+        box-shadow: 0 0 6rem #000000;
+    }
+}
+
 @media (max-width: 700px) {
     header {
         display: none;
@@ -425,5 +464,9 @@ ul.rules > li {
 
     .headline-menu {
         flex-flow: column nowrap;
+    }
+
+    .maincontent.login {
+        padding: 0;
     }
 }

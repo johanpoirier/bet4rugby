@@ -2118,6 +2118,10 @@ class Engine {
         return $invitations;
     }
 
+    function isLoggedIn() {
+        return isset($_SESSION['userID']);
+    }
+
     function isInvited($userTeamID, $userID=false) {
         if ($userID) {
             $user = $this->getUser($userID);

@@ -132,12 +132,13 @@ function delTag(tagID, userTeamID) {
 }
 
 function loadTags(userTeamID, startTag) {
-    if(!startTag) startTag = 0;
-    if(!userTeamID) userTeamID = -1;
+    if (typeof(userTeamID) === 'function') {
+        userTeamID = false;
+    }
     $.ajax({
         type: "POST",
         url: "/include/classes/ajax.php",
-        data: "op=getTags&start=" + startTag + "&userTeamID=" + userTeamID,
+        data: "op=getTags&start=" + (startTag || 0) + "&userTeamID=" + (userTeamID || -1),
         success: function(data) {
             $('#tags').html(data);
         }

@@ -62,5 +62,5 @@ $nbJoueursActifs = $engine->getNbActivePlayers();
     </div>
 </aside>
 <script type="text/javascript">
-    loadTags();
+    $(loadTags);
 </script>

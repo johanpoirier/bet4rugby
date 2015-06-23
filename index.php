@@ -365,17 +365,20 @@ if (FORGOT_IDS) {
             break;
     }
 }
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+?><!DOCTYPE html>
+<html lang="fr" manifest="/manifest.appcache">
     <head>
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
         <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/main.css" />
+        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
+        <script type="text/javascript" src="/js/main.js"> </script>
     </head>
     <body>
         <div id="main">
 <?php include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
+<?php if ($engine->isLoggedIn()) { ?>
             <nav>
                 <ul class="nav-group">
                     <li class="nav-group-item"><a href="/?op=view_ranking">Classement</a></li>
@@ -383,14 +386,17 @@ if (FORGOT_IDS) {
                     <li class="nav-group-item"><a href="/?op=edit_pf">Ma phase finale</a></li>
                     <li class="nav-group-item"><a href="/?op=view_results">Résultats</a></li>
                 </ul>
-<?php if ($engine->admin) { ?>
+<?php   if ($engine->admin) { ?>
                 <ul class="nav-group admin">
                     <li class="nav-group-item"><a href="/?op=edit_users">Users</a></li>
                     <li class="nav-group-item"><a href="/?op=edit_results">Results</a></li>
                     <li class="nav-group-item"><a href="/?op=edit_matchs">Games</a></li>
                     <li class="nav-group-item"><a href="/?op=edit_teams">Teams</a></li>
                 </ul>
-<?php } ?>
+<?php
+        }
+     }
+?>
             </nav>
             <section id="mainarea">
 <?php
@@ -407,7 +413,5 @@ if (isset($_SESSION["userID"])) {
 }
 ?>
         </div>
-        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
-        <script type="text/javascript" src="/js/main.js"> </script>
     </body>
 </html>
