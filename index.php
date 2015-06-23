@@ -365,56 +365,53 @@ if (FORGOT_IDS) {
             break;
     }
 }
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+?><!DOCTYPE html>
+<html lang="fr" manifest="/manifest.appcache">
     <head>
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/pc.css" />
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/main.css" />
+        <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/main.js"> </script>
     </head>
     <body>
         <div id="main">
 <?php include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
-<?php if (!$engine->admin) { ?>
-                <div id="nav_area">
-                    <img src="include/theme/<?php echo $engine->config['template']; ?>/images/user_bar.png" usemap="#testbar5" border="0" alt="Menu" />
-                    <map name="testbar5" id="testbar5">
-                        <area shape="rect" coords="12,4,184,30" href="/?op=view_ranking" alt="Classement" />
-                        <area shape="rect" coords="184,4,376,30" href="/?op=edit_pronos" alt="Mes pronostics" />
-                        <area shape="rect" coords="376,4,568,30" href="/?op=edit_pf" alt="Ma phase finale" />
-                        <area shape="rect" coords="500,4,742,30" href="/?op=view_results" alt="Résultats" />
-                    </map>
-                </div>
-    <?php
+<?php if ($engine->isLoggedIn()) { ?>
+            <nav>
+                <ul class="nav-group">
+                    <li class="nav-group-item"><a href="/?op=view_ranking">Classement</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_pronos">Mes pronostics</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_pf">Ma phase finale</a></li>
+                    <li class="nav-group-item"><a href="/?op=view_results">Résultats</a></li>
+                </ul>
+<?php   if ($engine->admin) { ?>
+                <ul class="nav-group admin">
+                    <li class="nav-group-item"><a href="/?op=edit_users">Users</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_results">Results</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_matchs">Games</a></li>
+                    <li class="nav-group-item"><a href="/?op=edit_teams">Teams</a></li>
+                </ul>
+<?php
+        }
+     }
+?>
+            </nav>
+            <section id="mainarea">
+<?php
+if (strlen($pageToInclude) > 0) {
+    include_once($pageToInclude);
+}
+?>
+            </section>
+<?php
+if (isset($_SESSION["userID"])) {
+    include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
 } else {
-    ?>
-                <div id="nav_area">
-                    <img src="include/theme/<?php echo $engine->config['template']; ?>/images/admin_bar.png" usemap="#testbar5" border="0" alt="Menu" />
-                    <map name="testbar5" id="testbar5">
-                        <area shape="rect" coords="12,4,115,30" href="/?op=view_ranking" alt="Classement" />
-                        <area shape="rect" coords="117,4,220,17" href="/?op=edit_pronos" alt="Mes pronostics" />
-                        <area shape="rect" coords="117,17,220,30" href="/?op=edit_pf" alt="Ma phase finale" />
-                        <area shape="rect" coords="222,4,325,30" href="/?op=view_results" alt="Résultats"  />
-                        <area shape="rect" coords="327,4,430,30" href="/?op=edit_users" alt="" />
-                        <area shape="rect" coords="432,4,535,30" href="/?op=edit_results" alt="" />
-                        <area shape="rect" coords="537,4,640,30" href="/?op=edit_matchs" alt="" />
-                        <area shape="rect" coords="642,4,744,30" href="/?op=edit_teams" alt="" />
-                    </map>
-                </div>
-<?php } ?>
-            <div id="mainarea">
-<?php if (strlen($pageToInclude) > 0)
-    include_once($pageToInclude); ?>
-            </div>
-            <?php
-            if (isset($_SESSION["userID"])) {
-                include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
-            } else {
-                include_once("include/theme/" . $engine->config['template'] . "/footer_public.php");
-            }
-            ?>
+    include_once("include/theme/" . $engine->config['template'] . "/footer_public.php");
+}
+?>
         </div>
     </body>
 </html>

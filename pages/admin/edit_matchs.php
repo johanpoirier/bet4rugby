@@ -4,6 +4,7 @@ $phases = $engine->getPhases();
 $teams = $engine->getTeamsByPool(1);
 $mois = $engine->getMonths();
 $dateCourante = $engine->getSettingDate("DATE_DEBUT");
+
 ?><script type="text/javascript">
     <!--
     var fillTeamsA = function(response) {
@@ -63,7 +64,12 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
     //-->
 </script>
 <div class="maincontent">
-    <div id="headline"><h1>Matchs</h1></div>
+    <div class="headline">
+        <div class="headline-title">
+            <h1>Matchs</h1>
+        </div>
+    </div>
+
     <div class="tag_cloud">
         <?php foreach ($pools as $pool) { ?>
             <span style="font-size: 150%">Groupe <?php echo $pool['name']; ?></span>
@@ -94,7 +100,6 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         }
         ?>
     </div>
-    <br />
 
     <form name="add_team" action="?op=add_match" method="post">
         <div class="tag_cloud">
