@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="tag_cloud">
+    <div class="tag_cloud uniq">
         <form action="../?op=save_results" method="post" name="formPronos">
             <table width="100%">
                 <!-- BEGIN matchs -->
@@ -66,8 +66,7 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td colspan="2" style="text-align:right;"><select size="1"
-                                                                          name="sltBonus_A_<?php echo $match['matchID']; ?>">
+                        <td colspan="2" style="text-align:right;"><select size="1" name="sltBonus_A_<?php echo $match['matchID']; ?>">
                                 <option value="0"<?php if ($match['bonusA'] == 0) echo "selected=\"selected\""; ?>>0
                                     pt
                                 </option>
@@ -78,8 +77,7 @@
                                     pts
                                 </option>
                             </select></td>
-                        <td colspan="2" style="text-align:left;"><select size="1"
-                                                                         name="sltBonus_B_<?php echo $match['matchID']; ?>">
+                        <td colspan="2" style="text-align:left;"><select size="1" name="sltBonus_B_<?php echo $match['matchID']; ?>">
                                 <option value="0"<?php if ($match['bonusB'] == 0) echo "selected=\"selected\""; ?>>0
                                     pt
                                 </option>

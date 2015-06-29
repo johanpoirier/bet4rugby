@@ -394,7 +394,10 @@ td.game-result-date {
 
 td.result-teamA, td.result-teamB {
     line-height: 36px;
+    overflow: hidden;
     text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 td.result-teamA {
@@ -405,7 +408,7 @@ td.result-teamB {
     text-align: left;
 }
 
-td.result-teamA .tLogo {
+td.result-teamA .tLogo, td.result-teamA .tLogoSmall {
     float: right;
     margin-left: 10px;
     margin-right: 0;
@@ -413,6 +416,7 @@ td.result-teamA .tLogo {
 
 td.ranking-pool-team {
     line-height: 26px;
+    white-space: nowrap;
 }
 
 td.ranking-pool-team-points {
@@ -475,6 +479,18 @@ td.ranking-pool-team-points {
         border: none;
         flex-grow: 1;
         margin: 0.5rem;
+    }
+
+    .tag_cloud.uniq {
+        margin: 0.5rem 0;
+    }
+
+    td.result-teamA .tLogoSmall {
+        margin-left: 5px;
+    }
+
+    td.result-teamB .tLogoSmall {
+        margin-right: 5px;
     }
 }
 

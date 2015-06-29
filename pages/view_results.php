@@ -45,7 +45,7 @@ if ($phase['phasePrecedente'] != NULL) {
     </div>
 
     <?php foreach ($phases as $phase) { ?>
-        <div class="tag_cloud">
+        <div class="tag_cloud uniq">
             <span style="font-size: 150%"><?php echo $phase['name']; ?></span>
             <table width="100%" class="games-results">
                 <?php

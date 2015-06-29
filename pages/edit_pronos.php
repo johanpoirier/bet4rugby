@@ -15,7 +15,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
         </div>
     </div>
 
-    <div class="tag_cloud">
+    <div class="tag_cloud uniq">
         <form action="?op=save_pronos" method="post" name="formPronos">
             <input type="hidden" name="userId" value="<?php echo $user['userID']; ?>"/>
             <!-- BEGIN pools -->
