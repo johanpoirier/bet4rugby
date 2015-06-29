@@ -8,9 +8,8 @@
         </div>
     </div>
 
-    <form action="../?op=save_results" method="post" name="formPronos">
-        <!-- BEGIN pools -->
-        <div class="tag_cloud">
+    <div class="tag_cloud">
+        <form action="../?op=save_results" method="post" name="formPronos">
             <table width="100%">
                 <!-- BEGIN matchs -->
 <?php
@@ -44,11 +43,10 @@
                         <td align="left" style="white-space: nowrap; font-size: 7pt;">(<?php echo $match['teamPool']; ?>
                             )
                         </td>
-                        <td id="m_<?php echo $match['matchID']; ?>_team_A" width="40%"
-                            style="text-align: right; background-color: <?php echo $match['COLOR_A']; ?>;"><?php echo $match['teamAname']; ?>
-                            <img
-                                src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $match['teamAname']; ?>.gif"
-                                alt="<?php echo $match['teamAname']; ?>"/></td>
+                        <td id="m_<?php echo $match['matchID']; ?>_team_A" width="40%" class="result-teamA" style="background-color: <?php echo $match['COLOR_A']; ?>;">
+                            <?php echo $match['teamAname']; ?>
+                            <span class="tLogo <?php echo $match['teamAname']; ?>"></span>
+                        </td>
                         <td width="10%" style="text-align:right;"><input type="number" min="0" max="500" size="2"
                                                                          name="iptScoreTeam_A_<?php echo $match['matchID']; ?>"
                                                                          id="scoreTeam_A_<?php echo $match['matchID']; ?>"
@@ -61,10 +59,10 @@
                                                                          value="<?php echo $match['scoreMatchB']; ?>"
                                                                          onkeyup="showPny(<?php echo $match['matchID']; ?>)"
                                                                          onchange="checkScore(this.id)"/></td>
-                        <td id="m_<?php echo $match['matchID']; ?>_team_B" width="40%"
-                            style="text-align: left; background-color: <?php echo $match['COLOR_B']; ?>;"><img
-                                src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $match['teamBname']; ?>.gif"
-                                alt="<?php echo $match['teamBname']; ?>"/> <?php echo $match['teamBname']; ?></td>
+                        <td id="m_<?php echo $match['matchID']; ?>_team_B" width="40%" class="result-teamB" style="background-color: <?php echo $match['COLOR_B']; ?>;">
+                            <span class="tLogo <?php echo $match['teamBname']; ?>"></span>
+                            <?php echo $match['teamBname']; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
@@ -108,13 +106,13 @@
                     </tr>
 <?php } ?>
                 <!-- END matchs -->
+                <tr>
+                    <td colspan="6" style="text-align: center;">
+                        <br><br>
+                        <input type="image" src="/include/theme/<?php echo $engine->config['template']; ?>/images/submit.gif" name="iptSubmit"/>
+                    </td>
+                </tr>
             </table>
-            <br/><br/>
-            <br/>
-            <center>
-                <input type="image" src="/include/theme/<?php echo $engine->config['template']; ?>/images/submit.gif" name="iptSubmit"/>
-            </center>
-        </div>
-
-    </form>
+        </form>
+    </div>
 </div>

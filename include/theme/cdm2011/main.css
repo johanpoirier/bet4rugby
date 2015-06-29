@@ -362,12 +362,6 @@ ul.rules > li {
     color: grey;
 }
 
-.game-result-date {
-    font-style: italic;
-    padding-top: 1rem;
-    white-space: nowrap;
-}
-
 .maincontent.login {
     padding: 0 20%;
 }
@@ -387,6 +381,42 @@ ul.rules > li {
 
 .login-form-button {
     margin-top: 2rem;
+}
+
+
+/*************** specific *********************/
+td.game-result-date {
+    font-style: italic;
+    text-align: center;
+    padding-top: 1rem;
+    white-space: nowrap;
+}
+
+td.result-teamA, td.result-teamB {
+    line-height: 36px;
+    text-align: left;
+}
+
+td.result-teamA {
+    text-align: right;
+}
+
+td.result-teamB {
+    text-align: left;
+}
+
+td.result-teamA .tLogo {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+td.ranking-pool-team {
+    line-height: 26px;
+}
+
+td.ranking-pool-team-points {
+    text-align: center;
 }
 
 /************* media queries ******************/

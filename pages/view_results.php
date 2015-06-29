@@ -84,20 +84,19 @@ if ($phase['phasePrecedente'] != NULL) {
                     ?>
                     <tr>
                         <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="4"></td>
-                        <td id="m_<?php echo $result['matchID']; ?>_team_A" width="32%" rowspan="3"
-                            style="text-align: right;background-color: <?php echo $result['COLOR_A']; ?>;"><?php echo $result['teamAname']; ?>
-                            <img
-                                src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $result['teamAname']; ?>.gif"
-                                alt="<?php echo $result['teamAname']; ?>"/></td>
+                        <td id="m_<?php echo $result['matchID']; ?>_team_A" width="32%" class="result-teamA" rowspan="3" style="background-color: <?php echo $result['COLOR_A']; ?>;">
+                            <?php echo $result['teamAname']; ?>
+                            <span class="tLogo <?php echo $result['teamAname']; ?>"></span>
+                        </td>
                         <td width="12%"
                             style="text-align:center;font-weight:600;font-size:15px;"><?php echo $result['scoreMatchA']; ?></td>
                         <td width="7%" style="text-align:center; font-weight:300; font-size:9px;" rowspan="2"></td>
                         <td width="12%"
                             style="text-align:center;font-weight:600;font-size:15px;"><?php echo $result['scoreMatchB']; ?></td>
-                        <td id="m_<?php echo $result['matchID']; ?>_team_B" width="32%" rowspan="3"
-                            style="text-align: left; background-color: <?php echo $result['COLOR_B']; ?>;"><img
-                                src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $result['teamBname']; ?>.gif"
-                                alt="<?php echo $result['teamBname']; ?>"/> <?php echo $result['teamBname']; ?></td>
+                        <td id="m_<?php echo $result['matchID']; ?>_team_B" width="32%" class="result-teamB" rowspan="3" style="background-color: <?php echo $result['COLOR_B']; ?>;">
+                            <span class="tLogo <?php echo $result['teamBname']; ?>"></span>
+                            <?php echo $result['teamBname']; ?>
+                        </td>
                     </tr>
                     <tr>
                         <td style="text-align:center;color:blue;font-weight:300;font-size:9px;"><?php echo $odds['A_AVG']; ?></td>
@@ -158,12 +157,9 @@ if ($phase['phasePrecedente'] != NULL) {
                         ?>
                         <tr<?php if (isset($team['style']))
                             echo " style=\"" . $team['style'] . "\""; ?>>
-                            <td id="team_<?php echo $team['teamID']; ?>"><img width="15px"
-                                                                              src="/include/theme/<?php echo $engine->config['template']; ?>/images/fanions/<?php echo $team['name']; ?>.gif"
-                                                                              alt="<?php echo $team['name']; ?>"/> <?php echo $team['name']; ?>
-                            </td>
-                            <td><?php echo $team['points']; ?></td>
-                            <td><?php echo $team['diff']; ?></td>
+                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="tLogoSmall <?php echo $team['name']; ?>"></span><?php echo $team['name']; ?></td>
+                            <td class="ranking-pool-team-points"><?php echo $team['points']; ?></td>
+                            <td class="ranking-pool-team-points"><?php echo $team['diff']; ?></td>
                         </tr>
                     <?php } ?>
                 </table>
