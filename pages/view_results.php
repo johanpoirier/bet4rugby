@@ -85,8 +85,8 @@ if ($phase['phasePrecedente'] != NULL) {
                     <tr>
                         <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="4"></td>
                         <td id="m_<?php echo $result['matchID']; ?>_team_A" width="32%" class="result-teamA" rowspan="3" style="background-color: <?php echo $result['COLOR_A']; ?>;">
-                            <?php echo $result['teamAname']; ?>
                             <span class="tLogo <?php echo $result['teamAname']; ?>"></span>
+                            <span class="result-teamA-name"><?php echo $result['teamAname']; ?></span>
                         </td>
                         <td width="12%"
                             style="text-align:center;font-weight:600;font-size:15px;"><?php echo $result['scoreMatchA']; ?></td>
@@ -95,7 +95,7 @@ if ($phase['phasePrecedente'] != NULL) {
                             style="text-align:center;font-weight:600;font-size:15px;"><?php echo $result['scoreMatchB']; ?></td>
                         <td id="m_<?php echo $result['matchID']; ?>_team_B" width="32%" class="result-teamB" rowspan="3" style="background-color: <?php echo $result['COLOR_B']; ?>;">
                             <span class="tLogo <?php echo $result['teamBname']; ?>"></span>
-                            <?php echo $result['teamBname']; ?>
+                            <span class="result-teamB-name"><?php echo $result['teamBname']; ?></span>
                         </td>
                     </tr>
                     <tr>

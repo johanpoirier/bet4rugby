@@ -55,10 +55,10 @@ echo "</a>"; ?></strong> <?php echo $user['NB_BETS']; ?></td>
 <aside>
     <div class="tag_cloud">
         <div class="rightcolumn_headline"><h1 style="color:black;">TeamBoard</h1></div>
-        <div id="tag_0" styAle="text-align:center;"><br />
+        <div id="tag_0"  class="tag">
             <form onsubmit="return saveTag(<?php echo $currentUser['userTeamID']; ?>);">
-                <input type="text" id="tag" value="" size="20" /><br />
-                <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+                <input type="text" id="tag" value="" size="20" />
+                <span style="font-size:8px;">(Entrée pour envoyer)</span>
             </form>
         </div>
         <div id="tags"></div>

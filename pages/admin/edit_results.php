@@ -32,36 +32,34 @@
                     if ($lastDate != $match['dateStr']) {
 ?>
                         <tr>
-                            <td colspan="5" style="text-align: center;"><br/><i><?php echo $match['dateStr']; ?></i>
-                            </td>
+                            <td></td>
+                            <td colspan="4" style="text-align: center;"><br/><i><?php echo $match['dateStr']; ?></i></td>
                         </tr>
 <?php
                     }
                     $lastDate = $match['dateStr'];
 ?>
                     <tr>
-                        <td align="left" style="white-space: nowrap; font-size: 7pt;">(<?php echo $match['teamPool']; ?>
-                            )
-                        </td>
-                        <td id="m_<?php echo $match['matchID']; ?>_team_A" width="40%" class="result-teamA" style="background-color: <?php echo $match['COLOR_A']; ?>;">
-                            <?php echo $match['teamAname']; ?>
+                        <td align="left" width="4%" style="white-space: nowrap; font-size: 7pt;">(<?php echo $match['teamPool']; ?>)</td>
+                        <td id="m_<?php echo $match['matchID']; ?>_team_A" width="42%" class="result-teamA" style="background-color: <?php echo $match['COLOR_A']; ?>;">
                             <span class="tLogo <?php echo $match['teamAname']; ?>"></span>
+                            <span class="result-teamA-name"><?php echo $match['teamAname']; ?></span>
                         </td>
-                        <td width="10%" style="text-align:right;"><input type="number" min="0" max="500" size="2"
+                        <td width="6%" style="text-align:right;"><input type="number" min="0" max="500" size="2"
                                                                          name="iptScoreTeam_A_<?php echo $match['matchID']; ?>"
                                                                          id="scoreTeam_A_<?php echo $match['matchID']; ?>"
                                                                          value="<?php echo $match['scoreMatchA']; ?>"
                                                                          onkeyup="showPny(<?php echo $match['matchID']; ?>)"
                                                                          onchange="checkScore(this.id)"/></td>
-                        <td width="10%" style="text-align: left;"><input type="number" min="0" max="500" size="2"
+                        <td width="6%" style="text-align: left;"><input type="number" min="0" max="500" size="2"
                                                                          name="iptScoreTeam_B_<?php echo $match['matchID']; ?>"
                                                                          id="scoreTeam_B_<?php echo $match['matchID']; ?>"
                                                                          value="<?php echo $match['scoreMatchB']; ?>"
                                                                          onkeyup="showPny(<?php echo $match['matchID']; ?>)"
                                                                          onchange="checkScore(this.id)"/></td>
-                        <td id="m_<?php echo $match['matchID']; ?>_team_B" width="40%" class="result-teamB" style="background-color: <?php echo $match['COLOR_B']; ?>;">
+                        <td id="m_<?php echo $match['matchID']; ?>_team_B" width="42%" class="result-teamB" style="background-color: <?php echo $match['COLOR_B']; ?>;">
                             <span class="tLogo <?php echo $match['teamBname']; ?>"></span>
-                            <?php echo $match['teamBname']; ?>
+                            <span class="result-teamB-name"><?php echo $match['teamBname']; ?></span>
                         </td>
                     </tr>
                     <tr>

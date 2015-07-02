@@ -50,39 +50,38 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                 if ($lastDate != $prono['dateStr']) {
                     ?>
                     <tr>
-                        <td colspan="6" style="text-align:center;"><br /><i><?php echo $prono['dateStr']; ?></i></td>
+                        <td></td>
+                        <td colspan="5" style="text-align:center;"><br /><i><?php echo $prono['dateStr']; ?></i></td>
                     </tr>
         <?php
     }
     $lastDate = $prono['dateStr'];
     ?>
                 <tr>
-                    <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">
-                        (<?php echo $prono['teamPool']; ?>)
+                    <td width="4%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">(<?php echo $prono['teamPool']; ?>)</td>
+                    <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
+                        <span class="tLogo <?php echo $prono['teamAname']; ?>"></span>
+                        <span class="result-teamA-name"><?php echo $prono['teamAname']; ?></span>
                     </td>
-                    <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="32%" rowspan="2" style="text-align: right;background-color: <?php echo $prono['COLOR_A']; ?>;">
-                        <?php echo $prono['teamAname']; ?>
-                        <img src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $prono['teamAname']; ?>.gif" alt="<?php echo $prono['teamAname']; ?>" />
-                    </td>
-                    <td width="12%" style="text-align:right; padding-right: 10px;">
+                    <td width="8%" style="text-align:right; padding-right: 10px;">
                         <strong>
     <?php echo $prono['scorePronoA']; ?>
                         </strong>
                     </td>
-                    <td width="7%" style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;" rowspan="2">
+                    <td width="4%" style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;" rowspan="2">
                         <?php echo $prono['POINTS']; ?><br />
                         <span style="color:grey;">
     <?php echo $prono['DIFF']; ?>
                         </span>
                     </td>
-                    <td width="12%" style="text-align:left; padding-left: 10px;">
+                    <td width="8%" style="text-align:left; padding-left: 10px;">
                         <strong>
     <?php echo $prono['scorePronoB']; ?>
                         </strong>
                     </td>
-                    <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="32%" rowspan="2" style="text-align: left; background-color: <?php echo $prono['COLOR_B']; ?>;">
-                        <img src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $prono['teamBname']; ?>.gif" alt="<?php echo $prono['teamBname']; ?>" />
-    <?php echo $prono['teamBname']; ?>
+                    <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
+                        <span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
+                        <span class="result-teamB-name"><?php echo $prono['teamBname']; ?></span>
                     </td>
                 </tr>
                 <tr>
@@ -107,7 +106,7 @@ foreach ($pools as $pool) {
         <div class="tag_cloud">
             <div class="rightcolumn_headline"><h1 style="color:black;">Groupe <?php echo $pool['name']; ?></h1></div>
             <div id="pool_<?php echo $pool['name']; ?>_ranking">
-                <table style="font-size:9px;">
+                <table class="ranking-pool">
                     <tr>
                         <td width="80%"><b>Nations</b></td><td width="10%"><b>Pts</b></td><td width="10%"><b>Diff</b></td>
                     </tr>
@@ -120,9 +119,9 @@ foreach ($pools as $pool) {
                         ?>
                         <tr<?php if (isset($team['style']))
                     echo " style=\"" . $team['style'] . "\""; ?>>
-                            <td id="team_<?php echo $team['teamID']; ?>"><img width="15px" src="/include/theme/<?php echo $engine->config['template']; ?>/images/fanions/<?php echo $team['name']; ?>.gif" alt="<?php echo $team['name']; ?>" /> <?php echo $team['name']; ?></td>
-                            <td><?php echo $team['points']; ?></td>
-                            <td><?php echo $team['diff']; ?></td>
+                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="tLogoSmall <?php echo $team['name']; ?>"></span><?php echo $team['name']; ?></td>
+                            <td class="ranking-pool-team-points"><?php echo $team['points']; ?></td>
+                            <td class="ranking-pool-team-points"><?php echo $team['diff']; ?></td>
                         </tr>
     <?php } ?>
                 </table>

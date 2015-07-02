@@ -43,28 +43,29 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                         if ($lastDate != $prono['dateStr']) {
     ?>
                             <tr>
-                                <td colspan="6" style="text-align:center;"><br/><i><?php echo $prono['dateStr']; ?></i></td>
+                                <td></td>
+                                <td colspan="5" style="text-align:center;"><br/><i><?php echo $prono['dateStr']; ?></i></td>
                             </tr>
     <?php
                         }
                         $lastDate = $prono['dateStr'];
     ?>
                         <tr>
-                            <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">
+                            <td width="4%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">
                                 (<?php echo $prono['teamPool']; ?>)
                             </td>
-                            <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="32%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
-                                <?php echo $prono['teamAname']; ?>
+                            <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
                                 <span class="tLogo <?php echo $prono['teamAname']; ?>"></span>
+                                <span class="result-teamA-name"><?php echo $prono['teamAname']; ?></span>
                             </td>
-                            <td width="12%" style="text-align:right;">
+                            <td width="8%" style="text-align:right;">
                                 <input type="number" min="0" max="500" size="2"
                                        name="iptScoreTeam_A_<?php echo $prono['matchID']; ?>"
                                        id="iptScoreTeam_A_<?php echo $prono['matchID']; ?>"
                                        value="<?php echo $prono['scorePronoA']; ?>"
                                        onchange="checkScore(this.id); showBonus(<?php echo $prono['matchID']; ?>);"<?php echo $prono['DISABLED']; ?> />
                             </td>
-                            <td width="7%"
+                            <td width="4%"
                                 style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;"
                                 rowspan="2">
                                 <?php echo $prono['POINTS']; ?><br/>
@@ -72,16 +73,16 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
               <?php echo $prono['DIFF']; ?>
             </span>
                             </td>
-                            <td width="12%" style="text-align:left;">
+                            <td width="8%" style="text-align:left;">
                                 <input type="number" min="0" max="500" size="2"
                                        name="iptScoreTeam_B_<?php echo $prono['matchID']; ?>"
                                        id="iptScoreTeam_B_<?php echo $prono['matchID']; ?>"
                                        value="<?php echo $prono['scorePronoB']; ?>"
                                        onchange="checkScore(this.id); showBonus(<?php echo $prono['matchID']; ?>);"<?php echo $prono['DISABLED']; ?> />
                             </td>
-                            <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="32%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
+                            <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
                                 <span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
-                                <?php echo $prono['teamBname']; ?>
+                                <span class="result-teamB-name"><?php echo $prono['teamBname']; ?></span>
                             </td>
                         </tr>
 
@@ -109,14 +110,14 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
 </div>
 
 <aside>
-    <?php
+<?php
     $pools = $engine->getPoolsByPhase();
     foreach ($pools as $pool) {
         ?>
         <div class="tag_cloud">
             <div><h1 style="color:black;">Groupe <?php echo $pool['name']; ?></h1></div>
             <div id="pool_<?php echo $pool['name']; ?>_ranking">
-                <table style="font-size:9px;">
+                <table class="ranking-pool">
                     <tr>
                         <td width="80%"><b>Nations</b></td>
                         <td width="10%"><b>Pts</b></td>
@@ -138,5 +139,5 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                 </table>
             </div>
         </div>
-    <?php } ?>
+<?php } ?>
 </aside>

@@ -98,9 +98,19 @@ input.text {
     color: #004410;
     background: #DCFEE4;
     border: 1px solid #006F20;
-    font-size: 11px;
+    font-size: 1rem;
     font-weight: normal;
     text-align: center;
+}
+
+input[type='number'] {
+    color: #004410;
+    border: 1px solid #006F20;
+    font-size: 0.8rem;
+    font-weight: normal;
+    padding: 0.2rem;
+    text-align: center;
+    width: 2rem;
 }
 
 input.submit {
@@ -414,6 +424,19 @@ td.result-teamA .tLogo, td.result-teamA .tLogoSmall {
     margin-right: 0;
 }
 
+.result-teamA-name {
+    float: right;
+}
+
+.result-teamB-name {
+    float: left;
+}
+
+table.ranking-pool {
+    font-size: 0.7rem;
+    width: 100%;
+}
+
 td.ranking-pool-team {
     line-height: 26px;
     white-space: nowrap;
@@ -422,6 +445,38 @@ td.ranking-pool-team {
 td.ranking-pool-team-points {
     text-align: center;
 }
+
+.tag {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.tag input {
+    width: 95%;
+}
+
+.tag-date {
+    display: block;
+    text-decoration: underline;
+    width: 100%;
+}
+
+.tag-author {
+    display: block;
+    font-weight: bold;
+    text-decoration: underline;
+    width: 100%;
+}
+
+.tag-content {
+    width: 100%;
+}
+
+.tag > img {
+    cursor: pointer;
+    float: right;
+}
+
 
 /************* media queries ******************/
 @media (min-width: 1200px) {

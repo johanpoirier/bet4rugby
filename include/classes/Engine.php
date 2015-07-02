@@ -1502,10 +1502,12 @@ class Engine {
 
         $tag_content = "";
         foreach ($tags as $tag) {
-            $tag_content .= "<div id=\"tag_" . $tag['tagID'] . "\">";
-            $tag_content .= "<img onclick=\"delTag(" . $tag['tagID'] . ")\" src=\"/include/theme/" . $this->config['template'] . "/images/del.png\" alt=\"Supprimer\" />";
-            $tag_content .= "<u>" . $tag['date'] . "<br /><b>" . stripslashes($tag['name']) . "</b></u><br />";
-            $tag_content .= stripslashes($tag['tag']) . "<br /><br /></div>";
+            $tag_content .= "<div class=\"tag\" id=\"tag_" . $tag['tagID'] . "\">";
+            $tag_content .= "<img onclick=\"delTag(" . $tag['tagID'] . ")\" src=\"/include/theme/" . $this->config['template'] . "/images/del.png\" alt=\"Supprimer\" title=\"Supprimer ce comentaire ?\" />";
+            $tag_content .= "<span class=\"tag-date\">" . $tag['date'] . "</span>";
+            $tag_content .= "<span class=\"tag-author\">" . stripslashes($tag['name']) . "</span>";
+            $tag_content .= "<span class=\"tag-content\">" . stripslashes($tag['tag']) . "</span>";
+            $tag_content .= "</div>";
         }
         echo $tag_content;
     }

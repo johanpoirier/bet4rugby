@@ -42,10 +42,10 @@ $teams = $engine->loadUserTeamRanking();
 <aside>
     <div class="tag_cloud">
         <div class="rightcolumn_headline"><h1 style="color:black;">ChatBoard</h1></div>
-        <div id="tag_0" styAle="text-align:center;"><br />
+        <div id="tag_0" class="tag">
             <form onsubmit="return saveTag();">
-                <input type="text" id="tag" value="" size="20" /><br />
-                <span style="font-size:8px;">(Entrée pour envoyer)</span><br /><br />
+                <input type="text" id="tag" value="" size="20" />
+                <span style="font-size:8px;">(Entrée pour envoyer)</span>
             </form>
         </div>
         <div id="tags"></div>
