@@ -48,9 +48,9 @@
       <tr>
 	  	  <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2"></td>
         <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="32%" style="text-align: right;background-color: <?php echo $prono['COLOR_A']; ?>;"><?php echo $prono['teamAname']; ?> <img src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $prono['teamAname']; ?>.gif" alt="<?php echo $prono['teamAname']; ?>" /></td>
-        <td width="12%" style="text-align:right;"><input type="number" min="0" max="500" size="2" id="scoreTeam_A_<?php echo $prono['matchID']; ?>" name="iptScoreTeam_A_<?php echo $prono['matchID']; ?>" value="<?php echo $prono['scorePronoA']; ?>"<?php echo $prono['DISABLED']; ?> onkeyup="showPny(<?php echo $prono['matchID']; ?>)" onchange="checkScore(this.id)" /></td>
+        <td width="12%" style="text-align:right;"><input type="number" min="0" max="500" size="2" id="scoreTeam_A_<?php echo $prono['matchID']; ?>" name="iptScoreTeam_A_<?php echo $prono['matchID']; ?>" value="<?php echo $prono['scorePronoA']; ?>"<?php echo $prono['DISABLED']; ?> onkeyup="showPny(<?php echo $prono['matchID']; ?>)" /></td>
 		    <td width="7%" style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;"><?php echo $prono['POINTS']; ?><br /><span style="color:grey;"><?php echo $prono['DIFF']; ?></span></td>
-        <td width="12%" style="text-align:left;"><input type="number" min="0" max="500" size="2" id="scoreTeam_B_<?php echo $prono['matchID']; ?>" name="iptScoreTeam_B_<?php echo $prono['matchID']; ?>" value="<?php echo $prono['scorePronoB']; ?>"<?php echo $prono['DISABLED']; ?> onkeyup="showPny(<?php echo $prono['matchID']; ?>)" onchange="checkScore(this.id)" /></td>
+        <td width="12%" style="text-align:left;"><input type="number" min="0" max="500" size="2" id="scoreTeam_B_<?php echo $prono['matchID']; ?>" name="iptScoreTeam_B_<?php echo $prono['matchID']; ?>" value="<?php echo $prono['scorePronoB']; ?>"<?php echo $prono['DISABLED']; ?> onkeyup="showPny(<?php echo $prono['matchID']; ?>)" /></td>
         <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="32%" style="text-align: left; background-color: <?php echo $prono['COLOR_B']; ?>;"><img src="/include/theme/<?php echo $config['template']; ?>/images/fanions/<?php echo $prono['teamBname']; ?>.gif" alt="<?php echo $prono['teamBname']; ?>" /> <?php echo $prono['teamBname']; ?></td>
       </tr>
 
@@ -88,3 +88,6 @@
 <?php } ?>
   </form>
 </div>
+<script type="text/javascript">
+	$('input[type="number"]').on('change', checkScore);
+</script>

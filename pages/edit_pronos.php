@@ -63,7 +63,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                                        name="iptScoreTeam_A_<?php echo $prono['matchID']; ?>"
                                        id="iptScoreTeam_A_<?php echo $prono['matchID']; ?>"
                                        value="<?php echo $prono['scorePronoA']; ?>"
-                                       onchange="checkScore(this.id); showBonus(<?php echo $prono['matchID']; ?>);"<?php echo $prono['DISABLED']; ?> />
+                                       <?php echo $prono['DISABLED']; ?> />
                             </td>
                             <td width="4%"
                                 style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;"
@@ -78,7 +78,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                                        name="iptScoreTeam_B_<?php echo $prono['matchID']; ?>"
                                        id="iptScoreTeam_B_<?php echo $prono['matchID']; ?>"
                                        value="<?php echo $prono['scorePronoB']; ?>"
-                                       onchange="checkScore(this.id); showBonus(<?php echo $prono['matchID']; ?>);"<?php echo $prono['DISABLED']; ?> />
+                                       <?php echo $prono['DISABLED']; ?> />
                             </td>
                             <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
                                 <span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
@@ -141,3 +141,6 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
         </div>
 <?php } ?>
 </aside>
+<script type="text/javascript">
+    $('input[type="number"]').on('change', checkScore);
+</script>

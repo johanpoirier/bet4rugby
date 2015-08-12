@@ -110,7 +110,11 @@ input[type='number'] {
     font-weight: normal;
     padding: 0.2rem;
     text-align: center;
-    width: 2rem;
+    width: 2.2rem;
+}
+
+input:disabled {
+    background: #d7d7d7;
 }
 
 input.submit {
@@ -119,6 +123,11 @@ input.submit {
     border: 1px solid #363842;
     font-size: 9px;
     font-weight: bold;
+}
+
+input.invalid {
+    border-color: red;
+    background-color: #FBEDE9;
 }
 
 select {

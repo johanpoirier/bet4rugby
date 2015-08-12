@@ -64,36 +64,16 @@ function showPny(idMatch) {
 /**
  *
  */
-function showBonus(idMatch) {
-/*scoreA = $F('iptScoreTeam_A_'+idMatch);
-	scoreB = $F('iptScoreTeam_B_'+idMatch);
-
-	if((scoreA.length > 0) && (scoreB.length > 0)) {
-    if(scoreA >= 20) {
-		  $('bonus_A_'+idMatch).style.display = 'block';
-	  }
-	  else {
-		  $('bonus_A_'+idMatch).style.display = 'none';
-	  }
-
-    if(scoreB >= 20) {
-		  $('bonus_B_'+idMatch).style.display = 'block';
-	  }
-	  else {
-		  $('bonus_B_'+idMatch).style.display = 'none';
-	  }
-	}*/
-}
-
-/**
- *
- */
-function checkScore(id) {
-    var input = document.querySelector('#' + id);
+function checkScore(event) {
+    var input = event.target;
     if (input) {
-        var value = parseInt(input.value);
+        var value = parseInt(input.value, 10);
         if ((value === 1) || (value === 2) || (value === 4)) {
-            alert("Veuillez entrer un score valide !");
+            input.classList.add('invalid');
+            input.setAttribute('title', 'Le score est invalide');
+        } else {
+            input.classList.remove('invalid');
+            input.removeAttribute('title');
         }
     } else {
         console.debug("input #" + id + " not found");

@@ -45,18 +45,20 @@
                             <span class="tLogo <?php echo $match['teamAname']; ?>"></span>
                             <span class="result-teamA-name"><?php echo $match['teamAname']; ?></span>
                         </td>
-                        <td width="6%" style="text-align:right;"><input type="number" min="0" max="500" size="2"
-                                                                         name="iptScoreTeam_A_<?php echo $match['matchID']; ?>"
-                                                                         id="scoreTeam_A_<?php echo $match['matchID']; ?>"
-                                                                         value="<?php echo $match['scoreMatchA']; ?>"
-                                                                         onkeyup="showPny(<?php echo $match['matchID']; ?>)"
-                                                                         onchange="checkScore(this.id)"/></td>
-                        <td width="6%" style="text-align: left;"><input type="number" min="0" max="500" size="2"
-                                                                         name="iptScoreTeam_B_<?php echo $match['matchID']; ?>"
-                                                                         id="scoreTeam_B_<?php echo $match['matchID']; ?>"
-                                                                         value="<?php echo $match['scoreMatchB']; ?>"
-                                                                         onkeyup="showPny(<?php echo $match['matchID']; ?>)"
-                                                                         onchange="checkScore(this.id)"/></td>
+                        <td width="6%" style="text-align:right;">
+                            <input type="number" min="0" max="500" size="2"
+                                 name="iptScoreTeam_A_<?php echo $match['matchID']; ?>"
+                                 id="scoreTeam_A_<?php echo $match['matchID']; ?>"
+                                 value="<?php echo $match['scoreMatchA']; ?>"
+                                 onkeyup="showPny(<?php echo $match['matchID']; ?>)"/>
+                        </td>
+                        <td width="6%" style="text-align: left;">
+                            <input type="number" min="0" max="500" size="2"
+                                 name="iptScoreTeam_B_<?php echo $match['matchID']; ?>"
+                                 id="scoreTeam_B_<?php echo $match['matchID']; ?>"
+                                 value="<?php echo $match['scoreMatchB']; ?>"
+                                 onkeyup="showPny(<?php echo $match['matchID']; ?>)" />
+                        </td>
                         <td id="m_<?php echo $match['matchID']; ?>_team_B" width="42%" class="result-teamB" style="background-color: <?php echo $match['COLOR_B']; ?>;">
                             <span class="tLogo <?php echo $match['teamBname']; ?>"></span>
                             <span class="result-teamB-name"><?php echo $match['teamBname']; ?></span>
@@ -112,3 +114,6 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    $('input[type="number"]').on('change', checkScore);
+</script>
