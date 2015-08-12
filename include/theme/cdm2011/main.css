@@ -85,6 +85,10 @@ form {
     justify-content: center;
 }
 
+form.login {
+    align-items: center;
+}
+
 textarea {
     color: #363842;
     background: #F7FAFF;
@@ -156,6 +160,12 @@ header {
     background: #ffffff;
     height: 4rem;
     width: 100%;
+}
+
+span.error {
+    color: red;
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 nav {

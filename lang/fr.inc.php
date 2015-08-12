@@ -34,6 +34,7 @@ $lang['messages'][USER_UNKNOWN] = "Utilisateur inconnu.";
 $lang['messages'][EMAIL_UNKNOWN] = "L'adresse email est inconnue.";
 $lang['messages'][PASSWORD_MISMATCH] = "Les mots de passe ne correspondent pas.";
 $lang['messages'][INCORRECT_PASSWORD] = "Mot de passe incorrect.";
+$lang['messages'][INCORRECT_CREDENTIALS] = "Login et/ou mot de passe incorrect(s).";
 $lang['messages'][CHANGE_PASSWORD_OK] = "Votre mot de passe a bien été changé.";
 $lang['messages'][GROUP_ALREADY_EXISTS] = "Ce nom de groupe existe déjà.";
 $lang['messages'][GROUP_UNKNOWN] = "Ce groupe n'existe pas.";

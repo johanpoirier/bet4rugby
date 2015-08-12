@@ -85,6 +85,7 @@ if (FORGOT_IDS) {
                     $pageToInclude = "pages/ranking.php";
                 }
             } else {
+                $message = $engine->lang['messages'][INCORRECT_CREDENTIALS];
                 $pageToInclude = "pages/login.php";
             }
             break;
