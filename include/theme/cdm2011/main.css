@@ -241,6 +241,7 @@ aside {
     font-size: 90%;
     margin: 0 0 0 1rem;
     min-width: 15rem;
+    max-width: 33%;
     padding: 0;
 }
 
@@ -451,6 +452,10 @@ td.result-teamA .tLogo, td.result-teamA .tLogoSmall {
     float: left;
 }
 
+table.ranking {
+    width: 100%;
+}
+
 table.ranking-pool {
     font-size: 0.7rem;
     width: 100%;
@@ -547,6 +552,7 @@ td.ranking-pool-team-points {
         display: flex;
         flex-flow: row wrap;
         margin: 1rem 0;
+        max-width: none;
     }
 
     .tag_cloud {

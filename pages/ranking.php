@@ -41,9 +41,9 @@ $nbJoueursActifs = $engine->getNbActivePlayers();
             <td style="font-size:70%;text-align:center;"><?php echo $user['DIFF']; ?></td>
         </tr>
 <?php } ?>
+    <!-- END users -->
 
     </table>
-    <!-- END users -->
 </div>
 
 <aside>

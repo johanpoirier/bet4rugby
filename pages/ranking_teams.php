@@ -34,9 +34,9 @@ $teams = $engine->loadUserTeamRanking();
             <td style="font-size:70%;text-align:center;"><?php echo $team['maxPoints']; ?></td>
             <td style="font-size:70%;text-align:center;"><?php echo $team['totalPoints']; ?></td>
         </tr>
-    </table>
 <?php } ?>
     <!-- END users -->
+    </table>
 </div>
 
 <aside>
