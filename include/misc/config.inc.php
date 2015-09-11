@@ -5,11 +5,11 @@ $config = array();
 /* MAIN INFORMATIONS */
 $config['title'] = "Coupe du Monde de Rugby 2015";
 $config['author'] = "JoPs";
-$config['email'] = "johan.poirier+cdm2015@gmail.com";
+$config['email'] = "sylvain.poirier+cdm2015@gmail.com";
 $config['lang'] = "fr";
-$config['url'] = "http://cdm2015.jops-dev.com";
+$config['url'] = "http://cdm2015-abmi.jops-dev.com";
 $config['template'] = "cdm2011";
-$config['db_prefix'] = "cdm2015__";
+$config['db_prefix'] = "cdm2015abmi__";
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
 $config['support_team'] = "CdM2015";
