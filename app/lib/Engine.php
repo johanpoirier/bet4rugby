@@ -449,13 +449,13 @@ class Engine {
 
     function getNextPronosByUser($userID) {
         // Main Query
-        $req = "SELECT DISTINCT m.matchID, t1.name as teamAname, t2.name as teamBname, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, DATE_FORMAT(date, 'le %e/%m à %Hh') as date_str, TIME_TO_SEC(TIMEDIFF(m.date, NOW())) as delay_sec";
+        $req = "SELECT DISTINCT m.matchID, m.date, t1.name as teamAname, t2.name as teamBname, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, DATE_FORMAT(date, 'le %e/%m à %Hh') as date_str, TIME_TO_SEC(TIMEDIFF(m.date, NOW())) as delay_sec";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pronos p ON(p.matchID = m.matchID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " WHERE m.matchID NOT IN (SELECT p.matchID FROM " . $this->config['db_prefix'] . "pronos p WHERE p.userID = " . $userID . " AND p.scoreA IS NOT NULL AND p.scoreB IS NOT NULL) AND m.date > NOW()";
-        $req .= " ORDER BY date_str ASC";
+        $req .= " ORDER BY m.date ASC";
 
         $pronos = $this->db->select_array($req, $nb_pronos);
 
@@ -467,14 +467,14 @@ class Engine {
 
     function getMatchsByPool($poolID) {
         // Main Query
-        $req = "SELECT m.matchID, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, t2.teamID AS teamBid, t2.name AS teamBname, p.name as teamPool";
+        $req = "SELECT m.matchID, m.date, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, t2.teamID AS teamBid, t2.name AS teamBname, p.name as teamPool";
         $req .= ", m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, m.pnyA as pnyMatchA, m.pnyB as pnyMatchB, m.bonusA, m.bonusB";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools AS p ON(t1.poolID = p.poolID)";
         $req .= " WHERE t1.poolID = " . $poolID . " and t2.poolID = " . $poolID;
-        $req .= " ORDER BY dateStr ASC";
+        $req .= " ORDER BY m.date ASC";
 
         $matchs = $this->db->select_array($req, $nb_teams);
         if ($this->debug)
@@ -501,13 +501,13 @@ class Engine {
 
     function getMatchsByPhase($phase) {
         // Main Query
-        $req = "SELECT m.matchID, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, t2.teamID AS teamBid, t2.name AS teamBname";
+        $req = "SELECT m.matchID, m.date, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, t2.teamID AS teamBid, t2.name AS teamBname";
         $req .= ", m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, m.pnyA as pnyMatchA, m.pnyB as pnyMatchB, m.bonusA, m.bonusB";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " WHERE phaseID=" . $phase;
-        $req .= " ORDER BY dateStr ASC";
+        $req .= " ORDER BY m.date ASC";
 
         $matchs = $this->db->select_array($req, $nb_teams);
         if ($this->debug)
@@ -518,13 +518,13 @@ class Engine {
 
     function getMatchs() {
         // Main Query
-        $req = "SELECT m.matchID, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, p.name as teamPool, m.phaseID";
+        $req = "SELECT m.matchID, m.date, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, p.name as teamPool, m.phaseID";
         $req .= ", m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.bonusA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB, m.bonusB";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m ";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tA ON (m.teamA = tA.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tB ON (m.teamB = tB.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools AS p ON(tA.poolID = p.poolID)";
-        $req .= " ORDER BY dateStr, teamPool";
+        $req .= " ORDER BY m.date, teamPool";
 
         $matchsBdd = $this->db->select_array($req, $nb_teams);
         foreach ($matchsBdd as $match) {
@@ -665,7 +665,7 @@ class Engine {
 
     function getPronosByUserAndPool($userID, $poolID=false, $phaseID=1, $mode=0) {
         // Main Query
-        $req = "SELECT m.matchID, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB, b.scoreA as scorePronoA, b.pnyA as pnyPronoA, t2.teamID AS teamBid, t2.name AS teamBname, b.scoreB as scorePronoB, b.pnyB as pnyPronoB, p.name as teamPool, m.phaseID";
+        $req = "SELECT m.matchID, m.date, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB, b.scoreA as scorePronoA, b.pnyA as pnyPronoA, t2.teamID AS teamBid, t2.name AS teamBname, b.scoreB as scorePronoB, b.pnyB as pnyPronoB, p.name as teamPool, m.phaseID";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pronos AS b ON((b.matchID = m.matchID) AND (b.userID = " . $userID . "))";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
@@ -678,7 +678,7 @@ class Engine {
         if ($mode == 1) {
             $req .= " AND m.date < NOW()";
         }
-        $req .= " ORDER BY dateStr, teamPool";
+        $req .= " ORDER BY m.date, teamPool";
 
         // Phase
         $phase = $this->getPhase($phaseID);
@@ -797,7 +797,7 @@ class Engine {
 
     function getResultsByPhase($phase=1, $poolID=false) {
         // Main Query
-        $req = "SELECT m.matchID, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB, t2.teamID AS teamBid, t2.name AS teamBname, p.name as teamPool";
+        $req = "SELECT m.matchID, m.date, DATE_FORMAT(m.date,'le %e/%m à %Hh%i') as dateStr, t1.teamID AS teamAid, t1.name AS teamAname, m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB, t2.teamID AS teamBid, t2.name AS teamBname, p.name as teamPool";
         $req .= " FROM " . $this->config['db_prefix'] . "matchs m";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
@@ -805,7 +805,7 @@ class Engine {
         $req .= " WHERE m.phaseID=" . $phase;
         if ($poolID)
             $req .= " AND t1.poolID = " . $poolID . " AND t2.poolID = " . $poolID;
-        $req .= " ORDER BY dateStr, teamPool";
+        $req .= " ORDER BY m.date, teamPool";
 
         $results = array();
         $resultsBdd = $this->db->select_array($req, $nb_teams);
@@ -881,7 +881,7 @@ class Engine {
 
     function getPronosByMatch($matchID) {
         // Main Query
-        $req = "SELECT b.userID, m.matchID";
+        $req = "SELECT b.userID, m.matchID, m.date";
         $req .= ", m.scoreA as scoreMatchA, m.pnyA as pnyMatchA, m.scoreB as scoreMatchB, m.pnyB as pnyMatchB";
         $req .= ", b.scoreA as scorePronoA, b.pnyA as pnyPronoA, b.scoreB as scorePronoB, b.pnyB as pnyPronoB";
         $req .= ", tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname";
@@ -892,7 +892,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tB ON (m.teamB = tB.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools p ON (tA.poolID= p.poolID)";
         $req .= " WHERE m.matchID = " . $matchID;
-        $req .= " ORDER BY dateStr, teamAname";
+        $req .= " ORDER BY m.date, teamAname";
 
         $pronosBdd = $this->db->select_array($req, $nb_teams);
         $pronos = array();
