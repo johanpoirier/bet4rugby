@@ -58,7 +58,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                                 (<?php echo $prono['teamPool']; ?>)
                             </td>
                             <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
-                                <span class="tLogo <?php echo $prono['teamAname']; ?>"></span>
+                                <span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamAname']) ?>"></span>
                                 <span class="result-teamA-name"><?php echo $prono['teamAname']; ?></span>
                             </td>
                             <td width="8%" style="text-align:right;">
@@ -68,7 +68,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                                        value="<?php echo $prono['scorePronoA']; ?>"
                                        <?php echo $prono['DISABLED']; ?> />
                             </td>
-                            <td width="4%" style="text-align:center; font-weight:300; font-size:9px; color:<?php echo $prono['COLOR']; ?>;" rowspan="2">
+                            <td width="4%" style="text-align:center; font-weight:300; font-size:9px; color:<?= $prono['COLOR'] ?>;" rowspan="2">
                                 <?php echo $prono['POINTS']; ?><br/>
                                 <span style="color:grey;">
                                   <?php echo $prono['DIFF']; ?>
@@ -82,7 +82,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                                        <?php echo $prono['DISABLED']; ?> />
                             </td>
                             <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
-                                <span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
+                                <span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamBname']) ?>"></span>
                                 <span class="result-teamB-name"><?php echo $prono['teamBname']; ?></span>
                             </td>
                         </tr>

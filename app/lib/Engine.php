@@ -144,6 +144,7 @@ class Engine {
         $req .= " ORDER BY s.date";
 
         $months = [];
+        $monthValues = [];
         $dates = $this->db->select_array($req, $nb_res);
         foreach ($dates as $dateBdd) {
             $date = explode_datetime($dateBdd['date']);

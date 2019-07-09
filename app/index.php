@@ -1,6 +1,8 @@
 <?php
-
 error_reporting(E_ALL);
+
+ini_set('session.gc_maxlifetime', 86400); // 24 hours
+session_set_cookie_params(86400);
 session_start();
 
 define('WEB_PATH', '/');
@@ -373,7 +375,7 @@ if (FORGOT_IDS) {
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
-        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/fanions.css" />
+        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/badges.css" />
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/main.js?v=16637273922"> </script>
