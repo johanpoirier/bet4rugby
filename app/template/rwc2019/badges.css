@@ -5432,7 +5432,10 @@
     background: url(sprites/team-badge-xs-sprite.png) -180px -226px no-repeat;
     width: 20px;
     height: 25px;
-    display: inline-block
+    margin-right: 10px;
+    display: block;
+    background-position: 0 0;
+    float: left;
 }
 
 @media (-webkit-min-device-pixel-ratio:2), (min-resolution:192dpi) {
