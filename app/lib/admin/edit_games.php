@@ -151,7 +151,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         if (side === 'A') {
             $.ajax({
                 type: "POST",
-                url: "/include/classes/ajax.php",
+                url: "/lib/ajax.php",
                 data: "op=getTeamsByPool&side=" + side + "&pool=" + selectPool.options[selectPool.selectedIndex].value,
                 success: function (response) {
                     fillTeamsA(response);
@@ -164,7 +164,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         else {
             $.ajax({
                 type: "POST",
-                url: "/include/classes/ajax.php",
+                url: "/lib/ajax.php",
                 data: "op=getTeamsByPool&side=" + side + "&pool=" + selectPool.options[selectPool.selectedIndex].value,
                 success: function (response) {
                     fillTeamsB(response);
@@ -180,7 +180,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         if (side === 'A') {
             $.ajax({
                 type: "POST",
-                url: "/include/classes/ajax.php",
+                url: "/lib/ajax.php",
                 data: "op=getTeamsByPhase&side=" + side + "&phase=" + phase,
                 success: function (response) {
                     fillTeamsA(response);
@@ -193,7 +193,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         else {
             $.ajax({
                 type: "POST",
-                url: "/include/classes/ajax.php",
+                url: "/lib/ajax.php",
                 data: "op=getTeamsByPhase&side=" + side + "&phase=" + phase,
                 success: function (response) {
                 fillTeamsB(response);
@@ -224,7 +224,7 @@ $dateCourante = $engine->getSettingDate("DATE_DEBUT");
         var game = e.target;
         $.ajax({
             type: "GET",
-            url: "/include/classes/ajax.php",
+            url: "/lib/ajax.php",
             data: "op=getGame&id=" + game.getAttribute("data-game-id"),
             success: fillMatch
         });

@@ -1,0 +1,14 @@
+{
+  "name": "jops/bet4soccer",
+  "description": "Bets for international soccer competitions.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "vendor-dir": "app/lib/vendor"
+  },
+  "require": {
+    "ircmaxell/random-lib": "^1.1",
+    "sendinblue/api-v3-sdk": "^6.1.0",
+    "sentry/sdk": "2.0.3"
+  }
+}

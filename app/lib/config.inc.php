@@ -1,23 +1,25 @@
 <?php
 unset($config);
-$config = array();
+$config = [];
 
 /* MAIN INFORMATIONS */
-$config['title'] = "Coupe du Monde de Rugby 2015";
+$config['title'] = "Coupe du Monde de Rugby 2019";
 $config['author'] = "JoPs";
-$config['email'] = "johan.poirier+cdm2015@gmail.com";
+$config['email'] = "johan.poirier+rwc2019@gmail.com";
 $config['lang'] = "fr";
-$config['url'] = "http://cdm2015.jops-dev.com";
-$config['template'] = "cdm2011";
-$config['db_prefix'] = "cdm2015__";
+$config['url'] = "http://rwc2019.jops-dev.com";
+$config['template'] = "rwc2019";
+$config['db_prefix'] = "rwc2019__";
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
-$config['support_team'] = "CdM2015";
+$config['support_team'] = "RWC2019";
+
+$config['secret_key'] = 'this is a rugby world cup';
 
 $config['invitation_expiration'] = 30; /* in days */
 
 //                     hh,m,s,M,J,AAAA
-$config['steps'][0] = "21,00,0,9,18,2015";
+$config['steps'][0] = "21,00,0,9,18,2019";
 
 // rugby bet score data
 $config['limite1'] = 20;

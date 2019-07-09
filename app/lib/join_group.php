@@ -38,7 +38,7 @@ $userTeams = $engine->getUserTeams();
             <div class="formfield"><b>Veuillez entrer le mot de passe du groupe :</b></div>
             <input type="password" name="password" size="12" id="password"/>
             <br/><br/><br/>
-            <input class="image" type="image" src="/include/theme/<?php echo $config['template']; ?>/images/submit.gif"
+            <input class="image" type="image" src="/template/<?php echo $config['template']; ?>/images/submit.gif"
                    value="create it"/>
         </form>
     </div>

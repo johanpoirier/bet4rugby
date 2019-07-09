@@ -1,14 +1,13 @@
 <?php
-ini_set('session.gc_maxlifetime', 86400); // 24 hours
-session_set_cookie_params(86400);
+
+error_reporting(E_ALL);
 session_start();
 
-header("Content-Type: text/html; charset=utf-8");
-define('WEB_PATH', "/");
-define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . "/");
-define('URL_PATH', "/");
+define('WEB_PATH', '/');
+define('BASE_PATH', dirname(realpath(__FILE__)) . '/');
+define('URL_PATH', '/');
 
-require('include/classes/Engine.php');
+require('lib/Engine.php');
 
 $debug = false;
 $engine = new Engine(false, $debug);
@@ -29,7 +28,7 @@ if (FORGOT_IDS) {
         $res = $engine->sendIDs($_POST['email']);
         redirect("/?message=" . $res);
     } else {
-        $pageToInclude = "pages/forgot_ids.php";
+        $pageToInclude = "lib/forgot_ids.php";
     }
 } elseif (CODE) {
     if (isset($_SESSION['userID'])) {
@@ -68,12 +67,12 @@ if (FORGOT_IDS) {
     if (isset($_GET['message']) && $_GET['message']) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
-    $pageToInclude = "pages/register.php";
+    $pageToInclude = "lib/register.php";
 } elseif (AUTHENTIFICATION_NEEDED) {
     if (isset($_GET['message']) && $_GET['message']) {
         $message = $engine->lang['messages'][$_GET['message']];
     }
-    $pageToInclude = "pages/login.php";
+    $pageToInclude = "lib/login.php";
 } else {
     if (isset($_REQUEST['op'])) {
         $op = $_REQUEST['op'];
@@ -84,11 +83,11 @@ if (FORGOT_IDS) {
                 if (isset($_POST['code']) && ($_POST['code'] != "")) {
                     redirect("/?c=" . $_POST['code']);
                 } else {
-                    $pageToInclude = "pages/ranking.php";
+                    $pageToInclude = "lib/ranking.php";
                 }
             } else {
                 $message = $engine->lang['messages'][INCORRECT_CREDENTIALS];
-                $pageToInclude = "pages/login.php";
+                $pageToInclude = "lib/login.php";
             }
             break;
 
@@ -101,14 +100,14 @@ if (FORGOT_IDS) {
             if (isset($_GET['message']) && $_GET['message']) {
                 $message = $engine->lang['messages'][$_GET['message']];
             }
-            $pageToInclude = "pages/account.php";
+            $pageToInclude = "lib/account.php";
             break;
 
         case "change_account":
             if (isset($_GET['message']) && $_GET['message']) {
                 $message = $engine->lang['messages'][$_GET['message']];
             }
-            $pageToInclude = "pages/change_account.php";
+            $pageToInclude = "lib/change_account.php";
             break;
 
         case "update_profile":
@@ -128,46 +127,46 @@ if (FORGOT_IDS) {
             break;
 
         case "view_ranking":
-            $pageToInclude = "pages/ranking.php";
+            $pageToInclude = "lib/ranking.php";
             break;
 
         case "view_ranking_teams":
-            $pageToInclude = "pages/ranking_teams.php";
+            $pageToInclude = "lib/ranking_teams.php";
             break;
 
         case "view_ranking_users_in_team":
-            $pageToInclude = "pages/ranking_users_in_team.php";
+            $pageToInclude = "lib/ranking_users_in_team.php";
             break;
 
         case "update_ranking":
             $engine->updateRanking();
             $engine->updateUserTeamRanking();
-            $pageToInclude = "pages/ranking.php";
+            $pageToInclude = "lib/ranking.php";
             break;
 
         case "edit_games":
-            $pageToInclude = "pages/admin/edit_games.php";
+            $pageToInclude = "lib/admin/edit_games.php";
             break;
 
         case "edit_results":
-            $pageToInclude = "pages/admin/edit_results.php";
+            $pageToInclude = "lib/admin/edit_results.php";
             break;
 
         case "view_results":
-            $pageToInclude = "pages/view_results.php";
+            $pageToInclude = "lib/view_results.php";
             break;
 
         case "add_match":
             $engine->addMatch($_POST['phase'], $_POST['pool'], $_POST['day'], $_POST['month'], $_POST['hour'], $_POST['minutes'], $_POST['teamA'], $_POST['teamB'], $_POST['idMatch']);
-            $pageToInclude = "pages/admin/edit_games.php";
+            $pageToInclude = "lib/admin/edit_games.php";
             break;
 
         case "edit_pronos":
-            $pageToInclude = "pages/edit_pronos.php";
+            $pageToInclude = "lib/edit_pronos.php";
             break;
 
         case "view_pronos":
-            $pageToInclude = "pages/view_pronos.php";
+            $pageToInclude = "lib/view_pronos.php";
             break;
 
         case "edit_pf":
@@ -175,7 +174,7 @@ if (FORGOT_IDS) {
             if ($phase['phasePrecedente'] == NULL) {
                 redirect("/?op=edit_pronos");
             }
-            $pageToInclude = "pages/edit_pf.php";
+            $pageToInclude = "lib/edit_pf.php";
             break;
 
         case "save_pronos":
@@ -195,7 +194,7 @@ if (FORGOT_IDS) {
                     }
                 }
             }
-            $pageToInclude = "pages/edit_pronos.php";
+            $pageToInclude = "lib/edit_pronos.php";
             break;
 
         case "save_pf":
@@ -213,7 +212,7 @@ if (FORGOT_IDS) {
                     }
                 }
             }
-            $pageToInclude = "pages/edit_pf.php";
+            $pageToInclude = "lib/edit_pf.php";
             break;
 
         case "save_results":
@@ -230,15 +229,15 @@ if (FORGOT_IDS) {
                     $engine->saveResult($matchID, $team, $score, $bonus, $pny);
                 }
             }
-            $pageToInclude = "pages/admin/edit_results.php";
+            $pageToInclude = "lib/admin/edit_results.php";
             break;
 
         case "rules":
-            $pageToInclude = "pages/rules.php";
+            $pageToInclude = "lib/rules.php";
             break;
 
         case "edit_users":
-            $pageToInclude = "pages/admin/users.php";
+            $pageToInclude = "lib/admin/users.php";
             break;
 
         case "add_user":
@@ -258,7 +257,7 @@ if (FORGOT_IDS) {
                 $engine->addOrUpdateUser($login, $pass, $name, $mail, $userTeamId, $isAdmin);
             }
 
-            $pageToInclude = "pages/admin/users.php";
+            $pageToInclude = "lib/admin/users.php";
             break;
 
         case "join_group":
@@ -272,7 +271,7 @@ if (FORGOT_IDS) {
                 if (isset($_GET['message']) && $_GET['message']) {
                     $message = $engine->lang['messages'][$_GET['message']];
                 }
-                $pageToInclude = "pages/join_group.php";
+                $pageToInclude = "lib/join_group.php";
             }
             break;
 
@@ -300,7 +299,7 @@ if (FORGOT_IDS) {
             if (isset($_GET['message']) && $_GET['message']) {
                 $message = $engine->lang['messages'][$_GET['message']];
             }
-            $pageToInclude = "pages/create_group.php";
+            $pageToInclude = "lib/create_group.php";
             break;
 
         case "invite_friends":
@@ -356,14 +355,14 @@ if (FORGOT_IDS) {
             } elseif (($user['userTeamID'] == "") || ($user['userTeamID'] == 0)) {
                 $message = $engine->lang['messages'][INVITE_WITHOUT_GROUP];
             }
-            $pageToInclude = "pages/invite_friends.php";
+            $pageToInclude = "lib/invite_friends.php";
             break;
 
         default:
             if (AUTHENTIFICATION_NEEDED) {
-                $pageToInclude = "pages/login.php";
+                $pageToInclude = "lib/login.php";
             } else {
-                $pageToInclude = "pages/ranking.php";
+                $pageToInclude = "lib/ranking.php";
             }
             break;
     }
@@ -374,14 +373,14 @@ if (FORGOT_IDS) {
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
-        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/fanions.css" />
-        <link type="text/css" rel="stylesheet" href="include/theme/<?php echo $engine->config['template']; ?>/main.css" />
+        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/fanions.css" />
+        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
         <script type="text/javascript" src="/js/main.js?v=16637273922"> </script>
     </head>
     <body>
         <div id="main">
-<?php include_once("include/theme/" . $engine->config['template'] . "/header.php"); ?>
+<?php include_once('template/' . $engine->config['template'] . '/header.php'); ?>
 <?php if ($engine->isLoggedIn()) { ?>
             <nav>
                 <ul class="nav-group">
@@ -410,10 +409,10 @@ if (strlen($pageToInclude) > 0) {
 ?>
             </section>
 <?php
-if (isset($_SESSION["userID"])) {
-    include_once("include/theme/" . $engine->config['template'] . "/footer_private.php");
+if (isset($_SESSION['userID'])) {
+    include_once('template/' . $engine->config['template'] . '/footer_private.php');
 } else {
-    include_once("include/theme/" . $engine->config['template'] . "/footer_public.php");
+    include_once('template/' . $engine->config['template'] . '/footer_public.php');
 }
 ?>
         </div>

@@ -69,7 +69,7 @@ function saveTag(userTeamID) {
 
     $.ajax({
         type: "POST",
-        url: "/include/classes/ajax.php",
+        url: "/lib/ajax.php",
         data: "op=saveTag&userTeamID=" + userTeamID + "&tag=" + tag,
         success: function(data) {
             $("#tags").html(data);
@@ -85,7 +85,7 @@ function delTag(tagID, userTeamID) {
         if(!userTeamID) userTeamID = -1;
         $.ajax({
             type: "POST",
-            url: "/include/classes/ajax.php",
+            url: "/lib/ajax.php",
             data: "op=delTag&tagID=" + tagID + "&userTeamID=" + userTeamID,
             success: function(data) {
                 $("#tags").html(data);
@@ -100,7 +100,7 @@ function loadTags(userTeamID, startTag) {
     }
     $.ajax({
         type: "POST",
-        url: "/include/classes/ajax.php",
+        url: "/lib/ajax.php",
         data: "op=getTags&start=" + (startTag || 0) + "&userTeamID=" + (userTeamID || -1),
         success: function(data) {
             $('#tags').html(data);
@@ -120,7 +120,7 @@ function displayAutoJoin(userTeamName, code) {
 function getUser(idUser) {
     $.ajax({
         type: "GET",
-        url: "/include/classes/ajax.php",
+        url: "/lib/ajax.php",
         data: "op=getUser&id=" + idUser,
         success: fillUser
     });

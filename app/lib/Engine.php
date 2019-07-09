@@ -1,10 +1,12 @@
 <?php
 
-include(BASE_PATH . 'include/misc/config.inc.php');
-include(BASE_PATH . 'include/misc/define.inc.php');
+require_once(__DIR__ . '/vendor/autoload.php');
+
+include(BASE_PATH . 'lib/config.inc.php');
+include(BASE_PATH . 'lib/define.inc.php');
 include(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
-include(BASE_PATH . 'include/misc/functions.inc.php');
-include(BASE_PATH . 'include/misc/db.php');
+include(BASE_PATH . 'lib/functions.inc.php');
+include(BASE_PATH . 'lib/db.php');
 
 class Engine {
 
@@ -15,11 +17,8 @@ class Engine {
     var $template;
     var $start_time;
 
-    /*     * *************** */
-    /*  CONTRUCTOR	  */
-    /*     * *************** */
 
-    function Engine($admin=false, $debug=false) {
+    function __construct($admin=false, $debug=false) {
         global $config, $lang;
 
         $time = time();
@@ -30,7 +29,7 @@ class Engine {
         $this->config = $config;
         $this->lang = $lang;
         $this->step = 0;
-        $this->theme_location = '/include/theme/' . $config['template'] . "/";
+        $this->theme_location = BASE_PATH . 'template/' . $config['template'] . '/';
 
         $this->admin = (isset($_SESSION['status']) && $_SESSION['status'] == 1) ? true : false;
     }
@@ -40,7 +39,7 @@ class Engine {
         $req = "SELECT *";
         $req .= " FROM " . $this->config['db_prefix'] . "users ";
         $req .= " WHERE login = '" . $login . "'";
-        $req .= " AND password = '" . md5($pass) . "'";
+        $req .= " AND password = '" . hash_hmac('sha512', $pass, $this->config['secret_key']) . "'";
         $req .= " AND status >= 0";
 
         $user = $this->db->select_line($req, $nb_user);
@@ -455,7 +454,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " WHERE m.matchID NOT IN (SELECT p.matchID FROM " . $this->config['db_prefix'] . "pronos p WHERE p.userID = " . $userID . " AND p.scoreA IS NOT NULL AND p.scoreB IS NOT NULL) AND m.date > NOW()";
-        $req .= " ORDER BY m.date ASC";
+        $req .= " ORDER BY date_str ASC";
 
         $pronos = $this->db->select_array($req, $nb_pronos);
 
@@ -474,7 +473,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools AS p ON(t1.poolID = p.poolID)";
         $req .= " WHERE t1.poolID = " . $poolID . " and t2.poolID = " . $poolID;
-        $req .= " ORDER BY m.date ASC";
+        $req .= " ORDER BY dateStr ASC";
 
         $matchs = $this->db->select_array($req, $nb_teams);
         if ($this->debug)
@@ -507,7 +506,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t1 ON(m.teamA = t1.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams AS t2 ON(m.teamB = t2.teamID)";
         $req .= " WHERE phaseID=" . $phase;
-        $req .= " ORDER BY m.date ASC";
+        $req .= " ORDER BY dateStr ASC";
 
         $matchs = $this->db->select_array($req, $nb_teams);
         if ($this->debug)
@@ -524,7 +523,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tA ON (m.teamA = tA.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tB ON (m.teamB = tB.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools AS p ON(tA.poolID = p.poolID)";
-        $req .= " ORDER BY m.date, teamPool";
+        $req .= " ORDER BY dateStr, teamPool";
 
         $matchsBdd = $this->db->select_array($req, $nb_teams);
         foreach ($matchsBdd as $match) {
@@ -678,7 +677,7 @@ class Engine {
         if ($mode == 1) {
             $req .= " AND m.date < NOW()";
         }
-        $req .= " ORDER BY m.date, teamPool";
+        $req .= " ORDER BY dateStr, teamPool";
 
         // Phase
         $phase = $this->getPhase($phaseID);
@@ -805,7 +804,7 @@ class Engine {
         $req .= " WHERE m.phaseID=" . $phase;
         if ($poolID)
             $req .= " AND t1.poolID = " . $poolID . " AND t2.poolID = " . $poolID;
-        $req .= " ORDER BY m.date, teamPool";
+        $req .= " ORDER BY dateStr, teamPool";
 
         $results = array();
         $resultsBdd = $this->db->select_array($req, $nb_teams);
@@ -892,7 +891,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "teams tB ON (m.teamB = tB.teamID)";
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "pools p ON (tA.poolID= p.poolID)";
         $req .= " WHERE m.matchID = " . $matchID;
-        $req .= " ORDER BY m.date, teamAname";
+        $req .= " ORDER BY dateStr, teamAname";
 
         $pronosBdd = $this->db->select_array($req, $nb_teams);
         $pronos = array();
@@ -1260,7 +1259,7 @@ class Engine {
         if ($name == null || $name == "" || $login == null || $login == "") {
             return FIELDS_EMPTY;
         }
-        return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . md5($pass) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
+        return $this->db->insert("INSERT INTO " . $this->config['db_prefix'] . "users (name, login, password, email, userTeamID, status) VALUES ('" . addslashes($name) . "','" . addslashes($login) . "','" . hash_hmac('sha512', $pass, $this->config['secret_key']) . "', '" . $email . "', " . $userTeamId . ", " . $isAdmin . ")");
     }
 
     function addOrUpdateUser($login, $pass, $name, $email, $groupID, $status) {
@@ -1273,10 +1272,11 @@ class Engine {
         if ($name == null || $name == "" || $login == null || $login == "") {
             return FIELDS_EMPTY;
         }
+        $password = hash_hmac('sha512', $pass, $this->config['secret_key']);
         if ($this->isUserExists($login)) {
             $passwordReq = "";
             if (strlen($pass) > 1) {
-                $passwordReq = " password='" . md5($pass) . "', ";
+                $passwordReq = " password='$password', ";
             }
             $req = "UPDATE " . $this->config['db_prefix'] . "users";
             $req .= " SET name='" . addslashes($name) . "', " . $passwordReq . "email='" . addslashes($email) . "',";
@@ -1284,7 +1284,7 @@ class Engine {
             return $this->db->exec_query($req);
         } else {
             $req = "INSERT INTO " . $this->config['db_prefix'] . "users (login, password, name, email, userTeamID, status)";
-            $req .= " VALUES ('" . addslashes($login) . "', '" . md5($pass) . "', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ")";
+            $req .= " VALUES ('" . addslashes($login) . "', '$password', '" . addslashes($name) . "', '" . addslashes($email) . "', " . (($groupID != '') ? $groupID : "NULL") . ", " . addslashes($status) . ")";
             return $this->db->insert($req);
         }
     }
@@ -1378,10 +1378,10 @@ class Engine {
         if (!$user) {
             return false;
         }
-        $new_pass = newPassword(8);
+        $new_pass = newPassword(16);
 
         $req = 'UPDATE ' . $this->config['db_prefix'] . 'users';
-        $req .= ' SET password = \'' . md5($new_pass) . '\'';
+        $req .= ' SET password = \'' . hash_hmac('sha512', $new_pass, $this->config['secret_key']) . '\'';
         $req .= ' WHERE "userID" = ' . $userID . '';
 
         if ($this->db->exec_query($req)) {
@@ -1513,7 +1513,7 @@ class Engine {
         $tag_content = "";
         foreach ($tags as $tag) {
             $tag_content .= "<div class=\"tag\" id=\"tag_" . $tag['tagID'] . "\">";
-            $tag_content .= "<img onclick=\"delTag(" . $tag['tagID'] . ")\" src=\"/include/theme/" . $this->config['template'] . "/images/del.png\" alt=\"Supprimer\" title=\"Supprimer ce comentaire ?\" />";
+            $tag_content .= "<img onclick=\"delTag(" . $tag['tagID'] . ")\" src=\"/template/" . $this->config['template'] . "/images/del.png\" alt=\"Supprimer\" title=\"Supprimer ce comentaire ?\" />";
             $tag_content .= "<span class=\"tag-date\">" . $tag['date'] . "</span>";
             $tag_content .= "<span class=\"tag-author\">" . stripslashes($tag['name']) . "</span>";
             $tag_content .= "<span class=\"tag-content\">" . stripslashes($tag['tag']) . "</span>";
@@ -1524,6 +1524,11 @@ class Engine {
 
     function loadRanking() {
         $users = $this->getUsers();
+
+        if (count($users) === 0) {
+            return [];
+        }
+
         usort($users, "compare_users");
         $nbMatchs = $this->getNbTotalMatchs();
 
@@ -2066,7 +2071,7 @@ class Engine {
             $req .= ", email = '" . addslashes($email) . "'";
         }
         if (strlen($pwd) > 2) {
-            $req .= ", password = '" . md5($pwd) . "'";
+            $req .= ", password = '" . hash_hmac('sha512', $pwd, $this->config['secret_key']) . "'";
         }
         $req .= " WHERE userID=" . $userID;
         $ret = $this->db->exec_query($req);

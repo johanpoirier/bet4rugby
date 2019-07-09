@@ -1,3 +1,4 @@
 logs/
 .idea/
-include/misc/protect/params.*.inc
+app/lib/protect/params.*.inc
+vendor
