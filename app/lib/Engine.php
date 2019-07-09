@@ -143,13 +143,14 @@ class Engine {
         $req .= " WHERE s.name = 'DATE_DEBUT' OR s.name = 'DATE_FIN'";
         $req .= " ORDER BY s.date";
 
-        $months = array();
+        $months = [];
         $dates = $this->db->select_array($req, $nb_res);
-        $i = 0;
         foreach ($dates as $dateBdd) {
             $date = explode_datetime($dateBdd['date']);
-            $months[$i] = array(intval($date['month']), $lang['months'][$date['month'] - 1]);
-            $i++;
+            $monthValues[] = intval($date['month']);
+        }
+        for ($month = $monthValues[0]; $month <= $monthValues[1]; $month++) {
+            $months[] = [$month, $lang['months'][$month - 1]];
         }
 
         return $months;
