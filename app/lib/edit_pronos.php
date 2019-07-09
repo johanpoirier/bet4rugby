@@ -133,7 +133,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                     foreach ($ranked_teams as $team) {
                         ?>
                         <tr<?php if (isset($team['style'])) echo " style=\"" . $team['style'] . "\""; ?>>
-                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="tLogoSmall <?php echo $team['name']; ?>"></span><?php echo $team['name']; ?></td>
+                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="team-badge-xs <?= str_replace(' ', '-', $team['name']) ?>"></span><?php echo $team['name']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['points']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['diff']; ?></td>
                         </tr>

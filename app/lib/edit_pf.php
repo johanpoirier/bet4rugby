@@ -52,7 +52,7 @@
       <tr>
 	  	<td width="4%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2"></td>
         <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
-			<span class="tLogo <?php echo $prono['teamAname']; ?>"></span>
+			<span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamAname']) ?>"></span>
         	<span class="result-teamA-name"><?php echo $prono['teamAname']; ?></span>
         </td>
         <td width="8%" style="text-align:right;">
@@ -66,7 +66,7 @@
 			<input type="number" min="0" max="500" size="2" id="scoreTeam_B_<?php echo $prono['matchID']; ?>" name="iptScoreTeam_B_<?php echo $prono['matchID']; ?>" value="<?php echo $prono['scorePronoB']; ?>"<?php echo $prono['DISABLED']; ?> onkeyup="showPny(<?php echo $prono['matchID']; ?>)" />
 		</td>
         <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
-			<span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
+			<span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamBname']) ?>"></span>
 			<span class="result-teamB-name"><?php echo $prono['teamBname']; ?></span>
 		</td>
       </tr>

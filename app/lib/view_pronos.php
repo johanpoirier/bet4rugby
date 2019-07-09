@@ -60,7 +60,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                 <tr>
                     <td width="4%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">(<?php echo $prono['teamPool']; ?>)</td>
                     <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">
-                        <span class="tLogo <?php echo $prono['teamAname']; ?>"></span>
+                        <span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamAname']) ?>"></span>
                         <span class="result-teamA-name"><?php echo $prono['teamAname']; ?></span>
                     </td>
                     <td width="8%" style="text-align:right; padding-right: 10px;">
@@ -80,7 +80,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                         </strong>
                     </td>
                     <td id="m_<?php echo $prono['matchID']; ?>_team_B" width="38%" rowspan="2" class="result-teamB" style="background-color: <?php echo $prono['COLOR_B']; ?>;">
-                        <span class="tLogo <?php echo $prono['teamBname']; ?>"></span>
+                        <span class="team-badge-sm <?= str_replace(' ', '-', $prono['teamBname']) ?>"></span>
                         <span class="result-teamB-name"><?php echo $prono['teamBname']; ?></span>
                     </td>
                 </tr>
@@ -122,7 +122,7 @@ foreach ($pools as $pool) {
                         ?>
                         <tr<?php if (isset($team['style']))
                     echo " style=\"" . $team['style'] . "\""; ?>>
-                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="tLogoSmall <?php echo $team['name']; ?>"></span><?php echo $team['name']; ?></td>
+                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="team-badge-xs <?= str_replace(' ', '-', $team['name']) ?>"></span><?php echo $team['name']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['points']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['diff']; ?></td>
                         </tr>

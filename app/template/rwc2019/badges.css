@@ -3751,7 +3751,10 @@
     background: url(sprites/team-badge-sm-sprite.png) -225px -288px no-repeat;
     width: 25px;
     height: 32px;
-    display: inline-block
+    float: left;
+    margin-right: 10px;
+    display: block;
+    background-position: 0 0;
 }
 
 @media (-webkit-min-device-pixel-ratio:2), (min-resolution:192dpi) {

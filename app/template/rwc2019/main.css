@@ -509,7 +509,7 @@ td.result-teamB {
     text-align: left;
 }
 
-td.result-teamA .tLogo, td.result-teamA .tLogoSmall {
+td.result-teamA .team-badge-sm, td.result-teamA .team-badge-xs {
     float: right;
     margin-left: 10px;
     margin-right: 0;
@@ -641,11 +641,11 @@ td.ranking-pool-team-points {
         margin: 0.5rem 0;
     }
 
-    td.result-teamA .tLogoSmall {
+    td.result-teamA .team-badge-xs {
         margin-left: 5px;
     }
 
-    td.result-teamB .tLogoSmall {
+    td.result-teamB .team-badge-xs {
         margin-right: 5px;
     }
 }

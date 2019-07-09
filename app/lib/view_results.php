@@ -85,7 +85,7 @@ if ($phase['phasePrecedente'] != NULL) {
                     <tr>
                         <td width="5%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="4"></td>
                         <td id="m_<?php echo $result['matchID']; ?>_team_A" width="32%" class="result-teamA" rowspan="3" style="background-color: <?php echo $result['COLOR_A']; ?>;">
-                            <span class="tLogo <?php echo $result['teamAname']; ?>"></span>
+                            <span class="team-badge-sm <?= str_replace(' ', '-', $result['teamAname']) ?>"></span>
                             <span class="result-teamA-name"><?php echo $result['teamAname']; ?></span>
                         </td>
                         <td width="12%"
@@ -94,7 +94,7 @@ if ($phase['phasePrecedente'] != NULL) {
                         <td width="12%"
                             style="text-align:center;font-weight:600;font-size:15px;"><?php echo $result['scoreMatchB']; ?></td>
                         <td id="m_<?php echo $result['matchID']; ?>_team_B" width="32%" class="result-teamB" rowspan="3" style="background-color: <?php echo $result['COLOR_B']; ?>;">
-                            <span class="tLogo <?php echo $result['teamBname']; ?>"></span>
+                            <span class="team-badge-sm <?= str_replace(' ', '-', $result['teamBname']) ?>"></span>
                             <span class="result-teamB-name"><?php echo $result['teamBname']; ?></span>
                         </td>
                     </tr>
@@ -157,7 +157,7 @@ if ($phase['phasePrecedente'] != NULL) {
                         ?>
                         <tr<?php if (isset($team['style']))
                             echo " style=\"" . $team['style'] . "\""; ?>>
-                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="tLogoSmall <?php echo $team['name']; ?>"></span><?php echo $team['name']; ?></td>
+                            <td id="team_<?php echo $team['teamID']; ?>" class="ranking-pool-team"><span class="team-badge-xs <?= str_replace(' ', '-', $team['name']) ?>"></span><?php echo $team['name']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['points']; ?></td>
                             <td class="ranking-pool-team-points"><?php echo $team['diff']; ?></td>
                         </tr>

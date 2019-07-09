@@ -42,7 +42,7 @@
                     <tr>
                         <td align="left" width="4%" style="white-space: nowrap; font-size: 7pt;">(<?php echo $match['teamPool']; ?>)</td>
                         <td id="m_<?php echo $match['matchID']; ?>_team_A" width="42%" class="result-teamA" style="background-color: <?php echo $match['COLOR_A']; ?>;">
-                            <span class="tLogo <?php echo $match['teamAname']; ?>"></span>
+                            <span class="team-badge-sm <?= str_replace(' ', '-', $match['teamAname']) ?>"></span>
                             <span class="result-teamA-name"><?php echo $match['teamAname']; ?></span>
                         </td>
                         <td width="6%" style="text-align:right;">
@@ -60,7 +60,7 @@
                                  onkeyup="showPny(<?php echo $match['matchID']; ?>)" />
                         </td>
                         <td id="m_<?php echo $match['matchID']; ?>_team_B" width="42%" class="result-teamB" style="background-color: <?php echo $match['COLOR_B']; ?>;">
-                            <span class="tLogo <?php echo $match['teamBname']; ?>"></span>
+                            <span class="team-badge-sm <?= str_replace(' ', '-', $match['teamBname']) ?>"></span>
                             <span class="result-teamB-name"><?php echo $match['teamBname']; ?></span>
                         </td>
                     </tr>
