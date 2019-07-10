@@ -375,6 +375,12 @@ if (FORGOT_IDS) {
         <title><?php echo $engine->config['title']; ?></title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+        <link rel="icon" type="image/png" href="template/<?= $engine->config['template'] ?>/images/favicon-32x32.png?v=3" sizes="32x32">
+        <link rel="icon" type="image/png" href="template/<?= $engine->config['template'] ?>/images/favicon-16x16.png?v=3" sizes="16x16">
+        <link rel="apple-touch-icon-precomposed" sizes="180x180" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-180x180.png?v=3">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-152x152.png?v=3">
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-120x120.png?v=3">
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-76x76.png?v=3">
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/badges.css" />
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
