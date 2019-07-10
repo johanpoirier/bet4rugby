@@ -1,8 +1,5 @@
 <?php
 error_reporting(E_ALL);
-
-ini_set('session.gc_maxlifetime', 86400); // 24 hours
-session_set_cookie_params(86400);
 session_start();
 
 define('WEB_PATH', '/');
@@ -20,6 +17,16 @@ define('FORGOT_IDS', (isset($_GET['op']) && ($_GET['op']) == "forgot_ids"));
 define('AUTHENTIFICATION_NEEDED', (!isset($_SESSION['userID']) && !LOGIN && !REGISTER && !FORGOT_IDS));
 define('PHASE_ID_ACTIVE', $engine->getPhaseIDActive());
 define('CODE', ( isset($_GET['c']) && !isset($_GET['op'])));
+
+
+if ($engine->config['sentry_enable']) {
+    Sentry\init(['dsn' => $engine->config['sentry_dsn']]);
+}
+
+// keep me logged in
+if (!$engine->isLoggedIn()) {
+    $engine->remember_me();
+}
 
 $op = "";
 $pageToInclude = "";
@@ -81,7 +88,7 @@ if (FORGOT_IDS) {
     }
     switch ($op) {
         case "login":
-            if ($engine->login($_POST['login'], $_POST['pass'])) {
+            if ($engine->login($_POST['login'], $_POST['pass'], isset($_POST['keep']), $_POST['uuid'])) {
                 if (isset($_POST['code']) && ($_POST['code'] != "")) {
                     redirect("/?c=" . $_POST['code']);
                 } else {
@@ -384,7 +391,7 @@ if (FORGOT_IDS) {
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/badges.css" />
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
-        <script type="text/javascript" src="/js/main.js?v=16637273922"> </script>
+        <script type="text/javascript" src="/js/main.js?v=20190710091522"> </script>
     </head>
     <body>
         <div id="main">

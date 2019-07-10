@@ -2,11 +2,14 @@
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-include(BASE_PATH . 'lib/config.inc.php');
-include(BASE_PATH . 'lib/define.inc.php');
-include(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
-include(BASE_PATH . 'lib/functions.inc.php');
-include(BASE_PATH . 'lib/db.php');
+include_once(BASE_PATH . 'lib/config.inc.php');
+include_once(BASE_PATH . 'lib/define.inc.php');
+include_once(BASE_PATH . 'lang/' . $config['lang'] . '.inc.php');
+include_once(BASE_PATH . 'lib/functions.inc.php');
+include_once(BASE_PATH . 'lib/db.php');
+include_once(BASE_PATH . 'lib/tokens.php');
+include_once(BASE_PATH . 'lib/palmares.php');
+include_once(BASE_PATH . 'lib/emailer.php');
 
 class Engine {
 
@@ -16,6 +19,9 @@ class Engine {
     var $lang;
     var $template;
     var $start_time;
+    var $tokens;
+    var $palmares;
+    var $emailer;
 
 
     function __construct($admin=false, $debug=false) {
@@ -31,10 +37,14 @@ class Engine {
         $this->step = 0;
         $this->theme_location = BASE_PATH . 'template/' . $config['template'] . '/';
 
+        $this->tokens = new Tokens($this->db, $this->config);
+        $this->palmares = new Palmares($this->db, $this->config);
+        $this->emailer = new Emailer($this->config);
+
         $this->admin = (isset($_SESSION['status']) && $_SESSION['status'] == 1) ? true : false;
     }
 
-    function login($login, $pass) {
+    function login($login, $pass, $keep, $deviceUuid) {
         // Main Query
         $req = "SELECT *";
         $req .= " FROM " . $this->config['db_prefix'] . "users ";
@@ -45,17 +55,28 @@ class Engine {
         $user = $this->db->select_line($req, $nb_user);
 
         if ($nb_user == 1) {
-            $_SESSION['username'] = $user['name'];
-            $_SESSION['nom_joueur'] = $user['name'];
-            $_SESSION['login'] = $user['login'];
-            $_SESSION['userID'] = $user['userID'];
-            $_SESSION['status'] = $user['status'];
-            if ($user['status'] == 1)
+            $this->log_user_in($user);
+            if ($user['status'] == 1) {
                 $this->admin = true;
+            }
+
+            // store identification
+            if ($keep === true) {
+                $token = $this->generate_random_token();
+                $this->tokens->add($user['userID'], $deviceUuid, $token);
+                $cookie = $user['userID'] . ':' . $token;
+
+                $mac = hash_hmac('sha256', $cookie, $this->config['secret_key']);
+                $cookie .= ':' . $mac;
+
+                setcookie('device', $deviceUuid, time() + 60 * 60 * 24 * 365, null, null, true, true);
+                setcookie('rememberme', $cookie, time() + 60 * 60 * 24 * 365, null, null, true, true);
+            }
+
             return true;
         }
-        else
-            return false;
+        
+        return false;
     }
 
     /*     * *************** */
@@ -1231,7 +1252,7 @@ class Engine {
     /*     * *************** */
 
     function addMatch($phase, $pool, $day, $month, $hour, $minutes, $teamA, $teamB, $matchID) {
-        $date = "2015-" . $month . "-" . $day . " " . $hour . ":" . $minutes . ":00";
+        $date = date('Y') . "$month-$day $hour:$minutes:00";
         if (isset($matchID)) {
             $matchID = $this->isMatchExists($teamA, $teamB, $phase);
         }
@@ -2261,4 +2282,41 @@ class Engine {
         }
     }
 
+    function generate_random_token()
+    {
+        $factory = new RandomLib\Factory;
+        $generator = $factory->getMediumStrengthGenerator();
+        return $generator->generateString(128);
+    }
+
+    function remember_me()
+    {
+        $cookie = isset($_COOKIE['rememberme']) ? $_COOKIE['rememberme'] : '';
+        $deviceUuid = isset($_COOKIE['device']) ? $_COOKIE['device'] : '';
+        if ($cookie) {
+            list ($userID, $token, $mac) = explode(':', $cookie);
+            if (!hash_equals(hash_hmac('sha256', $userID . ':' . $token, $this->config['secret_key']), $mac)) {
+                return false;
+            }
+
+            $userToken = $this->tokens->get_by_user_and_device($userID, $deviceUuid);
+
+            if ($userToken && hash_equals($userToken, $token)) {
+                $user = $this->users->get($userID);
+                $this->log_user_in($user);
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function log_user_in($user)
+    {
+        $_SESSION['username'] = $user['name'];
+        $_SESSION['nom_joueur'] = $user['name'];
+        $_SESSION['login'] = $user['login'];
+        $_SESSION['userID'] = $user['userID'];
+        $_SESSION['status'] = $user['status'];
+    }
 }

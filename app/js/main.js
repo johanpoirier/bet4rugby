@@ -146,3 +146,19 @@ function selectRadioValue(name, value) {
         }
     });
 }
+
+function generateUuid() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		return v.toString(16);
+	});
+}
+
+function getUuid() {
+    let uuid = window.localStorage.getItem('uuid');
+	if (!uuid) {
+        uuid = generateUuid();
+        window.localStorage.setItem('uuid', uuid);
+	}
+	return uuid;
+}

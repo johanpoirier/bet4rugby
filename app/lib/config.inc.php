@@ -9,10 +9,19 @@ $config['email'] = "johan.poirier+rwc2019@gmail.com";
 $config['lang'] = "fr";
 $config['url'] = "http://rwc2019.jops-dev.com";
 $config['template'] = "rwc2019";
-$config['db_prefix'] = "rwc2019__";
+
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
 $config['support_team'] = "RWC2019";
+
+$config['email_use_third_party_sender'] = false;
+$config['sendinblue_apikey'] = 'your api key';
+
+$config['sentry_enable'] = false;
+$config['sentry_dsn'] = 'your Sentry dsn';
+
+$config['db_common_prefix'] = 'bet4soccer__';
+$config['db_prefix'] = "rwc2019__";
 
 $config['secret_key'] = 'this is a rugby world cup';
 
