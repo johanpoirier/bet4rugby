@@ -40,13 +40,7 @@ class DB
     }
 
     public function exec_query($req, $params = []) {
-        // Start Time
-        $startTime = get_moment();
         $this->nb_queries++;
-
-        if ($this->debug) {
-            echo "REQUEST N°" . $this->nb_queries . "='" . $req . "'";
-        }
 
         if (!$this->cnx) {
             $this->cnx = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->dbname, $this->username, $this->password, [
@@ -65,14 +59,6 @@ class DB
         } catch(PDOException $e) {
             return $e;
         }
-
-        $elapsed_time = get_elapsed_time($startTime, get_moment());
-
-        if ($this->debug) {
-            echo $elapsed_time . 's<br/>';
-        }
-
-        $this->exec_time += $elapsed_time;
 
         return $statement;
     }
