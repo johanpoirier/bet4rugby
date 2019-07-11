@@ -11,6 +11,11 @@ require('lib/Engine.php');
 $debug = false;
 $engine = new Engine(false, $debug);
 
+// keep me logged in
+if (!$engine->isLoggedIn()) {
+    $engine->remember_me();
+}
+
 define('LOGIN', (isset($_GET['op']) && ($_GET['op']) == "login"));
 define('REGISTER', (isset($_GET['op']) && ($_GET['op']) == "register"));
 define('FORGOT_IDS', (isset($_GET['op']) && ($_GET['op']) == "forgot_ids"));
@@ -21,11 +26,6 @@ define('CODE', ( isset($_GET['c']) && !isset($_GET['op'])));
 
 if ($engine->config['sentry_enable']) {
     Sentry\init(['dsn' => $engine->config['sentry_dsn']]);
-}
-
-// keep me logged in
-if (!$engine->isLoggedIn()) {
-    $engine->remember_me();
 }
 
 $op = "";

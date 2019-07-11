@@ -2302,7 +2302,7 @@ class Engine {
             $userToken = $this->tokens->get_by_user_and_device($userID, $deviceUuid);
 
             if ($userToken && hash_equals($userToken, $token)) {
-                $user = $this->users->get($userID);
+                $user = $this->getUser($userID);
                 $this->log_user_in($user);
 
                 return true;
