@@ -725,7 +725,8 @@ class Engine {
             $prono['COLOR_B'] = $colorB;
 
             //
-            $resProno = $this->computeNbPtsProno($phase, $prono['scoreMatchA'], $prono['scoreMatchB'], $prono['pnyMatchA'], $prono['pnyMatchB'], $prono['scorePronoA'], $prono['scorePronoB'], $prono['pnyPronoA'], $prono['pnyPronoB']);
+            $resProno = $this->computeNbPtsProno($phase, $prono['scoreMatchA'], $prono['scoreMatchB'], $prono['pnyMatchA'], $prono['pnyMatchB'], $prono['scorePronoA'], $prono['scorePronoB'], $prono['pnyPronoA'], $prono['pnyPronoB']);           
+            $color = 'transparent';
             if ($resProno['points'] >= ($phase['nbPointsRes'] + ($phase['nbPointsScoreNiv2'] * 2) + $phase['nbPointsEcartNiv1'])) {
                 $color = "green";
                 $points = "+" . $resProno['points'] . "pts";
@@ -742,9 +743,9 @@ class Engine {
             $prono['DIFF'] = 0;
             if (($prono['scoreMatchA'] != NULL) && ($prono['scoreMatchB'] != NULL)) {
                 $prono['POINTS'] = $points;
-                $prono['COLOR'] = $color;
                 $prono['DIFF'] = $diff;
             }
+            $prono['COLOR'] = $color;
 
             if ($phase['aller_retour'] == 1) {
                 // match aller
