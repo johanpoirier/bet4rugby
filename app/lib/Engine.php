@@ -1614,7 +1614,11 @@ class Engine {
 
     function loadUserTeamRanking() {
         $userTeams = $this->getUserTeams();
-        $userTeamsView = array();
+        $userTeamsView = [];
+
+        if (count($userTeams) === 0) {
+            return [];
+        }
 
         foreach ($userTeams as $userTeam) {
             $users = $this->getUsersByUserTeam($userTeam['userTeamID']);
@@ -1660,6 +1664,10 @@ class Engine {
         $users = $this->getUsersByUserTeam($userTeamId);
         usort($users, "compare_users");
         $nbMatchs = $this->getNbTotalMatchs();
+
+        if (count($users) === 0) {
+            return [];
+        }
 
         $i = 1;
         $j = 0;
