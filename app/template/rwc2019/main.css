@@ -40,7 +40,7 @@ h3 {
 }
 
 h5 {
-    color: #009148;
+    color: #c00327;
     clear: both;
     font: bold 120%/1em Arial, sans-serif;
     letter-spacing: 0;
@@ -69,7 +69,7 @@ a img {
 }
 
 a {
-    color: #005d2e;
+    color: #000000;
     text-decoration: none;
 }
 
@@ -82,7 +82,7 @@ a:active {
 }
 
 a:visited {
-    color: #005d2e;
+    color: #231e1e;
 }
 
 table {
@@ -121,7 +121,7 @@ input {
 input.text {
     color: #004410;
     background: #DCFEE4;
-    border: 1px solid #006F20;
+    border: 1px solid #ec3155;
     font-size: 1rem;
     font-weight: normal;
     padding: 0.2rem;
@@ -130,7 +130,7 @@ input.text {
 
 input[type='number'] {
     color: #004410;
-    border: 1px solid #006F20;
+    border: 1px solid #ec3155;
     font-size: 0.8rem;
     font-weight: normal;
     padding: 0.2rem;
@@ -139,7 +139,7 @@ input[type='number'] {
 }
 
 input[type='submit'] {
-    background-color: #A4D153;
+    background-color: #ec3155;
     border: none;
     border-radius: 0.5rem;
     box-shadow: 2px 2px 2px #ccc;
@@ -176,9 +176,9 @@ input.invalid {
 }
 
 select {
-    color: #004410;
-    background: #DCFEE4;
-    border: 1px solid #006F20;
+    color: #c00327;
+    background: #FBEDE9;
+    border: 1px solid #c00327;
     font-size: 11px;
     font-weight: normal;
 }
@@ -186,8 +186,8 @@ select {
 /************* DIVS ***************/
 #main {
     background-color: #ffffff;
-    border-left: 2px solid #00A952;
-    border-right: 2px solid #00A952;
+    border-left: 2px solid #c00327;
+    border-right: 2px solid #c00327;
     font-size: 95%;
     margin: 0 auto;
     max-width: 1200px;
@@ -322,12 +322,12 @@ footer {
 }
 
 .headline {
-    background: -moz-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* FF3.6+ */
-    background: -webkit-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #00A952 0%, #c0f4cd 100%); /* IE10+ */
-    background: linear-gradient(to right, #00A952 0%, #c0f4cd 100%); /* W3C */
-    border: 0px solid #ffffff;
+    background: -moz-linear-gradient(left, #c00327 0%, #fff5f7 100%); /* FF3.6+ */
+    background: -webkit-linear-gradient(left, #c00327 0%, #fff5f7 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #c00327 0%, #fff5f7 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #c00327 0%, #fff5f7 100%); /* IE10+ */
+    background: linear-gradient(to right, #c00327 0%, #fff5f7 100%); /* W3C */
+    border: 0px solid #fff5f7;
     display: flex;
     flex-flow: row nowrap;
     margin: 0;
@@ -336,6 +336,9 @@ footer {
 
 .headline-title {
     flex-grow: 2;
+}
+.headline-title > span {
+    color: #ffbaba;
 }
 
 .headline-menu {
@@ -363,11 +366,11 @@ footer {
 }
 
 .tag_cloud {
-    background-color: #EBFAF0;
-    border-top: 2px solid #00A952;
-    border-bottom: 2px solid #00A952;
-    border-right: 2px solid #00A952;
-    border-left: 2px solid #00A952;
+    background-color: #fff8fa;
+    border-top: 2px solid #ec3155;
+    border-bottom: 2px solid #ec3155;
+    border-right: 2px solid #ec3155;
+    border-left: 2px solid #ec3155;
     margin: 0 0 1rem 0;
     padding: 0.5rem;
     text-align: left;
@@ -408,7 +411,7 @@ footer {
     -moz-animation-iteration-count: 3;
     -ms-animation-iteration-count: 3;
     animation-iteration-count: 3;
-    background-color: #fffc89;
+    background-color: #f8c059;
 }
 
 .info {
@@ -419,7 +422,7 @@ footer {
 }
 
 .info h5 {
-    background: #fff url(images/arrow_green_small.gif) no-repeat left top;
+    background: #fff url(images/arrow_cyan_small.gif) no-repeat left top;
     margin: 0;
     padding: 0 0 2px 18px;
 }
@@ -680,16 +683,16 @@ td.ranking-pool-team-points {
 
 
 @-webkit-keyframes glow {
-    0%, 100% { background-color: #fffc89; }
-    50% { background-color: #fcffb6; }
+    0%, 100% { background-color: #f8c059; }
+    50% { background-color: #f9d38f; }
 }
 
 @-moz-keyframes glow {
-    0%, 100% { background-color: #fffc89; }
-    50% { background-color: #fcffb6; }
+    0%, 100% { background-color: #f8c059; }
+    50% { background-color: #f9d38f; }
 }
 
 @keyframes glow {
-    0%, 100% { background-color: #fffc89; }
-    50% { background-color: #fcffb6; }
+    0%, 100% { background-color: #f8c059; }
+    50% { background-color: #f9d38f; }
 }

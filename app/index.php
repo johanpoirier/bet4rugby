@@ -389,9 +389,9 @@ if (FORGOT_IDS) {
         <link rel="apple-touch-icon-precomposed" sizes="120x120" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-120x120.png?v=3">
         <link rel="apple-touch-icon-precomposed" sizes="76x76" href="template/<?= $engine->config['template'] ?>/images/apple-touch-icon-76x76.png?v=3">
         <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/badges.css" />
-        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css" />
+        <link type="text/css" rel="stylesheet" href="template/<?= $engine->config['template'] ?>/main.css?v=20190712091522" />
         <script type="text/javascript" src="/js/jquery-2.1.4.min.js"> </script>
-        <script type="text/javascript" src="/js/main.js?v=20190710091522"> </script>
+        <script type="text/javascript" src="/js/main.js?v=20190712091522"> </script>
     </head>
     <body>
         <div id="main">

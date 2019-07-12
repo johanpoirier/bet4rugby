@@ -553,17 +553,17 @@ class Engine {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($match['scoreMatchA'] > $match['scoreMatchB']) {
-                $colorA = "#99FF99";
+                $colorA = "#ffb3c6";
             }
             else if ($match['scoreMatchA'] < $match['scoreMatchB']) {
-                $colorB = "#99FF99";
+                $colorB = "#ffb3c6";
             }
             else {
                 if ($match['pnyMatchA'] > $match['pnyMatchB']) {
-                    $colorA = "#99FF99";
+                    $colorA = "#ffb3c6";
                 }
                 else if ($match['pnyMatchA'] < $match['pnyMatchB']) {
-                    $colorB = "#99FF99";
+                    $colorB = "#ffb3c6";
                 }
             }
             $match['COLOR_A'] = $colorA;
@@ -712,14 +712,14 @@ class Engine {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($prono['scorePronoA'] > $prono['scorePronoB'])
-                $colorA = "#99FF99";
+                $colorA = "#ffb3c6";
             else if ($prono['scorePronoA'] < $prono['scorePronoB'])
-                $colorB = "#99FF99";
+                $colorB = "#ffb3c6";
             else {
                 if ($prono['pnyPronoA'] > $prono['pnyPronoB'])
-                    $colorA = "#99FF99";
+                    $colorA = "#ffb3c6";
                 else if ($prono['pnyPronoA'] < $prono['pnyPronoB'])
-                    $colorB = "#99FF99";
+                    $colorB = "#ffb3c6";
             }
             $prono['COLOR_A'] = $colorA;
             $prono['COLOR_B'] = $colorB;
@@ -837,14 +837,14 @@ class Engine {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($result['scoreMatchA'] > $result['scoreMatchB'])
-                $colorA = "#99FF99";
+                $colorA = "#ffb3c6";
             else if ($result['scoreMatchA'] < $result['scoreMatchB'])
-                $colorB = "#99FF99";
+                $colorB = "#ffb3c6";
             else {
                 if ($result['pnyMatchA'] > $result['pnyMatchB'])
-                    $colorA = "#99FF99";
+                    $colorA = "#ffb3c6";
                 elseif ($result['pnyMatchA'] < $result['pnyMatchB'])
-                    $colorB = "#99FF99";
+                    $colorB = "#ffb3c6";
             }
             $result['COLOR_A'] = $colorA;
             $result['COLOR_B'] = $colorB;
@@ -924,9 +924,9 @@ class Engine {
             $colorA = "transparent";
             $colorB = "transparent";
             if ($prono['scorePronoA'] > $prono['scorePronoB'])
-                $colorA = "#99FF99";
+                $colorA = "#ffb3c6";
             else if ($prono['scorePronoA'] < $prono['scorePronoB'])
-                $colorB = "#99FF99";
+                $colorB = "#ffb3c6";
             $prono['COLOR_A'] = $colorA;
             $prono['COLOR_B'] = $colorB;
 
@@ -1197,7 +1197,7 @@ class Engine {
 
         // Coloration des qualifies
         for ($i = 0; $i < 2; $i++) {
-            $array_teams[$i]['style'] = "background-color:#D1DEFF;";
+            $array_teams[$i]['style'] = "background-color:#ffa5a9;";
         }
 
         return $array_teams;
