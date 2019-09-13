@@ -100,9 +100,11 @@ if (FORGOT_IDS) {
             }
             break;
 
-        case "logout":
+        case 'logout':
             session_destroy();
-            redirect("/");
+            setcookie('device', '', time() - 7200);
+            setcookie('rememberme', '', time() - 7200);
+            redirect('/');
             break;
 
         case "account":
