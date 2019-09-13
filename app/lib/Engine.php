@@ -283,7 +283,7 @@ class Engine {
         $req .= " LEFT JOIN " . $this->config['db_prefix'] . "matchs m ON(m.phaseID = p.phaseID)";
         $req .= " WHERE p.phasePrecedente IS NOT NULL";
         $req .= " GROUP BY (p.phaseID) HAVING nbMatchs > 0";
-        $req .= " ORDER BY p.phaseID DESC";
+        $req .= " ORDER BY p.phaseID ASC";
 
         $phases = $this->db->select_array($req, $nb_phases);
         if ($this->debug)
