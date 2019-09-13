@@ -9,6 +9,7 @@ $config['email'] = "johan.poirier+rwc2019@gmail.com";
 $config['lang'] = "fr";
 $config['url'] = "http://rwc2019.jops-dev.com";
 $config['template'] = "rwc2019";
+$config['github'] = "https://github.com/johanpoirier/bet4rugby";
 
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
