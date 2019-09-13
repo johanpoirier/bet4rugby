@@ -3754,7 +3754,6 @@
     float: left;
     margin-right: 10px;
     display: block;
-    background-position: 0 0;
 }
 
 @media (-webkit-min-device-pixel-ratio:2), (min-resolution:192dpi) {
