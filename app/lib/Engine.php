@@ -2228,8 +2228,8 @@ class Engine {
             return true;
         }
         $req = 'UPDATE ' . $this->config['db_prefix'] . 'invitations';
-        $req .= ' SET "status" = -' . $invitation['status'] . '';
-        $req .= ' WHERE "code" = \'' . $code . '\';';
+        $req .= ' SET status = -' . $invitation['status'];
+        $req .= " WHERE code = '$code';";
         $this->db->exec_query($req);
         return true;
     }
@@ -2240,7 +2240,7 @@ class Engine {
         $req = 'SELECT i.*,(expiration < NOW()) as expired, t.name as user_team_name';
         $req .= ' FROM ' . $this->config['db_prefix'] . 'invitations i';
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'user_teams t ON (i.userTeamID = t.userTeamID)';
-        $req .= " WHERE code = '" . $code . "'";
+        $req .= " WHERE code = '$code';";
         $invitation = $this->db->select_line($req, $null);
         if ($this->debug) {
             array_show($invitation);
