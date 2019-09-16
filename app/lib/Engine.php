@@ -1405,8 +1405,8 @@ class Engine {
         $new_pass = newPassword(16);
 
         $req = 'UPDATE ' . $this->config['db_prefix'] . 'users';
-        $req .= ' SET password = \'' . hash_hmac('sha512', $new_pass, $this->config['secret_key']) . '\'';
-        $req .= ' WHERE "userID" = ' . $userID . '';
+        $req .= ' SET `password` = \'' . hash_hmac('sha512', $new_pass, $this->config['secret_key']) . '\'';
+        $req .= " WHERE userID = $userID";
 
         if ($this->db->exec_query($req)) {
             return $new_pass;
