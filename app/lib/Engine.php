@@ -2035,21 +2035,18 @@ class Engine {
             $user = $this->getUserByEmail($email);
             if ($user) {
                 if ($newPassword = $this->setNewPassword($user['userID'])) {
-                    //$res = utf8_mail($email, $this->config['title'] . " - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                     $res = $this->emailer->send($email, $user['name'], $this->config['title'] . " - Rappel de vos identifiants", "Bonjour,\n\nVotre login est : " . $user['login'] . "\nVotre nouveau mot de passe est : " . $newPassword . "\n\nCordialement,\nL'équipe " . $this->config['support_team'] . "\n");
                 } else {
                     $res = false;
                 }
 
                 if (!$res) {
-                    //utf8_mail($this->config['email'], $this->config['title'] . " - Problème envoi à '" . $email . "'", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                     $this->emailer->send($this->config['email'], '', $this->config['title'] . " - Problème envoi à '" . $email . "'", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n");
                     return FORGOT_IDS_KO;
                 } else {
                     return FORGOT_IDS_OK;
                 }
             } else {
-                //utf8_mail($this->config['email'], $this->config['title'] . " - Email '" . $email . "' inconnu", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n", $this->config['title'], $this->config['support_email'], $this->config['email_simulation']);
                 $this->emailer->send($this->config['email'], '', $this->config['title'] . " - Email '" . $email . "' inconnu", "L'utilisateur avec l'email '" . $email . "' a tenté de récupérer ses identifiants.\n");
                 return EMAIL_UNKNOWN;
             }
@@ -2270,8 +2267,7 @@ class Engine {
                 }
                 $content .= "Cordialement,\n";
                 $content .= "L'équipe de " . $this->config['support_team'] . "\n";
-                //$ret = utf8_mail($email, $subject, $content, $this->config['title'], $this->config['email'], $this->config['email_simulation']);
-                $ret = $this->emailer->send($email, '', $subject, $content);
+                $ret = $this->emailer->send($email, $email, $subject, $content);
             }
         } elseif ($type == 'IN') {
             foreach ($emails as $email) {
@@ -2285,15 +2281,10 @@ class Engine {
                 $content .= "http://" . $_SERVER['HTTP_HOST'] . "/?c=" . $code . "\n\n";
                 $content .= "Cordialement,\n";
                 $content .= "L'équipe de " . $this->config['support_team'] . "\n";
-                //$ret = utf8_mail($email, $subject, $content, $this->config['title'], $this->config['email'], $this->config['email_simulation']);
-                $ret = $this->emailer->send($email, '', $subject, $content);
+                $ret = $this->emailer->send($email, $email, $subject, $content);
             }
         }
-        if ($ret) {
-            return SEND_INVITATIONS_OK;
-        } else {
-            SEND_INVITATIONS_ERROR;
-        }
+        return $ret ? SEND_INVITATIONS_OK : SEND_INVITATIONS_ERROR;
     }
 
     function generate_random_token()
