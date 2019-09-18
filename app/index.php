@@ -21,7 +21,7 @@ define('REGISTER', (isset($_GET['op']) && ($_GET['op']) == "register"));
 define('FORGOT_IDS', (isset($_GET['op']) && ($_GET['op']) == "forgot_ids"));
 define('AUTHENTIFICATION_NEEDED', (!isset($_SESSION['userID']) && !LOGIN && !REGISTER && !FORGOT_IDS));
 define('PHASE_ID_ACTIVE', $engine->getPhaseIDActive());
-define('CODE', ( isset($_GET['c']) && !isset($_GET['op'])));
+define('CODE', (isset($_GET['c']) && !isset($_GET['op'])));
 
 
 if ($engine->config['sentry_enable']) {

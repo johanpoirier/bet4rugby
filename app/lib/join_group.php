@@ -15,6 +15,12 @@ if (isset($_GET['c'])) {
     }
 }
 $userTeams = $engine->getUserTeams();
+
+$currentUser = $engine->getCurrentUser();
+$invitedUserTeam = false;
+if ($invitation && ($invitation['email'] == $currentUser['email'])) {
+    $invitedUserTeam = $engine->getUserTeam($invitation['userTeamID']);
+}
 ?>
     <div class="ppp">
         <center><span style="color:red;"><b><?php echo $message; ?></b></span></center>
@@ -26,10 +32,11 @@ $userTeams = $engine->getUserTeams();
 
             <div class="formfield"><b>Sélectionner le groupe que vous souhaitez rejoindre</b></div>
             <select name="group" id="group">
-                <?php foreach ($userTeams as $userTeam) { ?>
-                    <option name="<?php echo $userTeam['userTeamID']; ?>"
-                            value="<?php echo $userTeam['userTeamID']; ?>"><?php echo $userTeam['name']; ?>
-                        (<?php echo $userTeam['ownerName']; ?>)
+                <?php foreach ($userTeams as $userTeam) {
+                    $selected = $userTeam['userTeamID'] === $invitedUserTeam['userTeamID'];
+                ?>
+                    <option name="<?= $userTeam['userTeamID'] ?>" value="<?= $userTeam['userTeamID'] ?>" <?= ($selected ? 'selected' : '') ?>>
+                        <?= $userTeam['name'] ?> (<?= $userTeam['ownerName'] ?>)
                     </option>
                 <?php } ?>
             </select>
@@ -44,12 +51,10 @@ $userTeams = $engine->getUserTeams();
     </div>
 </div>
 <?php
-$currentUser = $engine->getCurrentUser();
-if ($invitation && ($invitation['email'] == $currentUser['email'])) {
-    $userTeam = $engine->getUserTeam($invitation['userTeamID']);
+if ($invitedUserTeam !== false) {
     ?>
     <script type="text/javascript">
-        if (confirm("Souhaitez-vous rejoindre le groupe '<?php echo $userTeam['name']; ?>' ?")) {
+        if (confirm("Souhaitez-vous rejoindre le groupe '<?= $invitedUserTeam['name'] ?>' ?")) {
             $("form#join_group_form").submit();
         }
     </script>

@@ -15,6 +15,9 @@ $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
 $config['support_team'] = "RWC2019";
 
+$config['email_address_sender'] = 'rwc2019@jops-dev.com';
+$config['email_address_replyto'] = $config['email'];
+$config['email_simulation'] = false;
 $config['email_use_third_party_sender'] = false;
 $config['sendinblue_apikey'] = 'your api key';
 
