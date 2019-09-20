@@ -997,7 +997,7 @@ class Engine {
         }
         
         // Main Query
-        $req = 'SELECT DISTINCT u.userID, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, m.teamA as teamBetA, m.teamB as teamBetB, b.scoreA as scoreBetA, b.scoreB as scoreBetB, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, "tA".poolID as "teamPool",';
+        $req = 'SELECT DISTINCT u.userID, m.scoreA as scoreMatchA, m.scoreB as scoreMatchB, m.teamA as teamBetA, m.teamB as teamBetB, b.scoreA as scoreBetA, b.scoreB as scoreBetB, tA.teamID as teamAid, tB.teamID as teamBid, tA.name as teamAname, tB.name as teamBname, tA.poolID as teamPool,';
         $req .= 'DATE_FORMAT(date, \'le %d/%m à %Hh%i\') as date_str';
         $req .= ', u.name as username';
         $req .= ' FROM ' . $this->config['db_prefix'] . 'matchs m ';
@@ -1007,7 +1007,7 @@ class Engine {
         }
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tA ON (m.teamA = tA.teamID)';
         $req .= ' LEFT JOIN ' . $this->config['db_prefix'] . 'teams tB ON (m.teamB = tB.teamID)';
-        $req .= ' WHERE m.matchID = ' . $matchID . '';
+        $req .= " WHERE m.matchID = $matchID";
         if ($points == EXACT_SCORE) {
             $req .= ' AND (((ABS(m.scoreA - b.scoreA) < ' . $gapA1 . ') AND (ABS(m.scoreB - b.scoreB) <= ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) <= ' . $gapScore2 . '))';
             $req .= ' OR ((ABS(m.scoreA - b.scoreA) <= ' . $gapA2 . ') AND (ABS(m.scoreB - b.scoreB) <= ' . $gapB2 . ') AND (ABS((b.scoreA - b.scoreB) - (m.scoreA - m.scoreB)) < ' . $gapScore1 . '))';
