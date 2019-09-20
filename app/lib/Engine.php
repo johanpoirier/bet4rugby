@@ -2019,10 +2019,13 @@ class Engine {
             $req = "SELECT count(*) FROM " . $this->config['db_prefix'] . "matchs";
             $req .= " WHERE phaseID = " . $phase['phaseID'] . " AND scoreA IS NULL";
             $nb_matchs_non_joues = $this->db->select_one($req);
-            if ($nb_matchs_non_joues > 0)
+            if ($nb_matchs_non_joues > 0) {
                 $phaseIDactive = $phase['phaseID'];
-            if (($nb_matchs > 0) && ($nb_matchs_non_joues == 0))
+                break;
+            }
+            if (($nb_matchs > 0) && ($nb_matchs_non_joues == 0)) {
                 $phaseIDjoue = $phase['phaseID'];
+            }
         }
         if ($phaseIDactive == -1) {
             $phaseIDactive = $phaseIDjoue;

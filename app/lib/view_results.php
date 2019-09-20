@@ -4,6 +4,7 @@ if (isset($_GET['phase'])) {
 } else {
     $phaseID = PHASE_ID_ACTIVE;
 }
+
 $phase = $engine->getPhase($phaseID);
 if ($phase['phasePrecedente'] != NULL) {
     $phases = $engine->getPhaseByPhaseRoot($phase['phasePrecedente']);
