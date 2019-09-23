@@ -1868,7 +1868,7 @@ class Engine {
         $ecart4b = $this->config['ecart4b'];
 
         // Real winner
-        if (($scoreMatchA != NULL) && ($scoreMatchB != NULL)) {
+        if (($scoreMatchA !== NULL) && ($scoreMatchB !== NULL)) {
             if ($scoreMatchA > $scoreMatchB) {
                 $winnerMatch = 'A';
                 $resMatch = 'A';
@@ -1877,7 +1877,7 @@ class Engine {
                 $resMatch = 'B';
             } else {
                 $resMatch = 'N';
-                if (($scorePnyA == NULL) || ($scorePnyB == NULL)) {
+                if (($scorePnyA === NULL) || ($scorePnyB === NULL)) {
                     $winnerMatch = 'N';
                 } elseif ($scorePnyA > $scorePnyB) {
                     $winnerMatch = 'A';
@@ -1888,7 +1888,7 @@ class Engine {
         }
 
         // Prono winner
-        if (($scorePronoA != NULL) && ($scorePronoB != NULL)) {
+        if (($scorePronoA !== NULL) && ($scorePronoB !== NULL)) {
             if ($scorePronoA > $scorePronoB) {
                 $winnerProno = 'A';
                 $resProno = 'A';
@@ -1897,7 +1897,7 @@ class Engine {
                 $resProno = 'B';
             } else {
                 $resProno = 'N';
-                if (($pronoPnyA == NULL) || ($pronoPnyB == NULL)) {
+                if (($pronoPnyA === NULL) || ($pronoPnyB === NULL)) {
                     $winnerProno = 'N';
                 } elseif ($pronoPnyA > $pronoPnyB) {
                     $winnerProno = 'A';
