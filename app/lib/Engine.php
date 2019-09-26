@@ -741,7 +741,7 @@ class Engine {
 
             $prono['POINTS'] = 0;
             $prono['DIFF'] = 0;
-            if (($prono['scoreMatchA'] != NULL) && ($prono['scoreMatchB'] != NULL)) {
+            if (($prono['scoreMatchA'] !== NULL) && ($prono['scoreMatchB'] !== NULL)) {
                 $prono['POINTS'] = $points;
                 $prono['DIFF'] = $diff;
             }
