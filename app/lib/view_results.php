@@ -66,7 +66,7 @@ if ($phase['phasePrecedente'] != NULL) {
                     $odds = $engine->getOddsByMatch($result['matchID']);
 
                     // Stats paris
-                    $exact_bets = null;
+                    $exact_bets = [];
                     $nb_exact_bets = 0;
                     $str_exact_bets = "";
                     if (isset($result['scoreMatchA']) && isset($result['scoreMatchB'])) {
