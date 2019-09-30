@@ -1035,12 +1035,13 @@ class Engine {
         $j = 0;
         $last_user = $users[0];
         foreach ($users as $ID => $user) {
-            if ($user['nbpronos'] == 0) {
+            if ($user['nbpronos'] === 0) {
                 $ranks[$user['userID']] = 'NULL';
                 continue;
             }
-            if (compare_users($user, $last_user) != 0)
+            if (compare_users($user, $last_user) !== 0) {
                 $i = $j + 1;
+            }
             $ranks[$user['userID']] = $i;
             $j++;
             $last_user = $user;
@@ -1132,14 +1133,16 @@ class Engine {
         $nbPtsVictoire = $this->getSettingValue("NB_POINTS_VICTOIRE");
         $nbPtsNul = $this->getSettingValue("NB_POINTS_NUL");
 
-        $array_teams = array();
+        $array_teams = [];
         foreach ($teams as $team) {
             $team['points'] = 0;
             $team['diff'] = 0;
-            if ($libScore == 'scoreMatch')
+            if ($libScore == 'scoreMatch') {
                 $team['matchs'] = $this->getMatchsByTeamAndPhase($team['teamID'], 1);
-            else
+            }
+            else {
                 $team['matchs'] = $this->getPronosByUserTeamAndPhase($_SESSION['userID'], $team['teamID'], 1);
+            }
             $array_teams[$team['teamID']] = $team;
         }
 
@@ -1161,7 +1164,7 @@ class Engine {
                 $array_teams[$prono['teamAid']]['diff'] -= ( $prono[$libScore . 'B'] - $prono[$libScore . 'A']);
                 $array_teams[$prono['teamBid']]['diff'] += ( $prono[$libScore . 'B'] - $prono[$libScore . 'A']);
             }
-            if ($prono[$libScore . 'A'] == $prono[$libScore . 'B'] && ($prono[$libScore . 'A'] != "")) {
+            if ($prono[$libScore . 'A'] === $prono[$libScore . 'B'] && ($prono[$libScore . 'A'] !== "")) {
                 $array_teams[$prono['teamAid']]['points'] += $nbPtsNul;
                 $array_teams[$prono['teamBid']]['points'] += $nbPtsNul;
             }
@@ -1503,13 +1506,13 @@ class Engine {
         $req .= " AND DATE_FORMAT(date, '%m%e') <> DATE_FORMAT(NOW(), '%m%e')";
         $isLastGenerate = $this->db->select_one($req, null);
 
-        if ($isLastGenerate == 1) {
+        if ($isLastGenerate === 1) {
             $req = "SELECT count(matchID) as nbMatchs";
             $req .= " FROM " . $this->config['db_prefix'] . "matchs";
             $req .= " WHERE DATE_FORMAT(date, '%m%e') = DATE_FORMAT(NOW(), '%m%e')";
             $req .= " AND scoreA IS NULL AND scoreB IS NULL";
             $nbMacths = $this->db->select_one($req, null);
-            return ($nbMacths == 0);
+            return ($nbMacths === 0);
         }
         else
             return false;
@@ -1562,16 +1565,16 @@ class Engine {
         $last_user = $users[0];
 
         foreach ($users as $user) {
-            if ($user['nbpronos'] == 0) {
+            if ($user['nbpronos'] === 0) {
                 continue;
             }
-            if (compare_users($user, $last_user) != 0) {
+            if (compare_users($user, $last_user) !== 0) {
                 $i = $j + 1;
             }
 
             $evol = $user['last_rank'] - $i;
 
-            if ($evol == 0) {
+            if ($evol === 0) {
                 $img = "egal.png";
             } elseif ($evol > 5) {
                 $img = "arrow_up2.png";
@@ -1591,7 +1594,7 @@ class Engine {
             $isPf = $current_phase && $current_phase['phasePrecedente'] != null;
             $viewAction = ($this->admin ? "edit_" . ($isPf ? "pf" : "pronos") : "view_pronos");
 
-            $usersView[$k++] = array(
+            $usersView[$k++] = [
                 'RANK' => $i,
                 'LAST_RANK' => "<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/><span style=\"text-align:center;font-size:70%;\">(" . $evol . ")</span>",
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
@@ -1604,7 +1607,7 @@ class Engine {
                 'DIFF' => $user['diff'],
                 'TEAM' => $user['team'],
                 'CLASS' => $user['userID'] == $this->getCurrentUserId() ? 'highlight' : ''
-            );
+            ];
             $last_user = $user;
             $j++;
         }
@@ -1641,7 +1644,7 @@ class Engine {
             $userTeamsView[$i]['rank'] = $rank;
 
             $evol = $userTeamsView[$i]['lastRank'] - $rank;
-            if ($evol == 0)
+            if ($evol === 0)
                 $img = "egal.png";
             elseif ($evol > 5)
                 $img = "arrow_up2.png";
@@ -1675,14 +1678,14 @@ class Engine {
         $last_user = $users[0];
 
         foreach ($users as $user) {
-            if ($user['nbpronos'] == 0) {
+            if ($user['nbpronos'] === 0) {
                 continue;
             }
-            if (compare_users($user, $last_user) != 0) {
+            if (compare_users($user, $last_user) !== 0) {
                 $i = $j + 1;
             }
 
-            $usersView[$k++] = array(
+            $usersView[$k++] = [
                 'RANK' => $i,
                 'LAST_RANK' => "", //<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/>",
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
@@ -1695,7 +1698,7 @@ class Engine {
                 'DIFF' => $user['diff'],
                 'TEAM' => $user['team'],
                 'CLASS' => $user['userID'] == $this->getCurrentUserId() ? 'highlight' : ''
-            );
+            ];
             $last_user = $user;
             $j++;
         }
@@ -1715,18 +1718,19 @@ class Engine {
 
             foreach ($pronos as $prono) {
                 if (!isset($users[$prono['userID']])) {
-                    $users[$prono['userID']] = array();
+                    $users[$prono['userID']] = [];
                     $users[$prono['userID']]['userID'] = $prono['userID'];
                     $users[$prono['userID']]['points'] = 0;
                     $users[$prono['userID']]['nbscores'] = 0;
                     $users[$prono['userID']]['diff'] = 0;
                     $users[$prono['userID']]['nbresults'] = 0;
                     $users[$prono['userID']]['rank'] = 'NULL';
-                    if ($ranks[$prono['userID']])
+                    if ($ranks[$prono['userID']]) {
                         $users[$prono['userID']]['rank'] = $ranks[$prono['userID']];
+                    }
                 }
 
-                if (($prono['scorePronoA'] != NULL) && ($prono['scorePronoB'] != NULL) && ($match['scoreMatchA'] != NULL) && ($match['scoreMatchB'] != NULL)) {
+                if (($prono['scorePronoA'] !== NULL) && ($prono['scorePronoB'] !== NULL) && ($match['scoreMatchA'] !== NULL) && ($match['scoreMatchB'] !== NULL)) {
                     $resProno = $this->computeNbPtsProno($phase, $match['scoreMatchA'], $match['scoreMatchB'], $match['pnyMatchA'], $match['pnyMatchB'], $prono['scorePronoA'], $prono['scorePronoB'], $prono['pnyPronoA'], $prono['pnyPronoB']);
                     $users[$prono['userID']]['nbresults'] += $resProno['res'];
                     $users[$prono['userID']]['points'] += $resProno['points'];
@@ -1740,14 +1744,14 @@ class Engine {
         $phases = $this->getPhases();
         foreach ($users as $user) {
             foreach ($phases as $phase) {
-                if (($phase['phasePrecedente'] != NULL) && ($phase['nb_qualifies'] > 0)) {
+                if (($phase['phasePrecedente'] !== NULL) && ($phase['nb_qualifies'] > 0)) {
                     $phasePre = $this->getPhase($phase['phasePrecedente']);
-                    if ($this->getNbMatchsPlayedByPhase($phasePre['phaseID']) == $phasePre['nb_matchs']) {
+                    if ($this->getNbMatchsPlayedByPhase($phasePre['phaseID']) === $phasePre['nb_matchs']) {
                         $teamsMatchQualified = $this->getQualifiedTeamsByPhase($phase);
                         $teamsPronoQualified = $this->getQualifiedTeamsByPhase($phase, 'Prono', $user['userID']);
                         foreach ($teamsMatchQualified as $teamM) {
                             foreach ($teamsPronoQualified as $teamP) {
-                                if ($teamP['teamID'] == $teamM['teamID']) {
+                                if ($teamP['teamID'] === $teamM['teamID']) {
                                     $users[$user['userID']]['points'] += $phasePre['nbPointsQualifie'];
                                     break;
                                 }
@@ -1763,12 +1767,12 @@ class Engine {
                 $phasePre = $phase;
                 $phase['phasePrecedente'] = $phasePre['phaseID'];
 
-                if ($this->getNbMatchsPlayedByPhase($phase['phaseID']) == $phase['nb_matchs']) {
+                if ($this->getNbMatchsPlayedByPhase($phase['phaseID']) === $phase['nb_matchs']) {
                     $teamsMatchQualified = $this->getQualifiedTeamsByPhase($phase);
                     $teamsPronoQualified = $this->getQualifiedTeamsByPhase($phase, 'Prono', $user['userID']);
                     foreach ($teamsMatchQualified as $teamM) {
                         foreach ($teamsPronoQualified as $teamP) {
-                            if ($teamP['teamID'] == $teamM['teamID']) {
+                            if ($teamP['teamID'] === $teamM['teamID']) {
                                 $users[$user['userID']]['points'] += $phasePre['nbPointsQualifie'];
                                 break;
                             }
