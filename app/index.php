@@ -181,10 +181,10 @@ if (FORGOT_IDS) {
             break;
 
         case "edit_pf":
-            $phase = $engine->getPhase(PHASE_ID_ACTIVE);
+            /*$phase = $engine->getPhase(PHASE_ID_ACTIVE);
             if ($phase['phasePrecedente'] == NULL) {
                 redirect("/?op=edit_pronos");
-            }
+            }*/
             $pageToInclude = "lib/edit_pf.php";
             break;
 
