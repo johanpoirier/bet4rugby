@@ -3,19 +3,19 @@ unset($config);
 $config = [];
 
 /* MAIN INFORMATIONS */
-$config['title'] = "Coupe du Monde de Rugby 2019";
+$config['title'] = "Coupe du Monde de Rugby 2023";
 $config['author'] = "JoPs";
-$config['email'] = "johan.poirier+rwc2019@gmail.com";
+$config['email'] = "johan.poirier+cdm2023@gmail.com";
 $config['lang'] = "fr";
-$config['url'] = "http://rwc2019.jops-dev.com";
-$config['template'] = "rwc2019";
+$config['url'] = "http://cdm2023.jops-dev.com";
+$config['template'] = "cdm2023";
 $config['github'] = "https://github.com/johanpoirier/bet4rugby";
 
 $config['email_simulation'] = false;
 $config['support_email'] = $config['email'];
-$config['support_team'] = "RWC2019";
+$config['support_team'] = "cdm2023";
 
-$config['email_address_sender'] = 'rwc2019@jops-dev.com';
+$config['email_address_sender'] = 'cdm2023@jops-dev.com';
 $config['email_address_replyto'] = $config['email'];
 $config['email_simulation'] = false;
 $config['email_use_third_party_sender'] = false;
@@ -32,7 +32,7 @@ $config['secret_key'] = 'this is a rugby world cup';
 $config['invitation_expiration'] = 30; /* in days */
 
 //                     hh,m,s,M,J,AAAA
-$config['steps'][0] = "21,00,0,9,18,2019";
+$config['steps'][0] = "21,00,0,9,8,2023";
 
 // rugby bet score data
 $config['limite1'] = 20;

@@ -1,4 +1,4 @@
-FROM php:7.2.11-fpm
+FROM php:7.4.0-fpm-alpine
 
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 

@@ -19,7 +19,7 @@ services:
       - code-network
 
   db:
-    image: mysql:5.7
+    image: mariadb:10.5.8
     ports:
       - "33061:3306"
     volumes:

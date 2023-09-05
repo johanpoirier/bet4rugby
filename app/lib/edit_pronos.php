@@ -54,7 +54,7 @@ $phase = $engine->getPhase(PHASE_ID_ACTIVE);
                         $lastDate = $prono['dateStr'];
     ?>
                         <tr>
-                            <td width="4%" align="left" style="white-space: nowrap; font-size: 7pt;" rowspan="2">
+                            <td width="4%" style="white-space: nowrap; font-size: 7pt;" rowspan="2">
                                 (<?php echo $prono['teamPool']; ?>)
                             </td>
                             <td id="m_<?php echo $prono['matchID']; ?>_team_A" width="38%" rowspan="2" class="result-teamA" style="background-color: <?php echo $prono['COLOR_A']; ?>;">

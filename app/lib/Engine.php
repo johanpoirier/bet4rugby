@@ -1256,7 +1256,7 @@ class Engine {
     /*     * *************** */
 
     function addMatch($phase, $pool, $day, $month, $hour, $minutes, $teamA, $teamB, $matchID) {
-        $date = date('Y') . "$month-$day $hour:$minutes:00";
+        $date = date('Y') . "-$month-$day $hour:$minutes:00";
         if (isset($matchID)) {
             $matchID = $this->isMatchExists($teamA, $teamB, $phase);
         }

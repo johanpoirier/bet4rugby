@@ -227,27 +227,31 @@ CREATE TABLE `bet4soccer__palmares` (
 INSERT INTO `rwc2019__users` (`userID`, `name`, `login`, `password`, `email`, `status`) VALUES
   (1, 'John Foo', 'admin', 'f353043d44e0cc8e91c7beb3e6f7c29cc2d22344e775bd7235cba22c3c2016042fa77fdaafb6bfe112390fc2870acc21739ae41d51b334d29e74b59c6568fc05', 'admin@bet4rubgy.fr', 1);
 
+INSERT INTO `rwc2019__settings` (`name`, `date`) VALUES
+('DATE_DEBUT', '2023_09_08 21:15:00'),
+('DATE_FIN', '2023_10_19 21:00:00');
+
 INSERT INTO `rwc2019__teams` (`teamID`, `name`, `poolID`, `status`) VALUES
-(1, 'Japon', 1, 0),
-(21, 'Irlande', 1, 0),
-(22, 'Ecosse', 1, 0),
-(23, 'Russie', 1, 0),
-(24, 'Samoa', 1, 0),
-(25, 'Nouvelle-Zelande', 2, 0),
-(26, 'Afrique du Sud', 2, 0),
-(27, 'Italie', 2, 0),
-(28, 'Namibie', 2, 0),
-(29, 'Canada', 2, 0),
-(30, 'Angleterre', 3, 0),
-(31, 'France', 3, 0),
-(32, 'Argentine', 3, 0),
-(33, 'Etats-Unis', 3, 0),
-(34, 'Tonga', 3, 0),
-(35, 'Australie', 4, 0),
-(36, 'Pays de Galles', 4, 0),
-(37, 'Georgie', 4, 0),
-(38, 'Fidji', 4, 0),
-(39, 'Uruguay', 4, 0);
+(1, 'Nouvelle-Zelande', 1, 0),
+(2, 'France', 1, 0),
+(3, 'Italie', 1, 0),
+(4, 'Uruguay', 1, 0),
+(5, 'Namibie', 1, 0),
+(6, 'Afrique du Sud', 2, 0),
+(7, 'Irlande', 2, 0),
+(8, 'Ecosse', 2, 0),
+(9, 'Tonga', 2, 0),
+(10, 'Roumanie', 2, 0),
+(11, 'Pays de Galles', 3, 0),
+(12, 'Australie', 3, 0),
+(13, 'Fidji', 3, 0),
+(14, 'Georgie', 3, 0),
+(15, 'Portugal', 3, 0),
+(16, 'Angleterre', 4, 0),
+(17, 'Japon', 4, 0),
+(18, 'Argentine', 4, 0),
+(19, 'Samoa', 4, 0),
+(20, 'Chili', 4, 0);
 
 INSERT INTO `rwc2019__phases` (`phaseID`, `name`, `aller_retour`, `nb_matchs`, `nb_qualifies`, `phasePrecedente`, `nbPointsRes`, `nbPointsQualifie`, `nbPointsScoreNiv1`, `nbPointsScoreNiv2`, `nbPointsEcartNiv1`, `nbPointsEcartNiv2`) VALUES
 (1, 'Poules', 0, 40, 2, NULL, 10, 0, 3, 1, 3, 1);
@@ -259,46 +263,7 @@ INSERT INTO `rwc2019__pools` (`poolID`, `phaseID`, `name`) VALUES
 (4, 1, 'D');
 
 INSERT INTO `rwc2019__matchs` (`matchID`, `teamA`, `teamB`, `scoreA`, `scoreB`, `pnyA`, `pnyB`, `bonusA`, `bonusB`, `date`, `phaseID`, `status`) VALUES
-(51, 1, 23, NULL, NULL, NULL, NULL, 0, 0, '2019-09-20 12:45:00', 1, 0),
-(52, 21, 22, NULL, NULL, NULL, NULL, 0, 0, '2019-09-22 09:45:00', 1, 0),
-(53, 23, 24, NULL, NULL, NULL, NULL, 0, 0, '2019-09-24 12:15:00', 1, 0),
-(54, 1, 21, NULL, NULL, NULL, NULL, 0, 0, '2019-09-28 09:15:00', 1, 0),
-(55, 22, 24, NULL, NULL, NULL, NULL, 0, 0, '2019-09-30 12:15:00', 1, 0),
-(56, 21, 23, NULL, NULL, NULL, NULL, 0, 0, '2019-10-03 12:15:00', 1, 0),
-(57, 1, 24, NULL, NULL, NULL, NULL, 0, 0, '2019-10-05 12:30:00', 1, 0),
-(58, 22, 23, NULL, NULL, NULL, NULL, 0, 0, '2019-10-09 09:15:00', 1, 0),
-(59, 21, 24, NULL, NULL, NULL, NULL, 0, 0, '2019-10-12 12:45:00', 1, 0),
-(60, 1, 22, NULL, NULL, NULL, NULL, 0, 0, '2019-10-13 19:45:00', 1, 0),
-(61, 25, 26, NULL, NULL, NULL, NULL, 0, 0, '2019-09-21 11:45:00', 1, 0),
-(62, 27, 28, NULL, NULL, NULL, NULL, 0, 0, '2019-09-22 07:15:00', 1, 0),
-(63, 27, 29, NULL, NULL, NULL, NULL, 0, 0, '2019-09-26 12:45:00', 1, 0),
-(64, 26, 28, NULL, NULL, NULL, NULL, 0, 0, '2019-09-28 11:45:00', 1, 0),
-(65, 25, 29, NULL, NULL, NULL, NULL, 0, 0, '2019-10-02 12:15:00', 1, 0),
-(66, 26, 27, NULL, NULL, NULL, NULL, 0, 0, '2019-10-04 11:45:00', 1, 0),
-(67, 25, 28, NULL, NULL, NULL, NULL, 0, 0, '2019-10-06 12:45:00', 1, 0),
-(68, 26, 29, NULL, NULL, NULL, NULL, 0, 0, '2019-10-08 12:15:00', 1, 0),
-(69, 25, 27, NULL, NULL, NULL, NULL, 0, 0, '2019-10-12 06:45:00', 1, 0),
-(70, 28, 29, NULL, NULL, NULL, NULL, 0, 0, '2019-10-13 05:15:00', 1, 0),
-(71, 31, 32, NULL, NULL, NULL, NULL, 0, 0, '2019-09-21 09:15:00', 1, 0),
-(72, 30, 34, NULL, NULL, NULL, NULL, 0, 0, '2019-09-22 12:15:00', 1, 0),
-(73, 30, 33, NULL, NULL, NULL, NULL, 0, 0, '2019-09-26 12:45:00', 1, 0),
-(74, 32, 34, NULL, NULL, NULL, NULL, 0, 0, '2019-09-28 06:45:00', 1, 0),
-(75, 31, 33, NULL, NULL, NULL, NULL, 0, 0, '2019-10-02 09:45:00', 1, 0),
-(76, 30, 32, NULL, NULL, NULL, NULL, 0, 0, '2019-10-05 10:00:00', 1, 0),
-(77, 31, 34, NULL, NULL, NULL, NULL, 0, 0, '2019-10-06 09:45:00', 1, 0),
-(78, 32, 33, NULL, NULL, NULL, NULL, 0, 0, '2019-10-09 06:45:00', 1, 0),
-(79, 30, 31, NULL, NULL, NULL, NULL, 0, 0, '2019-10-12 10:15:00', 1, 0),
-(80, 33, 34, NULL, NULL, NULL, NULL, 0, 0, '2019-10-13 07:45:00', 1, 0),
-(81, 35, 38, NULL, NULL, NULL, NULL, 0, 0, '2019-09-21 06:45:00', 1, 0),
-(82, 36, 37, NULL, NULL, NULL, NULL, 0, 0, '2019-09-23 12:15:00', 1, 0),
-(83, 38, 39, NULL, NULL, NULL, NULL, 0, 0, '2019-09-25 07:15:00', 1, 0),
-(84, 37, 39, NULL, NULL, NULL, NULL, 0, 0, '2019-09-29 07:15:00', 1, 0),
-(85, 35, 36, NULL, NULL, NULL, NULL, 0, 0, '2019-09-29 09:45:00', 1, 0),
-(86, 37, 38, NULL, NULL, NULL, NULL, 0, 0, '2019-10-03 07:15:00', 1, 0),
-(87, 35, 39, NULL, NULL, NULL, NULL, 0, 0, '2019-10-05 07:15:00', 1, 0),
-(88, 36, 38, NULL, NULL, NULL, NULL, 0, 0, '2019-10-09 11:45:00', 1, 0),
-(89, 35, 37, NULL, NULL, NULL, NULL, 0, 0, '2019-10-11 12:15:00', 1, 0),
-(90, 36, 39, NULL, NULL, NULL, NULL, 0, 0, '2019-10-13 10:15:00', 1, 0);
+(1, 2, 1, NULL, NULL, NULL, NULL, 0, 0, '2023-09-08 21:15:00', 1, 0);
 
 
 CREATE USER 'bet4rugby'@'%' IDENTIFIED BY 'password';
