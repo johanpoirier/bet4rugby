@@ -1596,7 +1596,7 @@ class Engine {
 
             $usersView[$k++] = [
                 'RANK' => $i,
-                'LAST_RANK' => "<img src=\"" . $this->theme_location . "images/" . $img . "\" alt=\"\" /><br/><span style=\"text-align:center;font-size:70%;\">(" . $evol . ")</span>",
+                'LAST_RANK' => "<img src=\"/template/" . $this->config['template'] . "/images/" . $img . "\" alt=\"\" /><br/><span style=\"text-align:center;font-size:70%;\">(" . $evol . ")</span>",
                 'NB_BETS' => ($user['nbpronos'] != $nbMatchs) ? "(<span style=\"color:red;\">" . $user['nbpronos'] . "/" . $nbMatchs . "</span>)" : "",
                 'ID' => $user['userID'],
                 'NAME' => $user['name'],
