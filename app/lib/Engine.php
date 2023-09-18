@@ -1503,16 +1503,16 @@ class Engine {
         $req = "SELECT 1";
         $req .= " FROM " . $this->config['db_prefix'] . "settings";
         $req .= " WHERE name = 'LAST_GENERATE'";
-        $req .= " AND DATE_FORMAT(date, '%m%e') <> DATE_FORMAT(NOW(), '%m%e')";
+        $req .= " AND DATE_FORMAT(date, '%m%d') <> DATE_FORMAT(NOW(), '%m%d')";
         $isLastGenerate = $this->db->select_one($req, null);
 
         if ($isLastGenerate === 1) {
             $req = "SELECT count(matchID) as nbMatchs";
             $req .= " FROM " . $this->config['db_prefix'] . "matchs";
-            $req .= " WHERE DATE_FORMAT(date, '%m%e') = DATE_FORMAT(NOW(), '%m%e')";
+            $req .= " WHERE DATE_FORMAT(date, '%m%d') = DATE_FORMAT(NOW(), '%m%d')";
             $req .= " AND scoreA IS NULL AND scoreB IS NULL";
-            $nbMacths = $this->db->select_one($req, null);
-            return ($nbMacths === 0);
+            $nbMatchs = $this->db->select_one($req, null);
+            return ($nbMatchs === 0);
         }
         else
             return false;

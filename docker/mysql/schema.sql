@@ -229,7 +229,8 @@ INSERT INTO `rwc2019__users` (`userID`, `name`, `login`, `password`, `email`, `s
 
 INSERT INTO `rwc2019__settings` (`name`, `date`) VALUES
 ('DATE_DEBUT', '2023_09_08 21:15:00'),
-('DATE_FIN', '2023_10_19 21:00:00');
+('DATE_FIN', '2023_10_19 21:00:00'),
+('LAST_GENERATE', '2023_09_08 21:15:00');
 
 INSERT INTO `rwc2019__teams` (`teamID`, `name`, `poolID`, `status`) VALUES
 (1, 'Nouvelle-Zelande', 1, 0),
