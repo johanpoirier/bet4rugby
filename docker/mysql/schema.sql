@@ -232,6 +232,11 @@ INSERT INTO `rwc2019__settings` (`name`, `date`) VALUES
 ('DATE_FIN', '2023_10_19 21:00:00'),
 ('LAST_GENERATE', '2023_09_08 21:15:00');
 
+INSERT INTO `rwc2019__settings` (`name`, `value`) VALUES
+('NB_MATCHS_PLAYED', 0),
+('NB_POINTS_VICTOIRE', 4),
+('NB_POINTS_NUL', 2);
+
 INSERT INTO `rwc2019__teams` (`teamID`, `name`, `poolID`, `status`) VALUES
 (1, 'Nouvelle-Zelande', 1, 0),
 (2, 'France', 1, 0),
@@ -255,7 +260,11 @@ INSERT INTO `rwc2019__teams` (`teamID`, `name`, `poolID`, `status`) VALUES
 (20, 'Chili', 4, 0);
 
 INSERT INTO `rwc2019__phases` (`phaseID`, `name`, `aller_retour`, `nb_matchs`, `nb_qualifies`, `phasePrecedente`, `nbPointsRes`, `nbPointsQualifie`, `nbPointsScoreNiv1`, `nbPointsScoreNiv2`, `nbPointsEcartNiv1`, `nbPointsEcartNiv2`) VALUES
-(1, 'Poules', 0, 40, 2, NULL, 10, 0, 3, 1, 3, 1);
+(1, 'Poules', 0, 40, 2, NULL, 10, 0, 3, 1, 3, 1),
+(3, 'Quarts de Finale', 0, 4, 1, 1, 13, 0, 4, 2, 4, 2),
+(4, 'Demi-Finales', 0, 2, 1, 3, 16, 0, 5, 2, 5, 2),
+(5, 'Finale 3ème place', 0, 1, -1, 4, 16, 0, 5, 2, 5, 2),
+(6, 'Finale', 0, 1, 1, 4, 20, 0, 6, 3, 6, 3);
 
 INSERT INTO `rwc2019__pools` (`poolID`, `phaseID`, `name`) VALUES
 (1, 1, 'A'),

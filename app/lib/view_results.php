@@ -152,8 +152,7 @@ if ($phase['phasePrecedente'] != NULL) {
                     <?php
                     $matchs = $engine->getMatchsByPool($pool['poolID']);
                     $teams = $engine->getTeamsByPool($pool['poolID']);
-                    $ranked_teams = $engine->getRanking($teams, $matchs, 'scoreMatch', $_SESSION['userID']);
-                    //$ranked_teams = array();
+                    $ranked_teams = $engine->getRanking($teams, $matchs, 'scoreMatch');
                     foreach ($ranked_teams as $team) {
                         ?>
                         <tr<?php if (isset($team['style']))

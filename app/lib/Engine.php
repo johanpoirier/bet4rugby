@@ -1164,7 +1164,7 @@ class Engine {
                 $array_teams[$prono['teamAid']]['diff'] -= ( $prono[$libScore . 'B'] - $prono[$libScore . 'A']);
                 $array_teams[$prono['teamBid']]['diff'] += ( $prono[$libScore . 'B'] - $prono[$libScore . 'A']);
             }
-            if ($prono[$libScore . 'A'] === $prono[$libScore . 'B'] && ($prono[$libScore . 'A'] !== "")) {
+            if ($prono[$libScore . 'A'] === $prono[$libScore . 'B'] && ($prono[$libScore . 'A'] !== "") && ($prono[$libScore . 'A'] !== null)) {
                 $array_teams[$prono['teamAid']]['points'] += $nbPtsNul;
                 $array_teams[$prono['teamBid']]['points'] += $nbPtsNul;
             }
